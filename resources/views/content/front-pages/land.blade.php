@@ -100,114 +100,6 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="col-lg-10 col-md-11 mx-auto">
-                <div class="detail-box">
-                  <div>
-                    <h3>
-                      Fitness
-                    </h3>
-                    <h2>
-                      Training
-                    </h2>
-                    <h1>
-                      Neogym
-                    </h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse .
-                    </p>
-                    <div class="">
-                      <a href="#contact-us">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="col-lg-10 col-md-11 mx-auto">
-                <div class="detail-box">
-                  <div>
-                    <h3>
-                      Fitness
-                    </h3>
-                    <h2>
-                      Training
-                    </h2>
-                    <h1>
-                      Neogym
-                    </h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse .
-                    </p>
-                    <div class="">
-                      <a href="#contact-us">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="col-lg-10 col-md-11 mx-auto">
-                <div class="detail-box">
-                  <div>
-                    <h3>
-                      Fitness
-                    </h3>
-                    <h2>
-                      Training
-                    </h2>
-                    <h1>
-                      Neogym
-                    </h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse .
-                    </p>
-                    <div class="">
-                      <a "#contact-us">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="container">
-              <div class="col-lg-10 col-md-11 mx-auto">
-                <div class="detail-box">
-                  <div>
-                    <h3>
-                      Fitness
-                    </h3>
-                    <h2>
-                      Training
-                    </h2>
-                    <h1>
-                      Neogym
-                    </h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse .
-                    </p>
-                    <div class="">
-                      <a href="#contact-us">
-                        Contact Us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         {{-- <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -227,7 +119,7 @@
   <section class="us_section layout_padding">
     <div class="container">
       <div class="heading_container">
-        <h2 id = "why">
+        <h2 class="force_white" id = "why">
           Why Choose Us
         </h2>
       </div>
@@ -240,7 +132,7 @@
                 <img src= {{asset('assets/img/index/u-1.png')}} alt="">
               </div>
               <div class="detail-box">
-                <h5>
+                <h5 class="force_white">
                   QUALITY EQUIPMENT
                 </h5>
                 <p>
@@ -255,7 +147,7 @@
                 <img src= {{asset('assets/img/index/u-4.png')}} alt="">
               </div>
               <div class="detail-box">
-                <h5>
+                <h5 class="force_white">
                   NUTRITION
                 </h5>
                 <p>
@@ -270,7 +162,7 @@
                 <img src= {{asset('assets/img/index/u-2.png')}} alt="">
               </div>
               <div class="detail-box">
-                <h5>
+                <h5 class="force_white">
                   HEALTHY DIET PLAN
                 </h5>
                 <p>
@@ -285,7 +177,7 @@
                 <img src= {{asset('assets/img/index/u-3.png')}} alt="">
               </div>
               <div class="detail-box">
-                <h5>
+                <h5 class="force_white">
                   SPORT TRAINING
                 </h5>
                 <p>
@@ -310,7 +202,7 @@
       <div class="row">
         <div class="col-md-12 mx-auto">
           <div class="detail-box">
-            <h2>
+            <h2 class="force_white">
               HEALTHY MIND, HEALTHY BODY
             </h2>
             <p>
@@ -335,7 +227,7 @@
   <section class="trainer_section layout_padding">
     <div class="container">
       <div class="heading_container">
-        <h2 id = "instructors">
+        <h2 id = "instructors" class="force_white">
           Our Instructors
         </h2>
       </div>

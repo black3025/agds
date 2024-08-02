@@ -14,15 +14,13 @@
       <!-- Register -->
       <div class="card">
         <div class="card-body">
-          <!-- Logo -->
+          {{-- <!-- Logo -->
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">
-              <img src="{{asset('assets/img/index/agds_w.jpg')}}">
-              </span>
+              <img class="app-brand-logo.demo" src="{{asset('../assets/img/favicon/favicon.ico')}}">
             </a>
           </div>
-          <!-- /Logo -->
+          <!-- /Logo --> --}}
   
           <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
             <div class="mb-3">
