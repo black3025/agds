@@ -1,6 +1,6 @@
 @extends('layouts/blankLayout')
 
-@section('title', 'Register Basic - Pages')
+@section('title', 'Student Registration')
 
 @section('page-style')
 <!-- Page -->
@@ -15,25 +15,49 @@
       <!-- Register Card -->
       <div class="card">
         <div class="card-body">
-          <!-- Logo -->
-          <div class="app-brand justify-content-center">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">@include('_partials.macros',["width"=>25,"withbg"=>'var(--bs-primary)'])</span>
-              <span class="app-brand-text demo text-body fw-bold">{{config('variables.templateName')}}</span>
-            </a>
-          </div>
-          <!-- /Logo -->
-          <h4 class="mb-2">Adventure starts here 🚀</h4>
-          <p class="mb-4">Make your app management easy and fun!</p>
-
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{route('students.store')}}" method="POST">
+          @csrf
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus>
+              @error('username')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="fname" class="form-label">Given name</label>
+              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your Given Name">
+               @error('fname')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="mname" class="form-label">Middle Name</label>
+              <input type="text" class="form-control" id="mname" name="mname" placeholder="Enter your Middle Name">
+              @error('mname')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="lname" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your Last Name">
+              @error('lname')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3">
+              <label for="bday" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="bday" name="bday" placeholder="Enter Birth Day">
+              @error('bday')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
+              @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
             </div>
             <div class="mb-3 form-password-toggle">
               <label class="form-label" for="password">Password</label>
@@ -41,6 +65,19 @@
                 <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
+              @error('password')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3 form-password-toggle">
+              <label class="form-label" for="password_confirmation">Re-enter Password</label>
+              <div class="input-group input-group-merge">
+                <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password_confirmation" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+              </div>
+              @error('password_confirm')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
             </div>
 
             <div class="mb-3">
@@ -59,7 +96,8 @@
 
           <p class="text-center">
             <span>Already have an account?</span>
-            <a href="{{url('auth/login-basic')}}">
+            {{-- <span><a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a></span>
+            <a href="{{url('auth/login-basic')}}"> --}}
               <span>Sign in instead</span>
             </a>
           </p>

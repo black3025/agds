@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\authentications\RegisterBasic;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\GoogleLoginController;
+$controller_path = 'App\Http\Controllers';
 // Main Page Route
 
 Route::get('/', [FrontController::class, 'index'])->name('front');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [Analytics::class, 'index'])->name('dashboard');
 });
 
@@ -16,4 +20,28 @@ Route::middleware('auth')->group(function () {
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('login');
 Route::get('/auth/register', [RegisterBasic::class, 'index'])->name('auth-register');
 Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password');
-    
+Route::put('/auth/register', [RegisterBasic::class, 'index'])->name('process-register');
+Route::resource('/student/register', $controller_path . '\authentications\RegisterBasic', ['names' => 'students']);
+
+//email verification
+Route::get('/email/verify', function () {
+  return view('content.authentications.verify-email');
+})
+  ->middleware('auth')
+  ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+  $request->fulfill();
+
+  return redirect('/home');
+})
+  ->middleware(['auth', 'signed'])
+  ->name('verification.verify');
+
+//google login
+Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name(
+  'google.redirect'
+);
+Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name(
+  'google.callback'
+);
