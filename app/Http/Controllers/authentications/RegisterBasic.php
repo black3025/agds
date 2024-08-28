@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterBasic extends Controller
 {
@@ -38,10 +39,10 @@ class RegisterBasic extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    //event(new Registered($user));
+    event(new Registered($user));
 
     Auth::login($user);
 
-    return redirect(route('dashboard'));
+    return redirect(route('Dashboard'));
   }
 }

@@ -18,6 +18,8 @@ Route::middleware('auth', 'verified')->group(function () {
 
 // authentication
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('login');
+Route::post('auth/signin', [LoginBasic::class, 'signin'])->name('signin');
+Route::get('auth/logout', [LoginBasic::class, 'logout'])->name('logout');
 Route::get('/auth/register', [RegisterBasic::class, 'index'])->name('auth-register');
 Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password');
 Route::put('/auth/register', [RegisterBasic::class, 'index'])->name('process-register');
