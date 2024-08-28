@@ -1,0 +1,41 @@
+:root {
+  --site-color-primary: rgba(255, 255, 255, 0.644);
+  --site-color-hover: rgba(9, 33, 77, 0.644);
+}
+
+body {
+  background-color: darkslategray;
+}
+
+a {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+  font-family: Roboto;
+  color: white;
+}
+
+h1 {
+  font-size: 26px;
+  line-height: 32px;
+  color: white;
+  font-family: Roboto;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+p {
+  font-size: 14px;
+  line-height: 18px;
+  font-family: Roboto;
+  color: white;
+}
+
+.header-main {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgb(5, 5, 5);
+  display: flex;
+}

@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
 <!-- bootstrap core css -->
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/landing/bootstrap.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/landing/style.css')}}" />
 
 <!-- fonts style -->
 <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
