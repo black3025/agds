@@ -18,17 +18,22 @@ class DatabaseSeeder extends Seeder
     //     'name' => 'Test User',
     //     'email' => 'test@example.com',
     // ]);
-    DB::table('roles')->insert([
-      'name' => 'Admin',
-      'restriction' => '1',
-    ]);
-    DB::table('roles')->insert([
-      'name' => 'Student',
-      'restriction' => '2',
-    ]);
-    DB::table('roles')->insert([
-      'name' => 'Trainer',
-      'restriction' => '3',
+    // DB::table('roles')->insert([
+    //   'name' => 'Admin',
+    //   'restriction' => '1',
+    // ]);
+    // DB::table('roles')->insert([
+    //   'name' => 'Student',
+    //   'restriction' => '2',
+    // ]);
+    // DB::table('roles')->insert([
+    //   'name' => 'Trainer',
+    //   'restriction' => '3',
+    // ]);
+
+    DB::table('courses')->insert([
+      'name' => 'Ballet',
+      'description' => 'A nice relaxing dance using tiptoe...',
     ]);
   }
 }

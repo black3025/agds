@@ -33,11 +33,11 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse right" id="navbarSupportedContent">
             <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav  ">
                 <li class="nav-item active">
-                  <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{{url('/')}}">Home</a>
                 </li>
                 <li class="nav-item ">
                   <a class="nav-link" href="#why"> Why us </a>
@@ -49,19 +49,21 @@
                 <li class="nav-item">
                   <a class="nav-link" href="#contact-us"> Contact Us</a>
                 </li>
-                   <li class="nav-item">
-                  <a class="nav-link" href="{{route('login')}}"> Login</a>
-                </li>
-                </li>
-                   <li class="nav-item">
-                  <a class="nav-link" href="{{route('auth-register')}}"> Register</a>
-                </li>
+                @if(Auth::User())
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('dashboard')}}">Dashboard</a>
+                  </li>
+                @else
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('login')}}"> Login</a>
+                  </li>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{route('auth-register')}}"> Register</a>
+                  </li>
+                @endif
+              
               </ul>
-              <div class="user_option">
-                <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
-                </form>
-              </div>
             </div>
           </div>
         </nav>

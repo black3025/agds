@@ -7,13 +7,18 @@ use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\GoogleLoginController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\InquiryController;
+
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
 Route::get('/', [FrontController::class, 'index'])->name('front');
 
 Route::middleware('auth', 'verified')->group(function () {
-  Route::get('/Dashboard', [Analytics::class, 'index'])->name('dashboard');
+  Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
+  Route::resource('/course', CourseController::class, ['names' => 'course']);
+  Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
 });
 
 // authentication
@@ -35,7 +40,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
   $request->fulfill();
 
-  return redirect('/home');
+  return redirect('/Dashboard');
 })
   ->middleware(['auth', 'signed'])
   ->name('verification.verify');
