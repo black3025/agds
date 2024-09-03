@@ -12,4 +12,10 @@ class CourseController extends Controller
     $courses = Course::where('is_active', 1)->get();
     return view('content.course.index', compact('courses'));
   }
+
+  public function show(string $id)
+  {
+    $course = Course::findOrFail($id);
+    return view('content.course.course', compact('course'));
+  }
 }

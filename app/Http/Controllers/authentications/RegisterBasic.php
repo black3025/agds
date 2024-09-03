@@ -43,6 +43,6 @@ class RegisterBasic extends Controller
 
     Auth::login($user);
 
-    return redirect(route('Dashboard'));
+    return redirect(route('dashboard'));
   }
 }

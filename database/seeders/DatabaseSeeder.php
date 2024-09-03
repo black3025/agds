@@ -31,9 +31,25 @@ class DatabaseSeeder extends Seeder
     //   'restriction' => '3',
     // ]);
 
-    DB::table('courses')->insert([
-      'name' => 'Ballet',
-      'description' => 'A nice relaxing dance using tiptoe...',
+    // DB::table('courses')->insert([
+    //   'name' => 'Ballet',
+    //   'description' => 'A nice relaxing dance using tiptoe...',
+    // ]);
+
+    DB::table('categories')->insert([
+      'name' => 'Toodlers',
+    ]);
+    DB::table('categories')->insert([
+      'name' => 'Juniors',
+     
+    ]);
+    DB::table('categories')->insert([
+      'name' => 'Teens',
+      
+    ]);
+    DB::table('categories')->insert([
+      'name' => 'Adults',
+      
     ]);
   }
 }

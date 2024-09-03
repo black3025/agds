@@ -35,15 +35,17 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach($courses as $course)
+                       
                         <tr>
                             <td><img src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }} width="150px"></td>
-                            <td>{{ $course->name }}</td>
+                            <td> <a href="{{ route('course.show',$course->id) }}" >{{ $course->name }}  </a></td>
                             <td>{{ $course->description }}</td>
                             <td>
-                               <a href="#" style="color:green;"><i class='bx bx-message-square-dots'></i>Reserve</a> |
+                               <a href="#" style="color:green;"><i class='bx bx-folder-plus'></i>Reserve</a> |
                                <a href="#" style="color:blue;"><i class='bx bx-message-square-dots'></i>Inquire</a>
                             </td>
                         </tr>
+                       
                     @endforeach
                 </tbody>
             </table>

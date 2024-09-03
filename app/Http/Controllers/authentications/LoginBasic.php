@@ -14,6 +14,11 @@ class LoginBasic extends Controller
     return view('content.authentications.auth-login-basic');
   }
 
+  public function admin()
+  {
+    return view('content.authentications.admin-login-basic');
+  }
+
   public function signin(Request $request)
   {
     $credentials = $request->only('email', 'password');

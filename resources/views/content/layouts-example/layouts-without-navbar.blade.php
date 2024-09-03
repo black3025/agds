@@ -19,5 +19,6 @@ $isNavbar = false;
   </div>
 </div>
 <!--/ Layout Demo -->
+<!-- live demo -->
 
 @endsection

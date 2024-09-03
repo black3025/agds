@@ -21,8 +21,13 @@ Route::middleware('auth', 'verified')->group(function () {
   Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
 });
 
+Route::middleware('auth', 'verified','admin')->group(function () {
+  
+});
+
 // authentication
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('login');
+Route::get('/admin/login', [LoginBasic::class, 'admin'])->name('admin-login');
 Route::post('auth/signin', [LoginBasic::class, 'signin'])->name('signin');
 Route::get('auth/logout', [LoginBasic::class, 'logout'])->name('logout');
 Route::get('/auth/register', [RegisterBasic::class, 'index'])->name('auth-register');

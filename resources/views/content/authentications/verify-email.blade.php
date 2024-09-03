@@ -8,7 +8,12 @@
             <div class="authentication-inner">
                 <div class="card">
                     <div class="card-body">
-                        <center>Please Verify your email. {{ Auth::user()->email }}</center>
+                        <center>Please Verify your email. {{ Auth::user()->email }}
+                            <a class="dropdown-item" href="{{route('logout')}}">
+                                <i class='bx bx-power-off me-2'></i>
+                                <span class="align-middle">Log Out</span>
+                            </a>
+                        </center>
                     </div>
                 </div>
             </div>
