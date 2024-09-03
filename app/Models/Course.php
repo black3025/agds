@@ -16,7 +16,7 @@ class Course extends Model
 
     public function ClassSchedule()
     {
-      return $this->has(ClassSchedule::class);
+      return $this->hasMany(ClassSchedule::class);
     }
 }
 
