@@ -21,21 +21,23 @@
 
 @endsection
 
-@section('content')
+@section('content')  
 <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="pb-1 mb-6">Courses Offerred</h5>
         <div class="row mb-12 g-6">
             @foreach($courses as $course)
             <div class="mb-12 col-md-3 g-6">
+            <a href="{{ route('course.show',$course->id) }}" >
                 <div class="card h-100">
                     <img class="card-img-top" src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }}>
                     <div class="card-body">
-                        <a href="{{ route('course.show',$course->id) }}" ><h5 class="card-title">{{$course->name}}</h5></a>
+                       <h5 class="card-title">{{$course->name}}</h5>
                         <p class="card-text">
                             {{$course->description}}...
                         </p>
                     </div>
                 </div>
+            </a>
             </div>
             @endforeach
         </div>

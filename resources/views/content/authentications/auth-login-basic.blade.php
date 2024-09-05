@@ -21,9 +21,9 @@
             </a>
           </div>
           <!-- /Logo --> --}}
-          @error('error')
-                <div class="alert alert-danger">{{ $error }}</div>
-          @enderror
+          @if(session('error'))
+                <div class="alert alert-danger">{{session('error')}}</div>
+          @endif
           <form id="formAuthentication" class="mb-3" action="{{route('signin')}}" method="POST">
           @csrf
             <div class="mb-3">
@@ -33,7 +33,7 @@
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
                 <label class="form-label" for="password">Password</label>
-                <a href="{{url('auth/forgot-password-basic')}}">
+                <a tabindex="20" href="{{url('auth/forgot-password-basic')}}">
                   <small>Forgot Password?</small>
                 </a>
               </div>

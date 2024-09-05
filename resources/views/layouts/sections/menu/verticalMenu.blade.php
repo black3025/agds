@@ -32,7 +32,7 @@
     {{-- active menu method --}}
     @php
     $activeClass = null;
-    $currentRouteName = Route::currentRouteName();
+    $currentRouteName = explode(".",Route::currentRouteName())[0];
 
     if ($currentRouteName === $menu->slug) {
     $activeClass = 'active';

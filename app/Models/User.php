@@ -55,4 +55,10 @@ class User extends Authenticatable implements MustVerifyEmail
   {
     return $this->belongsTo(Profile::class);
   }
+
+  public function inquiry()
+  {
+    return $this->hasMany(Inquiry::class);
+  }
 }
+

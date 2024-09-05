@@ -15,15 +15,21 @@ $controller_path = 'App\Http\Controllers';
 
 Route::get('/', [FrontController::class, 'index'])->name('front');
 
+//STUDENT LINK
 Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::resource('/course', CourseController::class, ['names' => 'course']);
   Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
 });
 
+
+//ADMIN LINKS
 Route::middleware('auth', 'verified','admin')->group(function () {
   
 });
+
+Route::resource('/contactus',$controller_path.'\ContactUsController',['names'=>'contactus']);
+
 
 // authentication
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('login');

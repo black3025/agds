@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->string('studentID')->unqiue();
+            $table->mediumText('body');
+            $table->unsignedBigInteger('inquiry_id');
+            $table
+                ->foreign('inquiry_id')
+                ->references('id')
+                ->on('inquiries');
             $table->unsignedBigInteger('user_id');
             $table
                 ->foreign('user_id')
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('replies');
     }
 };

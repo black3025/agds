@@ -16,6 +16,8 @@
 <link href="{{ asset('assets/css/landing/style.css')}}" rel="stylesheet" />
 <!-- responsive style -->
 <link  href="{{ asset('assets/css/landing/responsive.css')}}" rel="stylesheet" />
+<script src="{{asset('assets/js/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('assets/js/swal.js')}}"></script>
 @endsection
 
 @section('content')
@@ -134,7 +136,7 @@
               </div>
               <div class="detail-box">
                 <h5 class="force_white">
-                  QUALITY EQUIPMENT
+                  HIPHOP
                 </h5>
                 <p>
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -149,7 +151,7 @@
               </div>
               <div class="detail-box">
                 <h5 class="force_white">
-                  NUTRITION
+                  BALLET
                 </h5>
                 <p>
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -164,7 +166,7 @@
               </div>
               <div class="detail-box">
                 <h5 class="force_white">
-                  HEALTHY DIET PLAN
+                  ART
                 </h5>
                 <p>
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -179,7 +181,7 @@
               </div>
               <div class="detail-box">
                 <h5 class="force_white">
-                  SPORT TRAINING
+                  MUSIC
                 </h5>
                 <p>
                   ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -209,11 +211,7 @@
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
             </p>
-            <div class="btn-box">
-              <a href="">
-                READ MORE
-              </a>
-            </div>
+   
           </div>
         </div>
       </div>
@@ -233,11 +231,11 @@
         </h2>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-6 mx-auto">
+        <div class="col-lg-3 col-md-6 mx-auto">
           <div class="box">
             <div class="name">
-              <h5>
-                Amber
+              <h5 class="force_white">
+                ALOE
               </h5>
             </div>
             <div class="img-box">
@@ -256,11 +254,11 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mx-auto">
+        <div class="col-lg-3 col-md-6 mx-auto">
           <div class="box">
             <div class="name">
-              <h5>
-                Grace
+              <h5 class="force_white">
+                BEA
               </h5>
             </div>
             <div class="img-box">
@@ -279,15 +277,38 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mx-auto">
+        <div class="col-lg-3 col-md-6 mx-auto">
           <div class="box">
             <div class="name">
-              <h5>
-                Dance
+              <h5 class="force_white">
+                BERN
               </h5>
             </div>
             <div class="img-box">
               <img src= {{asset('assets/img/index/t3.jpg')}} alt="">
+            </div>
+            <div class="social_box">
+              <a href="">
+                <img src= {{asset('assets/img/index/facebook-logo.png')}} alt="">
+              </a>
+              <a href="">
+                <img src= {{asset('assets/img/index/twitter.png')}} alt="">
+              </a>
+              <a href="">
+                <img src= {{asset('assets/img/index/instagram-logo.png')}} alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mx-auto">
+          <div class="box">
+            <div class="name">
+              <h5 class="force_white">
+                CED
+              </h5>
+            </div>
+            <div class="img-box">
+              <img src= {{asset('assets/img/index/t4.jpg')}} alt="">
             </div>
             <div class="social_box">
               <a href="">
@@ -325,21 +346,22 @@
                 Contact Us
               </h2>
             </div>
-            <form action="">
+            <form onsubmit="return Inquire();">
+              @csrf
               <div>
-                <input type="text" placeholder="Name" />
+                <input type="text" id="name" name="name" placeholder="Name" />
               </div>
               <div>
-                <input type="email" placeholder="Email" />
+                <input type="email" id="email" name="id" placeholder="Email" />
               </div>
               <div>
-                <input type="text" placeholder="Phone Number" />
+                <input type="number" id="number" name="number" placeholder="Phone Number" />
               </div>
               <div>
-                <input type="text" class="message-box" placeholder="Message" />
+                <textarea id="body" name ="body" style="width:100%; margin-top:20px;" rows="5" placeholder="Message"> </textarea>
               </div>
               <div class="d-flex ">
-                <button>
+                <button type="submit">
                   Send
                 </button>
               </div>
@@ -363,7 +385,7 @@
             </div>
             <div class="detail-box">
               <p>
-                Location
+                3rd Flr. Ayala Malls Legazpi City
               </p>
             </div>
           </div>
@@ -375,7 +397,7 @@
             </div>
             <div class="detail-box">
               <p>
-                +02 1234567890
+                +639273106985
               </p>
             </div>
           </div>
@@ -387,7 +409,7 @@
             </div>
             <div class="detail-box">
               <p>
-                demo@gmail.com
+                agds@testmail.com
               </p>
             </div>
           </div>
@@ -401,11 +423,38 @@
   <!-- footer section -->
   <footer class="container-fluid footer_section">
     <p>
-      &copy; 2020 All Rights Reserved. Design by
-      <a href="https://html.design/">Free Html Templates</a>
+      &copy; 2020 All Rights Reserved. 
     </p>
   </footer>
   <!-- footer section -->
   <script src="{{ asset('assets/js/jquery-3.4.1.min.js')}}""></script>
   <script src="{{ asset('assets/js/bootstrap.js')}}"></script>
+  <script>
+      function Inquire(){
+         var form = {
+            _token: $('input[name=_token]').val(),
+            name: $('#name').val(),
+            email: $('#email').val(),
+            number: $('#number').val(),
+            body: $('#body').val(),
+            ajax: 1
+         }
+
+         $.ajax({
+	         url : "{{route('contactus.store')}}",
+	         data :  form,
+	         type : "POST",
+	         success : function(msg){
+                //console.log(msg['message']);
+                if(msg['success']){
+                    success(msg['message']);
+                    setTimeout(function(){window.location.reload();},1500);
+                }else{
+                    error(msg['message']);
+                }
+             }
+        })
+        return false;
+    }
+  </script>
 @endsection
