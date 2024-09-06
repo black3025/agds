@@ -18,4 +18,9 @@ class CourseController extends Controller
     $course = Course::findOrFail($id);
     return view('content.course.course', compact('course'));
   }
+
+  public function create(request $request)
+  {
+    dd($request);
+  }
 }

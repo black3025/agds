@@ -46,30 +46,49 @@
             </div>
         </div>
         @if(isset($inq))
-        <div class="col-md-8">
-            <div class="card mb-10">
+            <div class="card mb-6 col-md-8">
                 <div class="card-header">
-                    <h7 class="card-title mb-0">{{$inq->subject}}</h7>
+                    <h6 class="card-title mb-0">Subject: {{$inq->subject}}</h6><br>
+                    Body: <br>
+                    <div class="card shadow-none bg-transparent border border-secondary">
+                        <div class="card-body">
+                            <p class="card-text text-secondary">
+                                {{$inq->body}}
+                            </p>
+                        </div>
+                    </div>
+                    <span class="right muted"><p>{{date('F d, Y h:s a',strtotime($inq->created_at))}}</p></span>
                 </div>
-                <div class="card-body pt-0 mb-10">
-                    <div class="row g-6 mb-50">
-                    @foreach($inq->reply as $reply)
-                        <div class="card bg-secondary text-white"">
-                            <div class="card-header">
-                                <h7 class="card-title text-white">{{$inq->subject}}</h5>
-                            </div>
-                            <div class="card-body pt-0">
-                            
-                                    <p>{{$reply->body}}</p>
-                                    <p>{{date('F d, Y h:s a',strtotime($reply->created_at))}}</p>
-                            
+                <div class="card card overflow-hidden">
+                    <div class="card-body pt-0 mb-10  ps ps-active-y">
+                        @foreach($inq->reply as $reply)
+                        <div class="card-body pt-0 mb-10  ps ps-active-y">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-header">
+                                    <h7 class="card-title text-white">{{$inq->subject}}</h5>
+                                </div>
+                                <div class="card-body pt-0">
+                                
+                                        <p>{{$reply->body}}</p>
+                                        <p>{{date('F d, Y h:s a',strtotime($reply->created_at))}}</p>
+                                
+                                </div>
                             </div>
                         </div>
-                    @endforeach
+                        @endforeach
                     </div>
+                    <div class="ps__rail-x" style="left: 0px; bottom: -200px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div>
+                    <div class="ps__rail-y" style="top: 200px; height: 224px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 37px; height: 42px;"></div></div>
+                </div>
+                <div>
+                    <form action="" class="input-group">
+                        <div class="input-group">
+                            <textarea name="response" id="response"></textarea>
+                        </div>
+                        <button class="submit">Send</button>
+                    </form>
                 </div>
             </div>
-        </div>
         @endif
 </div>
 @endsection
