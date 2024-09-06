@@ -13,10 +13,10 @@
       "slug": "course"
     },
     {
-      "url": "/inquiry",
-      "name": "My Inquiries",
-      "icon": "menu-icon tf-icons bx bx-message-square-dots",
-      "slug": "inquiry"
+      "url": "/enrollment",
+      "name": "Enrolled Course",
+      "icon": "menu-icon tf-icons bx bxs-book-open",
+      "slug": "enrollment"
     }
   ]
 }

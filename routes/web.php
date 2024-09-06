@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\EnrollmentController;
 
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
@@ -20,16 +21,13 @@ Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::resource('/course', CourseController::class, ['names' => 'course']);
   Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
+  Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
 });
-
 
 //ADMIN LINKS
-Route::middleware('auth', 'verified','admin')->group(function () {
-  
-});
+Route::middleware('auth', 'verified', 'admin')->group(function () {});
 
-Route::resource('/contactus',$controller_path.'\ContactUsController',['names'=>'contactus']);
-
+Route::resource('/contactus', $controller_path . '\ContactUsController', ['names' => 'contactus']);
 
 // authentication
 Route::get('/auth/login', [LoginBasic::class, 'index'])->name('login');

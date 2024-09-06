@@ -15,34 +15,34 @@
         $('#tblCourse').DataTable();
         });
     </script>
+     <script>
+      function enroll(course,id){
+        console.log(course);
+         var form = {
+            _token: $('input[name=_token]').val(),
+            referenceNo: $('#refno').val(),
+            user_id: id,
+            ClassSchedule_id = course[]
+            body: $('#body').val(),
+            ajax: 1
+         }
 
-    <script>
-        function setCourseId(id)
-        {
-            $('#ClassSchedule_id').val(id);
-        }
-
-        function enroll(id){
-            var form = {
-                _token: $('input[name=_token]').val(),
-                user_id: id,
-                ClassSchedule_id : $('#ClassSchedule_id').val(),
-                referenceNo: $('#refno').val(),
-                verified: "Pending",
-                status: "New",
-                ajax: 1
-            }
-            $.ajax({
-                url : "{{route('enrollment.store')}}",
-                data :  form,
-                type : "POST",
-                success : function(msg){
-                    console.log(msg['message']);
-
+         $.ajax({
+	         url : "{{route('contactus.store')}}",
+	         data :  form,
+	         type : "POST",
+	         success : function(msg){
+                //console.log(msg['message']);
+                if(msg['success']){
+                    success(msg['message']);
+                    setTimeout(function(){window.location.reload();},1500);
+                }else{
+                    error(msg['message']);
                 }
-            })
-            return false;
-        }
+             }
+        })
+        return false;
+    }
   </script>
 @endsection
 
@@ -84,7 +84,7 @@
                                     <td>{{$sched->user->fname}} {{$sched->user->mname[0]}}. {{$sched->user->lname}}</td>
                                     <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
-                                    <td><a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                                    <td><a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -101,14 +101,13 @@
                             <div class="row mb-3">
                                 <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
                                 <div class="col mb-6">
-                                    <form onsubmit="return enroll({{Auth::user()->id}});">
+                                    <form onsubmit="return enroll({{$course}},{{Auth::user()->id}});">
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
-                                        <input hidden tabindex ="-1"    type="text" id="ClassSchedule_id" />
                                         <input type="text" id="refno" class="form-control" placeholder="Reference Number" required>
                                 </div>
                             </div>
-                                        <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
+                                        <center><button type="button" class="btn btn-primary right">Enroll now</button></center>
                                     </form>
                             </div>
                         </div>
