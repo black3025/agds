@@ -13,11 +13,16 @@ class Enrollment extends Model
 
   public function ClassSchedule()
   {
-    return $this->has(ClassSchedule::class);
+    return $this->belongsTo(ClassSchedule::class);
   }
 
   public function User()
   {
     return $this->belongsTo(User::class);
+  }
+
+  public function Course()
+  {
+    return $this->belongsTo(Course::class);
   }
 }
