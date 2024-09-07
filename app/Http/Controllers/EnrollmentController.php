@@ -8,8 +8,6 @@ use App\Models\Enrollment;
 
 class EnrollmentController extends Controller
 {
-  //
-
   public function index()
   {
     $enrollments = Enrollment::all();
@@ -19,5 +17,10 @@ class EnrollmentController extends Controller
   public function store(request $request)
   {
     $enroll = Enrollment::create($request->all());
+    if ($enroll) {
+      return ['success' => true, 'message' => 'Enrollment Posted.'];
+    } else {
+      return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
+    }
   }
 }

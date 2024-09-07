@@ -27,13 +27,13 @@
         <div class="row mb-12 g-6">
             @foreach($enrollments as $enrollment)
             <div class="mb-12 col-md-3 g-6">
-            <a href="{{ route('course.show',$course->id) }}" >
+            <a href="{{ route('course.show',$enrollment->id) }}" >
                 <div class="card h-100">
-                    <img class="card-img-top" src={{ asset('assets/img/course/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $course->name.' image' }}>
+                    {{-- <img class="card-img-top" src={{ asset('assets/img/course/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $course->name.' image' }}> --}}
                     <div class="card-body">
-                       <h5 class="card-title">{{$course->name}}</h5>
+                       <h5 class="card-title">{{$enrollment->id}}</h5>
                         <p class="card-text">
-                            {{$course->description}}...
+                            {{-- {{$course->description}}... --}}
                         </p>
                     </div>
                 </div>

@@ -25,6 +25,7 @@ return new class extends Migration {
       $table->string('referenceNo');
       $table->string('verified');
       $table->string('status');
+      $table->timestamps();
     });
   }
 

@@ -4,46 +4,17 @@
 
 @section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}">
 @endsection
 
 @section('vendor-script')
-    <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
-     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready( function () {
         $('#tblCourse').DataTable();
         });
     </script>
-
-    <script>
-        function setCourseId(id)
-        {
-            $('#ClassSchedule_id').val(id);
-        }
-
-        function enroll(id){
-            var form = {
-                _token: $('input[name=_token]').val(),
-                user_id: id,
-                ClassSchedule_id : $('#ClassSchedule_id').val(),
-                referenceNo: $('#refno').val(),
-                verified: "Pending",
-                status: "New",
-                ajax: 1
-            }
-            $.ajax({
-                url : "{{route('enrollment.store')}}",
-                data :  form,
-                type : "POST",
-                success : function(msg){
-                    console.log(msg['message']);
-
-                }
-            })
-            return false;
-        }
-  </script>
 @endsection
 
 @section('content')
@@ -95,17 +66,17 @@
                         <div class="modal-content">
                             <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel1">Payment</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                             <div class="row mb-3">
                                 <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
                                 <div class="col mb-6">
-                                    <form onsubmit="return enroll({{Auth::user()->id}});">
+                                    <form onsubmit="return enroll( {{Auth::user()->id}} );">
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
-                                        <input hidden tabindex ="-1"    type="text" id="ClassSchedule_id" />
-                                        <input type="text" id="refno" class="form-control" placeholder="Reference Number" required>
+                                        <input hidden tabindex ="-1"    type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
+                                        <input type="text" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
                                 </div>
                             </div>
                                         <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
@@ -117,4 +88,39 @@
             </div>
         </div>
 </div> 
+
+ <script>
+        function setCourseId(id)
+        {
+            $('#ClassSchedule_id').val(id);
+        }
+
+        function enroll(id){
+            $('#mdClose').click();
+            var form = {
+                _token: $('input[name=_token]').val(),
+                user_id: id,
+                ClassSchedule_id : $('#ClassSchedule_id').val(),
+                referenceNo: $('#refno').val(),
+                verified: "Pending",
+                status: "New",
+                ajax: 1
+            }
+
+            $.ajax({
+                url : "{{route('enrollment.store')}}",
+                data :  form,
+                type : "POST",
+                success : function(msg){
+                    if(msg['success']){
+                        success(msg['message']);
+                        setTimeout(function(){window.location.reload();},1500);
+                    }else{
+                        error(msg['message']);
+                    }
+                }
+            })
+            return false;
+        }
+  </script>
 @endsection
