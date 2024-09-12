@@ -22,6 +22,7 @@ Route::middleware('auth', 'verified')->group(function () {
   Route::resource('/course', CourseController::class, ['names' => 'course']);
   Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
   Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
+  Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('myenrollment');
 });
 
 //ADMIN LINKS
@@ -40,9 +41,7 @@ Route::put('/auth/register', [RegisterBasic::class, 'index'])->name('process-reg
 Route::resource('/student/register', $controller_path . '\authentications\RegisterBasic', ['names' => 'students']);
 
 //email verification
-Route::get('/email/verify', function () {
-  return view('content.authentications.verify-email');
-})
+Route::get('/email/verify', [LoginBasic::class, 'emailVerify'])
   ->middleware('auth')
   ->name('verification.notice');
 

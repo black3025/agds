@@ -52,7 +52,7 @@
                             @foreach($course->ClassSchedule as $sched)
                                 <tr>
                                     <td>{{$sched->category->name}}</td>
-                                    <td>{{$sched->user->fname}} {{$sched->user->mname[0]}}. {{$sched->user->lname}}</td>
+                                    <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
                                     <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                                     <td><a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
@@ -100,7 +100,7 @@
             var form = {
                 _token: $('input[name=_token]').val(),
                 user_id: id,
-                ClassSchedule_id : $('#ClassSchedule_id').val(),
+                class_schedule_id : $('#ClassSchedule_id').val(),
                 referenceNo: $('#refno').val(),
                 verified: "Pending",
                 status: "New",

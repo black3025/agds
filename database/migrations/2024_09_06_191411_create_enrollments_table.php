@@ -17,9 +17,9 @@ return new class extends Migration {
         ->foreign('user_id')
         ->references('id')
         ->on('users');
-      $table->unsignedBigInteger('ClassSchedule_id');
+      $table->unsignedBigInteger('class_schedule_id');
       $table
-        ->foreign('ClassSchedule_id')
+        ->foreign('class_schedule_id')
         ->references('id')
         ->on('class_schedules');
       $table->string('referenceNo');

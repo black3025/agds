@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassSchedule extends Model
 {
-    use HasFactory;
-
+  use HasFactory;
 
   public function course()
   {
@@ -25,4 +24,8 @@ class ClassSchedule extends Model
     return $this->belongsTo(User::class);
   }
 
+  public function enrollment()
+  {
+    return $this->hasMany(Enrollment::class);
+  }
 }

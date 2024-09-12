@@ -9,7 +9,7 @@ class Enrollment extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['referenceNo', 'user_id', 'ClassSchedule_id', 'verified', 'status'];
+  protected $fillable = ['referenceNo', 'user_id', 'class_schedule_id', 'verified', 'status'];
 
   public function ClassSchedule()
   {
@@ -19,10 +19,5 @@ class Enrollment extends Model
   public function User()
   {
     return $this->belongsTo(User::class);
-  }
-
-  public function Course()
-  {
-    return $this->belongsTo(Course::class);
   }
 }

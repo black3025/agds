@@ -31,6 +31,15 @@ class LoginBasic extends Controller
     return redirect('auth/login')->with('error', 'Invalid credentials. Please try again.');
   }
 
+  public function emailVerify()
+  {
+    if (Auth::user()->email_verified_at == '') {
+      return view('content.authentications.verify-email');
+    } else {
+      return redirect('/Dashboard');
+    }
+  }
+
   public function logout()
   {
     Session::flush();

@@ -39,7 +39,10 @@ class RegisterBasic extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    event(new Registered($user));
+    try {
+      event(new Registered($user));
+    } catch (\Exception $e) {
+    }
 
     Auth::login($user);
 

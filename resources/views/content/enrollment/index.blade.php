@@ -29,11 +29,14 @@
             <div class="mb-12 col-md-3 g-6">
             <a href="{{ route('course.show',$enrollment->id) }}" >
                 <div class="card h-100">
-                    {{-- <img class="card-img-top" src={{ asset('assets/img/course/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $course->name.' image' }}> --}}
+                    <img class="card-img-top" src={{ asset('assets/img/course/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course    ->name.' image' }}>
                     <div class="card-body">
-                       <h5 class="card-title">{{$enrollment->id}}</h5>
+                       <h5 class="card-title">{{$enrollment->ClassSchedule->course->name}}</h5>
                         <p class="card-text">
-                            {{-- {{$course->description}}... --}}
+                            Status: Pending
+                        </p>
+                        <p class="card-text">
+                            Teacher: {{$enrollment->ClassSchedule->user->fname}} @if(!empty( $enrollment->ClassSchedule->user->mname )) {{$enrollment->ClassSchedule->user->mname[0]}}. @else  @endif {{$enrollment->ClassSchedule->user->lname}}
                         </p>
                     </div>
                 </div>
