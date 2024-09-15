@@ -131,38 +131,11 @@
                           All remaining dance studio reservations for the individual or organization in the current semester will be cancelled.
                           Individual or organization will be permitted to make reservations for future semesters.
                           Three offenses each in two consecutive semesters will result in the cancellation of all remaining reservations and the suspension of AGDS reservation privileges through the end of the following semester.
-                          <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-secondary close" data-bs-dismiss="modal" id="mdClose">Agree</button>
-                          </div>
                   </div>
                 </div>
             </div>  
         </div>  
 
         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 @endsection

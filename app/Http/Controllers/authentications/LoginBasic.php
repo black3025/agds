@@ -24,7 +24,11 @@ class LoginBasic extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-      return redirect()->intended('/Dashboard');
+      if (Auth::user()->role_id == 3) {
+        return redirect()->intended('/Dashboard');
+      } else {
+        return redirect()->intended('/admin/Dashboard');
+      }
     }
 
     //rename routes from sign in to log in

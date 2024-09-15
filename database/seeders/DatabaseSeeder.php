@@ -22,13 +22,28 @@ class DatabaseSeeder extends Seeder
       'name' => 'Admin',
       'restriction' => '1',
     ]);
-    DB::table('roles')->insert([
-      'name' => 'Student',
-      'restriction' => '2',
-    ]);
+
     DB::table('roles')->insert([
       'name' => 'Trainer',
+      'restriction' => '2',
+    ]);
+
+    DB::table('roles')->insert([
+      'name' => 'Student',
       'restriction' => '3',
+    ]);
+
+    DB::table('users')->insert([
+      'username' => 'admin',
+      'fname' => 'admin',
+      'lname' => 'admin',
+      'email' => 'admin@admin.com',
+      'birthday' => '1990-11-24',
+      'email_verified_at' => date('Y-m-d H:i:s'),
+      'password' => '$2y$10$TA0fz0wckv6q91uMDgfe7eHhJKIsp6FcxP9FnzvZqSAU64z/lY3Zq',
+      'role_id' => '1',
+      'is_active' => '1',
+      'remember_token' => '6a2MXPNSn9YzHGJZSgQ9DSdLH9AtseeHr7NjGsV7IEe5KdW2bJKBlKFv6OK9',
     ]);
 
     DB::table('courses')->insert([

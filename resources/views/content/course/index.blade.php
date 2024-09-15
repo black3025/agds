@@ -26,14 +26,14 @@
         <h5 class="pb-1 mb-6">Courses Offerred</h5>
         <div class="row mb-12 g-6">
             @foreach($courses as $course)
-            <div class="mb-12 col-md-3 g-6">
+            <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
             <a href="{{ route('course.show',$course->id) }}" >
                 <div class="card h-100">
                     <img class="card-img-top" src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }}>
                     <div class="card-body">
                        <h5 class="card-title">{{$course->name}}</h5>
                         <p class="card-text">
-                            {{$course->description}}...
+                           {{ Str::limit($course->description, 50)}} <p class="right">read more...</p>
                         </p>
                     </div>
                 </div>

@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
-class StudentController extends Controller
+use App\Models\User;
+class UserController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
   public function index()
   {
-    $students = Student::where('is_active', 1)->get();
-    return view('content.admin.student.index', compact('students'));
+    $users = User::where('is_active', 1)->get();
+    return view('content.admin.users.index', compact('users'));
   }
 
   /**

@@ -7,16 +7,28 @@
       "slug": "dashboard"
     },
     {
-      "url": "/course",
+      "url": "/admin/course",
       "name": "Course",
       "icon": "menu-icon tf-icons bx bxs-graduation",
-      "slug": "course"
+      "slug": "admin-course"
     },
     {
-      "url": "/inquiry",
-      "name": "My Inquiries",
-      "icon": "menu-icon tf-icons bx bx-message-square-dots",
-      "slug": "inquiry"
+      "url": "/admin/students",
+      "name": "Students",
+      "icon": "menu-icon tf-icons bx bx-child",
+      "slug": "student"
+    },
+    {
+      "url": "/admin/teachers",
+      "name": "Teachers",
+      "icon": "menu-icon tf-icons bx bx-briefcase-alt-2",
+      "slug": "teacher"
+    },
+    {
+      "url": "/admin/users",
+      "name": "User",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "users"
     }
   ]
 }
