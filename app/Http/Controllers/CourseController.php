@@ -33,4 +33,9 @@ class CourseController extends Controller
   {
     dd($request);
   }
+
+  public function updateCourse(request $request)
+  {
+    return $request;
+  }
 }

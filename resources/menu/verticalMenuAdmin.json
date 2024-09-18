@@ -2,9 +2,9 @@
   "menu": [
     {
       "url": "/admin/Dashboard",
-      "name": "Dashboards",
+      "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard"
+      "slug": "admin-dashboard"
     },
     {
       "url": "/admin/course",

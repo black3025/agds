@@ -28,7 +28,7 @@
             <div class="col-md-6 col-lg-3" style="margin-bottom:15px">
                 <div class="mb-12 card h-100">
                     <div class="card-header">
-                        <a style="align:right" data-bs-toggle="modal" data-bs-target="#basicModal" href="#" onlick="setss({{$course->name}})">Edit</a>
+                        <a style="align:right" data-bs-toggle="modal" data-bs-target="#basicModal" href="#" onclick="setss({{$course}},'{{asset('assets/img/course/' .$course->image_display)}}');">Edit</a>
                         <a href="{{ route('admin-course.show',$course->id) }}" >
                         <img class="card-img-top" src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }}>
                     </div>
@@ -46,9 +46,12 @@
     </div>
     @include('content/admin/course/update')
     <script>
-        function setss(course)
+        function setss(course,img)
         {
-           $('#name').val(course)
+           $('#id').val(course['id']);
+           $('#name').val(course['name']);
+           $('#description').val(course['description']);
+           $("#img_prev").attr("src", img);
         }
     </script>
 @endsection

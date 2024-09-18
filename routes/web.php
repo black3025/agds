@@ -37,6 +37,7 @@ Route::middleware('auth', 'verified', 'isAdmin')->group(function () {
   Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
   Route::resource('/admin/teachers', StudentController::class, ['names' => 'teacher']);
   Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
+  Route::get('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
 });
 
 Route::resource('/contactus', $controller_path . '\ContactUsController', ['names' => 'contactus']);
