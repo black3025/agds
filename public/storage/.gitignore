@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# But not these files...
+!profile-photos/1.png
+!course_image/course_image.png
