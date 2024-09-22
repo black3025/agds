@@ -19,25 +19,25 @@ $controller_path = 'App\Http\Controllers';
 
 Route::get('/', [FrontController::class, 'index'])->name('front');
 
-//STUDENT LINK
 Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
+  Route::get('/getCourse', [CourseController::class, 'getCourse'])->name('getCourse');
+  //Student
   Route::middleware('isStudent')->group(function () {
     Route::resource('/course', CourseController::class, ['names' => 'course']);
     Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
     Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
     Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('myenrollment');
   });
-});
-
-//ADMIN LINKS
-Route::middleware('auth', 'verified', 'isAdmin')->group(function () {
-  Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
-  Route::resource('/admin/users', UserController::class, ['names' => 'user']);
-  Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
-  Route::resource('/admin/teachers', StudentController::class, ['names' => 'teacher']);
-  Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
-  Route::get('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
+  //Admin
+  Route::middleware('isAdmin')->group(function () {
+    Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
+    Route::resource('/admin/users', UserController::class, ['names' => 'user']);
+    Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
+    Route::resource('/admin/teachers', StudentController::class, ['names' => 'teacher']);
+    Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
+    Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
+  });
 });
 
 Route::resource('/contactus', $controller_path . '\ContactUsController', ['names' => 'contactus']);

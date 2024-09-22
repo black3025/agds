@@ -18,40 +18,94 @@
 @endsection
 
 @section('page-script')
+    <script>
+    function setss(course,img)
+            {
+                $('#editCourse').trigger("reset");
+                $('#id').val(course['id']);
+                $('#name').val(course['name']);
+                $('#description').val(course['description']);
+                $('#img_prev').attr('src',img);
+                $('#editCourse').find('span.error-text').text('');
+                if(course['is_active'] == 1){
+                        $('#is_active').prop("checked", true);
+                        $('#name').attr("disabled", false);
+                        $('#description').attr("disabled", false);
+                        $('#image_display').attr("disabled", false);
+                }else{
+                        $('#is_active').prop("checked", false);
+                        $('#name').attr("disabled", true);
+                        $('#description').attr("disabled", true);
+                        $('#image_display').attr("disabled", true);
+                }
+                $origForm = $form.serialize();
+            }
 
+            function  toggleActive()  
+            {
+                
+                if($('#is_active').is(":checked")){
+                    $('#name').attr("disabled", false);
+                    $('#description').attr("disabled", false);
+                    $('#image_display').attr("disabled", false);
+                    
+                }else{
+                    $('#name').attr("disabled", true);
+                    $('#description').attr("disabled", true);
+                    $('#image_display').attr("disabled", true);
+                    
+                }
+            }
+        $(function(){
+
+            $('#editCourse').on('submit', function(e){
+            e.preventDefault();
+            var form = this;
+            $.ajax({
+                url:$(form).attr('action'),
+                method:$(form).attr('method'),
+                data: new FormData(form),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend:function(){
+                    $(form).find('span.error-text').text('');
+                },
+                success:function(data){
+                    if(data.code==0){
+                        $.each(data.error, function(prefix, val){
+                            $(form).find('span.'+prefix+'_error').text(val[0]);
+                        });
+                    }else{
+                        $('#mdclosebutton').click();
+                        $(form)[0].reset();
+                        success(data.msg);
+                        fetchAllCourse();
+                    }
+
+                }
+
+            })
+            });
+            //Fetch Course
+            fetchAllCourse();
+            function fetchAllCourse(){
+                $.get('{{route("getCourse")}}',{},function(data){
+                    $('#all_course').html(data.result);
+                },'json');
+            }
+        })
+    </script>
 @endsection
 
 @section('content')  
-    <div class="row mb-12 g-6">
-    <h5>Courses Offerred</h5>
-            @foreach($courses as $course)
-            <div class="col-md-6 col-lg-3" style="margin-bottom:15px">
-                <div class="mb-12 card h-100">
-                    <div class="card-header">
-                        <a style="align:right" data-bs-toggle="modal" data-bs-target="#basicModal" href="#" onclick="setss({{$course}},'{{asset('assets/img/course/' .$course->image_display)}}');">Edit</a>
-                        <a href="{{ route('admin-course.show',$course->id) }}" >
-                        <img class="card-img-top" src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }}>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{$course->name}}</h5>
-                        <p class="card-text">
-                            {{ $course->description}} <p class="right"> read more...</p>
-                        </p>
-                    </div>
-                    </a>
-                </div>
-            
-            </div>
-            @endforeach
+<div class="container-xxl flex-grow-1 container-p-y">
+        <h5 class="pb-1 mb-6">Courses Offerred</h5>
+    <div class="row mb-12 g-6" id="all_course">
+       
+        
     </div>
-    @include('content/admin/course/update')
-    <script>
-        function setss(course,img)
-        {
-           $('#id').val(course['id']);
-           $('#name').val(course['name']);
-           $('#description').val(course['description']);
-           $("#img_prev").attr("src", img);
-        }
-    </script>
+    
+</div>
+@include('content/admin/course/update')
 @endsection

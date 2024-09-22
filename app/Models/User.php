@@ -65,4 +65,9 @@ class User extends Authenticatable implements MustVerifyEmail
   {
     return $this->belongsTo(Teacher::class);
   }
+
+  public function enrollment()
+  {
+    return $this->hasMany(Enrollment::class);
+  }
 }

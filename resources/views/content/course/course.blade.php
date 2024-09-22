@@ -21,7 +21,7 @@
     <div class="row mb-12">
         <div class="col-md-3">
             <div class="card">
-            <img class="card-img-top" src={{ asset('assets/img/course/' .$course->image_display) }} alt={{ $course->name.' image' }}>
+            <img class="card-img-top" src={{ asset('storage/course_image/' .$course->image_display) }} alt={{ $course->name.' image' }}>
             <div class="card-body">
                 <h5 class="card-title">{{$course->name}}</h5>
                 <p class="card-text">
