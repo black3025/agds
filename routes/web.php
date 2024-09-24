@@ -34,7 +34,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
     Route::resource('/admin/users', UserController::class, ['names' => 'user']);
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
-    Route::resource('/admin/teachers', StudentController::class, ['names' => 'teacher']);
+    Route::resource('/admin/teachers', TeacherController::class, ['names' => 'teacher']);
     Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
     Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
   });

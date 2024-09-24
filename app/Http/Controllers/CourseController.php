@@ -14,7 +14,7 @@ class CourseController extends Controller
       $courses = Course::where('is_active', 1)->get();
       return view('content.course.index', compact('courses'));
     } else {
-      $courses = Course::all();
+      $courses = Course::paginate(5);
       return view('content.admin.course.index', compact('courses'));
     }
   }
@@ -46,6 +46,52 @@ class CourseController extends Controller
   public function create(request $request)
   {
     dd($request);
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    $validator = \Validator::make(
+      $request->all(),
+      [
+        'add_name' => 'required|string',
+        'add_image_display' => 'image',
+      ],
+      [
+        'add_name.required' => 'Course name is required.',
+        'add_image_display' => 'Please select a valid image file.',
+      ]
+    );
+    if (!$validator->passes()) {
+      return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+    } else {
+      if (empty($request->file('add_image_display'))) {
+        $add = [
+          'name' => $request->add_name,
+          'description' => $request->add_description,
+        ];
+        $new = Course::create($add);
+        return response()->json(['code' => 1, 'msg' => 'Course added successfully.']);
+      } else {
+        $path = 'course_image/';
+        $file = $request->file('add_image_display');
+        $course_id = Course::max('ID') + 1;
+        $file_name = time() . '_course_img_' . $course_id . '.' . $file->getClientOriginalExtension();
+        $upload = $file->storeAs($path, $file_name, 'public');
+        $add = [
+          'name' => $request->add_name,
+          'description' => $request->add_description,
+          'image_display' => $file_name,
+        ];
+
+        if ($upload) {
+          $new = Course::create($add);
+          return response()->json(['code' => 1, 'msg' => 'Course added successfully']);
+        }
+      }
+    }
   }
 
   public function updateCourse(Request $request)

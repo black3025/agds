@@ -59,33 +59,62 @@
         $(function(){
 
             $('#editCourse').on('submit', function(e){
-            e.preventDefault();
-            var form = this;
-            $.ajax({
-                url:$(form).attr('action'),
-                method:$(form).attr('method'),
-                data: new FormData(form),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend:function(){
-                    $(form).find('span.error-text').text('');
-                },
-                success:function(data){
-                    if(data.code==0){
-                        $.each(data.error, function(prefix, val){
-                            $(form).find('span.'+prefix+'_error').text(val[0]);
-                        });
-                    }else{
-                        $('#mdclosebutton').click();
-                        $(form)[0].reset();
-                        success(data.msg);
-                        fetchAllCourse();
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code==0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#mdclosebutton').click();
+                            $(form)[0].reset();
+                            success(data.msg);
+                            fetchAllCourse();
+                        }
+
                     }
 
-                }
+                })
+            });
+             $('#addCourse').on('submit', function(e){
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code==0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#mdaclosebutton').click();
+                            $(form)[0].reset();
+                            success(data.msg);
+                            fetchAllCourse();
+                        }
 
-            })
+                    }
+
+                })
             });
             //Fetch Course
             fetchAllCourse();
@@ -100,12 +129,17 @@
 
 @section('content')  
 <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="pb-1 mb-6">Courses Offerred</h5>
-    <div class="row mb-12 g-6" id="all_course">
+        <div class="row mb-10">
+            <div class="col col-8"><h5 class="pb-1 mb-6">Courses Offerred</h5></div>
+            <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button></div>
+        </div>
+        <br>
+    <div class="row mt-12 mb-12 g-6" id="all_course">
        
         
     </div>
     
 </div>
 @include('content/admin/course/update')
+@include('content/admin/course/add')
 @endsection
