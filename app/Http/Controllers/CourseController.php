@@ -53,14 +53,21 @@ class CourseController extends Controller
    */
   public function store(Request $request)
   {
+    $data = [
+      'name' => $request->add_name,
+      'image_display' => $request->add_image_display,
+    ];
+
     $validator = \Validator::make(
       $request->all(),
       [
-        'add_name' => 'required|string',
+        'add_name' => 'required|unique:courses,name|string',
         'add_image_display' => 'image',
       ],
       [
         'add_name.required' => 'Course name is required.',
+        'add_name.unique' => 'Course name is already taken',
+        'add_aname.string' => 'Course name is already taken',
         'add_image_display' => 'Please select a valid image file.',
       ]
     );
@@ -100,7 +107,7 @@ class CourseController extends Controller
       $validator = \Validator::make(
         $request->all(),
         [
-          'name' => 'required|string',
+          'name' => "required|string|unique:courses,name,{$request->id}",
           'image_display' => 'image',
         ],
         [
