@@ -37,9 +37,21 @@
 @section('content')
  <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
     <div class="card">
-      <div class="row row-bordered g-0">
-          <div id="calendar"></div>
+      <div class="card-title">
       </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4" id="calendar">
+              this will display calendar
+            </div>
+            <div class="col-4" id="calendar">
+              this will display calendar
+            </div>
+            <div class="col-4" id="calendar">
+              this will display calendar
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 @endsection
