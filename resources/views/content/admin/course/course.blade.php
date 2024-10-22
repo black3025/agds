@@ -32,8 +32,9 @@
         </div>
         <div class="col-md-9">
             <div class="card mb-10">
-                <div class="card-header">
-                    <h7 class="card-title mb-0">Available Class:</h5>
+                <div class="card-header row">
+                    <div class="col col-8"><h7 class="card-title mb-0">Available Class:</h5></div>
+                    <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEnrollModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button></div>
                 </div>
                 <div class="card-body pt-0">
                     
@@ -88,7 +89,7 @@
             </div>
         </div>
 </div> 
-
+@include('content/admin/class_schedule/add')
  <script>
         function setCourseId(id)
         {

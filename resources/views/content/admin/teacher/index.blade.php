@@ -47,8 +47,14 @@
       <div class="row row-bordered g-0">
           <div class="col-md-12">
             <div class="card mb-10">
+                <div class="card-header">
+                <div class="row mb-12">
+                    <div class="text-end mb-12">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacher"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button>
+                    </div>
+                </div>
+                </div>
                 <div class="card-body pt-0">
-                    
                     <br><br>
                     <table class="table table-hover" id="tblTeacher" >
                         <thead>
@@ -102,4 +108,5 @@
       </div>
     </div>
   </div>
+  @include('content/admin/teacher/add')
 @endsection

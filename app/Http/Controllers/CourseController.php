@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Teacher;
 use Auth;
 class CourseController extends Controller
 {
@@ -39,7 +40,8 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       return view('content.course.course', compact('course'));
     } else {
-      return view('content.admin.course.course', compact('course'));
+      $teachers = Teacher::where('is_active',1)->get();
+      return view('content.admin.course.course', compact('course','teachers'));
     }
   }
 
