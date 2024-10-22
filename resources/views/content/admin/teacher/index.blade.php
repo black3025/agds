@@ -7,38 +7,41 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
+        $(function(){
+      $('#addTeacherForm').on('submit', function(e){
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code==0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#mdaclosebutton').click();
+                            $(form)[0].reset();
+                            success(data.msg);
+                            //fetchAllCourse();
+                        }
+
+                    }
+
+                })
+            });
+    })
         $(document).ready( function () {
         $('#tblTeacher').DataTable();
         });
     </script>
-  <script>
-      function Inquire(){
-         var form = {
-            _token: $('input[name=_token]').val(),
-            name: $('#name').val(),
-            email: $('#email').val(),
-            number: $('#number').val(),
-            body: $('#body').val(),
-            ajax: 1
-         }
-
-         $.ajax({
-	         url : "{{route('contactus.store')}}",
-	         data :  form,
-	         type : "POST",
-	         success : function(msg){
-                //console.log(msg['message']);
-                if(msg['success']){
-                    success(msg['message']);
-                    setTimeout(function(){window.location.reload();},1500);
-                }else{
-                    error(msg['message']);
-                }
-             }
-        })
-        return false;
-    }
-  </script>
 @endsection
 
 @section('content')

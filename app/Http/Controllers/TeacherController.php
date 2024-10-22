@@ -29,9 +29,27 @@ class TeacherController extends Controller
    */
   public function store(Request $request)
   {
-    //
-  }
+    $validator = \Validator::make(
+      $request->all(),
+      [
+        'fname' => 'required|string',
+        'lname' => 'required|string',
+        'bday' => 'required',
+        'email'=>'required|email|unique',
 
+      ],
+      [
+        'fname.required' => 'Given name is required.',
+        'lname.required' => 'Last name is already taken.',
+        'bday.required' => 'Birthday is required.',
+        'email.required' => 'Email is required.',
+        'email.unique' => 'This Email is already taken.'
+      ]
+    );
+    
+    return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+    
+  }
   /**
    * Display the specified resource.
    */
