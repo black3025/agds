@@ -35,7 +35,7 @@ class TeacherController extends Controller
         'fname' => 'required|string',
         'lname' => 'required|string',
         'bday' => 'required',
-        'email'=>'required|email|unique',
+        'email'=>'required|email|unique:users',
 
       ],
       [
@@ -46,8 +46,11 @@ class TeacherController extends Controller
         'email.unique' => 'This Email is already taken.'
       ]
     );
-    
-    return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+    if (!$validator->passes()) {
+      return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+    } else {
+      return response()->json(['code' => 1, 'msg' => 'Course added successfully.']);
+    }
     
   }
   /**
