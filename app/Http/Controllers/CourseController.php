@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Teacher;
+use App\Models\Category;
 use Auth;
 class CourseController extends Controller
 {
@@ -41,7 +42,8 @@ class CourseController extends Controller
       return view('content.course.course', compact('course'));
     } else {
       $teachers = Teacher::where('is_active',1)->get();
-      return view('content.admin.course.course', compact('course','teachers'));
+      $categories = Category::all();
+      return view('content.admin.course.course', compact('course','teachers','categories'));
     }
   }
 

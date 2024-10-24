@@ -45,7 +45,7 @@ class RegisterBasic extends Controller
     if ($student_id == '') {
       $student_id = $year . '-0001';
     } else {
-      $temp = explode('-', $client_id);
+      $temp = explode('-', $student_id);
       $year_n = $temp[0];
       $number = (int) $temp[1] + 1;
       if ($year == $year_n) {

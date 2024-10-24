@@ -20,12 +20,15 @@ class MenuServiceProvider extends ServiceProvider
   public function boot(): void
   {
     $verticalMenuJson = file_get_contents(base_path('resources/menu/verticalMenu.json'));
-    $verticalMenuDataAdmin= file_get_contents(base_path('resources/menu/verticalMenuAdmin.json'));
+    $verticalMenuDataAdminJson= file_get_contents(base_path('resources/menu/verticalMenuAdmin.json'));
+    $verticalMenuDataTeacherJson= file_get_contents(base_path('resources/menu/verticalMenuTeacher.json'));
     $verticalMenuData = json_decode($verticalMenuJson);
-    $verticalMenuDataAdmin = json_decode($verticalMenuDataAdmin);
+    $verticalMenuDataAdmin = json_decode($verticalMenuDataAdminJson);
+    $verticalMenuDataTeacher = json_decode($verticalMenuDataTeacherJson);
 
     // Share all menuData to all the views
     \View::share('menuData', [$verticalMenuData]);
     \View::share('AdminMenuData', [$verticalMenuDataAdmin]);
+    \View::share('TeacherMenuData', [$verticalMenuDataTeacher]);
   }
 }

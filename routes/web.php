@@ -13,6 +13,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ClassScheduleController;
 
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
@@ -36,7 +37,16 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
     Route::resource('/admin/teachers', TeacherController::class, ['names' => 'teacher']);
     Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
+    Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
     Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
+    Route::get('/getTeacher', [TeacherController::class, 'getTeacher'])->name('getTeacher');
+    Route::get('/getTeachSchedule/{id}', [ClassScheduleController::class, 'getTeachSchedule'])->name('getTeachSchedule'); //for specific teacher only
+  });
+  
+  //Teacher
+  Route::middleware('isTeacher')->group(function () {
+    Route::resource('/teacher/course', CourseController::class, ['names' => 'course']);
+    Route::resource('/teacher/students', StudentController::class, ['names' => 'student']);
   });
 });
 

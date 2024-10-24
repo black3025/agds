@@ -1,0 +1,22 @@
+{
+  "menu": [
+    {
+      "url": "/teacher/Dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "admin-dashboard"
+    },
+    {
+      "url": "/teacher/course",
+      "name": "My Courses",
+      "icon": "menu-icon tf-icons bx bxs-graduation",
+      "slug": "admin-course"
+    },
+    {
+      "url": "/teacher/students",
+      "name": "My Students",
+      "icon": "menu-icon tf-icons bx bx-child",
+      "slug": "student"
+    }
+  ]
+}

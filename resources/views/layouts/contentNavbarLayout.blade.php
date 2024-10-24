@@ -22,8 +22,10 @@ $container = ($container ?? 'container-xxl');
   <div class="layout-container">
 
     @if ($isMenu)
-      @if(Auth::user()->role_id > 1)
+      @if(Auth::user()->role_id == 3)
         @include('layouts/sections/menu/verticalMenu')
+      @elseif( Auth::user()->role_id == 2)
+        @include('layouts/sections/menu/TeacherVerticalMenu')
       @else
         @include('layouts/sections/menu/AdminVerticalMenu')
       @endif

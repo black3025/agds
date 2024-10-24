@@ -98,8 +98,8 @@
 
                 <p class="text-center">
                   <span>Already have an account?</span>
-                  {{-- <span><a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a></span>
-                  <a href="{{url('auth/login-basic')}}"> --}}
+                  {{-- <span><a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a></span> --}}
+                  <a href="{{url('auth/login')}}">
                     <span>Sign in instead</span>
                   </a>
                 </p>

@@ -11,33 +11,9 @@
         $('#tblUser').DataTable();
         });
     </script>
+    
   <script>
-      function Inquire(){
-         var form = {
-            _token: $('input[name=_token]').val(),
-            name: $('#name').val(),
-            email: $('#email').val(),
-            number: $('#number').val(),
-            body: $('#body').val(),
-            ajax: 1
-         }
-
-         $.ajax({
-	         url : "{{route('contactus.store')}}",
-	         data :  form,
-	         type : "POST",
-	         success : function(msg){
-                //console.log(msg['message']);
-                if(msg['success']){
-                    success(msg['message']);
-                    setTimeout(function(){window.location.reload();},1500);
-                }else{
-                    error(msg['message']);
-                }
-             }
-        })
-        return false;
-    }
+      
   </script>
 @endsection
 
@@ -55,6 +31,7 @@
                             <tr>
                                 <th>Full name</th>
                                 <th>Email Address</th>
+                                <th>Username</th>
                                 <th>Account Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -65,9 +42,14 @@
                                 <tr>
                                     <td>{{$user->fname}} {{$user->mname}} {{$user->lname}}</td>
                                     <td>{{$user->email}}</td>
+                                    <td>{{$user->username}}</td>
                                     <td>{{$user->role->name}}</td>
                                     <td>@if($user->is_active == 1) <span class="text-success">Active</span>@else <span class="text-danger">Inactive</span>@endif</td>
-                                    <td><a onclick="setCourseId({{$user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                                    <td>
+                                        <a onclick="setUserId({{$user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                            <i class='bx bx-edit-alt'></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
