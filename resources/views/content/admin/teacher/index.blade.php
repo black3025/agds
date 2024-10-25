@@ -37,30 +37,45 @@
                 })
         });
         fetchAllTeachers();
-
-        
-
         function fetchAllTeachers(){
             $.get('{{route("getTeacher")}}',{},function(data){
                 $('#all_teacher').html(data.result);
             },'json');
         }
+        
+        function toggleActive(id)
+        {
+            $.ajax({
+                type : "GET",
+                url : "/admin/user-status/" + id,
+                dataType : "json",
+                contentType: "application/json",
+                crossDomain: true,
+                success : function(data) {
+                    fetchAllTeachers();    
+                },
+                error : function(data) {
+                    console.log("Fialed to get the data");
+                }
+            });
+        };        
+
     })
    
     </script>
 @endsection
 
 @section('content')
- <div class="col-12 col-lg-12 order-2 order-md-12 order-lg-12 mb-4">
+<div class="col-12 col-lg-12 order-2 order-md-12 order-lg-12 mb-4">
     <div class="card">
       <div class="row row-bordered g-0">
           <div class="col-md-12">
-            <div class="card mb-10" id="all_teacher">
-    
-            </div>
-        </div>
+                <div class="card mb-10" id="all_teacher">
+        
+                </div>
+           </div>
       </div>
     </div>
-  </div>
-  @include('content/admin/teacher/add')
+</div>
+@include('content/admin/teacher/add')
 @endsection

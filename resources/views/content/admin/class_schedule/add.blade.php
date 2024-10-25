@@ -11,14 +11,14 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col mb-6">
-                    <label for="add_trainer" class="form-label">Category</label>
+                    <label for="add_category" class="form-label">Category</label>
                     <select class = "form-control" name="add_category" id="add_category">
                         <option disabled selected>Please Select Category</option>
                         @foreach($categories as $category)
                             <option value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
                     </select>
-                     <span class="text-danger error-text add_trainer_error" > </span>
+                     <span class="text-danger error-text add_category_error" > </span>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@
                     <select class = "form-control" name="add_trainer" id="add_trainer">
                         <option disabled selected>Please Select Trainer</option>
                         @foreach($teachers as $teacher)
-                            <option value="{{$teacher->id}}">{{$teacher->teacherID}}- {{$teacher->user->fname}} {{$teacher->user->lname}}</option>
+                            <option value="{{$teacher->user->id}}">{{$teacher->teacherID}}- {{$teacher->user->fname}} {{$teacher->user->lname}}</option>
                         @endforeach
                     </select>
                      <span class="text-danger error-text add_trainer_error" > </span>

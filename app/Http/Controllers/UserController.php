@@ -16,6 +16,19 @@ class UserController extends Controller
     return view('content.admin.users.index', compact('users'));
   }
 
+  public function updateStatus($id)
+  {
+    $user = User::find($id);
+    if( $user->is_active == 1){
+        $newstat = 0;
+    }else{
+        $newstat = 1;
+    }
+    $user->update([
+      'is_active' => $newstat
+    ]);
+    return response()->json(['result' => $id]);
+  }
   /**
    * Show the form for creating a new resource.
    */

@@ -5,32 +5,7 @@
 
 @section('page-script')
   <script>
-      function Inquire(){
-         var form = {
-            _token: $('input[name=_token]').val(),
-            name: $('#name').val(),
-            email: $('#email').val(),
-            number: $('#number').val(),
-            body: $('#body').val(),
-            ajax: 1
-         }
 
-         $.ajax({
-	         url : "{{route('contactus.store')}}",
-	         data :  form,
-	         type : "POST",
-	         success : function(msg){
-                //console.log(msg['message']);
-                if(msg['success']){
-                    success(msg['message']);
-                    setTimeout(function(){window.location.reload();},1500);
-                }else{
-                    error(msg['message']);
-                }
-             }
-        })
-        return false;
-    }
   </script>
 @endsection
 

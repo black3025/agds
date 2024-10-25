@@ -41,7 +41,9 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       return view('content.course.course', compact('course'));
     } else {
-      $teachers = Teacher::where('is_active',1)->get();
+      $teachers = Teacher::whereHas('user', function ($query){
+        $query->where('is_active',1);
+      })->get();
       $categories = Category::all();
       return view('content.admin.course.course', compact('course','teachers','categories'));
     }

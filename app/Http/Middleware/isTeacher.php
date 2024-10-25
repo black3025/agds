@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-class isAdmin
+class isTeacher
 {
   /**
    * Handle an incoming request.
@@ -15,7 +15,7 @@ class isAdmin
    */
   public function handle($request, Closure $next)
   {
-    if (Auth::User()->role->restriction > 1) {
+    if (Auth::User()->role->restriction > 2) {
       return redirect('/Dashboard');
     }
     return $next($request);

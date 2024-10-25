@@ -1,24 +1,43 @@
 <script>
         $(document).ready( function () {
             $('#tblTeacher').DataTable();
-        });
+        });        
+        function toggleActive(id)
+        {
+            $.ajax({
+                type : "GET",
+                url : "/admin/user-status/" + id,
+                dataType : "json",
+                contentType: "application/json",
+                crossDomain: true,
+                success : function(data) {
+                    $.get('{{route("getTeacher")}}',{},function(data){
+                        $('#all_teacher').html(data.result);
+                    },'json');
+                },
+                error : function(data) {
+                    console.log("Fialed to get the data");
+                }
+            });
+        };      
 </script>
 <div class="card-header">
     <div class="row mb-12">
         <div class="text-end mb-12">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacher"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacher">
+                <i class='bx bxs-message-square-add'></i> &nbsp; Add
+            </button>
         </div>
     </div>
 </div>
 <div class="card-body pt-0">
-    <br><br>
     <table class="table table-hover" id="tblTeacher" >
         <thead>
             <tr>
-                <th>Teacher ID</th>
-                <th>Full name</th>
-                <th>Number of active Course</th>
-                <th>Action</th>
+                <th style="text-align:center;">Teacher ID</th>
+                <th style="text-align:center;">Full name</th>
+                <th style="text-align:center;">Number of active Course</th>
+                <th style="text-align:center;">Action</th>
             </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -26,34 +45,34 @@
                 <tr>
                     <td>{{$teacher->teacherID}}</td>
                     <td><a href="{{route('student.show',$teacher->id)}}">{{$teacher->user->fname}} {{$teacher->user->mname}} {{$teacher->user->lname}}</a></td>
-                    <td>{{$teacher->ClassSchedule}}</td>
-                    <td><a onclick="setCourseId({{$teacher->user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                    <td>{{$teacher->user->ClassSchedules->where('is_active',1)->count()}}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col mb-6">
+                                <a onclick="#"
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#basicModal"
+                                title ="Edit"
+                                >
+                                        <i class='bx bx-edit-alt'></i>
+                                </a>
+                            </div>
+                            <div class="col mb-6">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active"  {{$teacher->user->is_active == "1" ? "checked" : ""}} onchange="toggleActive({{$teacher->user->id}})">
+                                    <label class="form-check-label" for="is_active">
+                                        <span style = 'color:{{$teacher->user->is_active == "1" ? "green": "red"}};'>
+                                            {{$teacher->user->is_active == "1" ? "Active": "Inactive"}}
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-</div>
-<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Payment</h5>
-                <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
-                    <div class="col mb-6">
-                        <form onsubmit="return enroll( {{Auth::user()->id}} );">
-                            @csrf
-                            <label for="refno" class="form-label">Reference Number</label>
-                            <input hidden tabindex ="-1"    type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
-                            <input type="text" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
-                    </div>
-                </div>
-                        <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
-                    </form>
-            </div>
-        </div>
-    </div>
 </div>
