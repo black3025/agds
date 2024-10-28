@@ -42,23 +42,8 @@
                 $('#all_teacher').html(data.result);
             },'json');
         }
-        
-        function toggleActive(id)
-        {
-            $.ajax({
-                type : "GET",
-                url : "/admin/user-status/" + id,
-                dataType : "json",
-                contentType: "application/json",
-                crossDomain: true,
-                success : function(data) {
-                    fetchAllTeachers();    
-                },
-                error : function(data) {
-                    console.log("Fialed to get the data");
-                }
-            });
-        };        
+
+          
 
     })
    

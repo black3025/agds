@@ -19,9 +19,8 @@ class DashboardController extends Controller
     // }
     if (Auth::user()->role->restriction > 2) {
       return view('content.dashboard.dashboards-student');
-
     }else{
-      return redirect('admin/Dashboard');
+      return redirect('admin/dashboard');
     }
   }
 
