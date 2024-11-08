@@ -12,7 +12,7 @@
      <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready( function () {
-        $('#tblCourse').DataTable();
+            $('#tblCourse').DataTable();
         });
     </script>
 @endsection

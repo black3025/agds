@@ -1,9 +1,29 @@
 <script>
-     $(document).ready( function () {
-            $('#tblEnrollment').DataTable();
-        });  
+    $(document).ready( function () {
+            $('#tblEntrollment').DataTable();
+        });
 
+
+    function approve(id)
+    {
+         $.ajax({
+            type : "GET",
+            url : "/admin/approveEnrollment/" + id,
+            dataType : "json",
+            contentType: "application/json",
+            crossDomain: true,
+            success : function(data) {
+                 $.get('{{route("getEnrollments")}}',{},function(data){
+                    $('#all_enrollment').html(data.result);
+                },'json');
+            },
+            error : function(data) {
+                console.log("Fialed to get the data");
+            }
+        });
+    }
 </script>
+
 <div class="card-header">
    
 </div>
@@ -31,7 +51,7 @@
                     <td>{{date('h:s a',strtotime($enrollment->classSchedule->time_start))}}-{{date('h:s a',strtotime($enrollment->classSchedule->time_end))}}</td>
                     <td>{{$enrollment->classSchedule->user->fname }} {{$enrollment->classSchedule->user->mname }} {{$enrollment->classSchedule->user->lname }}</td>
                     <td>{{$enrollment->referenceNo}}</td>
-                    <td><a href='#'><i class='bx bx-check-circle' ></i></a> | <a href='#'><i class='bx bxs-x-circle'></i></a></td>
+                    <td><a onclick="return approve({{$enrollment->id}})" href="#"><i class='bx bx-check-circle' ></i></a> | <a href='#'><i class='bx bxs-x-circle'></i></a></td>
                 </tr>
             @endforeach
         </tbody>

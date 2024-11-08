@@ -56,7 +56,6 @@
                                 <th>Student ID</th>
                                 <th>Full name</th>
                                 <th>Number of active Course</th>
-                                <th>Timeslot</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -65,8 +64,7 @@
                                 <tr>
                                     <td>{{$student->studentID}}</td>
                                     <td><a href="{{route('student.show',$student->id)}}">{{$student->user->fname}} {{$student->user->mname}} {{$student->user->lname}}</a></td>
-                                    <td>{{$student->user->enrollment->where('status','enrolled')->count()}}</td>
-                                    <td></td>
+                                    <td>{{$student->user->enrollment->where('verified','Approved')->count()}}</td>
                                     <td><a onclick="setCourseId({{$student->user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
                                 </tr>
                             @endforeach

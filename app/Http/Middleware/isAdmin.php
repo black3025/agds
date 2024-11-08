@@ -15,7 +15,7 @@ class isAdmin
    */
   public function handle($request, Closure $next)
   {
-    if (Auth::User()->role->restriction > 2) {
+    if (Auth::User()->role->restriction > 1) {
       return redirect('/Dashboard');
     }
     return $next($request);

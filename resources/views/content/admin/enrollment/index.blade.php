@@ -2,9 +2,18 @@
 
 @section('title', 'Admin - Enrollments')
 
-@section('page-script')
+@section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
+@endsection
+@section('page-script')
+    <script src="{{ asset('assets/js/jquery-3.4.1.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready( function () {
+            $('#tblEntrollment').DataTable();
+        });
+    </script>
+    </script> 
     <script>
         $(function(){
         

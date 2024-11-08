@@ -22,9 +22,9 @@ $container = ($container ?? 'container-xxl');
   <div class="layout-container">
 
     @if ($isMenu)
-      @if(Auth::user()->role_id == 3)
+      @if(Auth::user()->role->restriction == 3)
         @include('layouts/sections/menu/verticalMenu')
-      @elseif( Auth::user()->role_id == 2)
+      @elseif( Auth::user()->role->restriction == 2)
         @include('layouts/sections/menu/TeacherVerticalMenu')
       @else
         @include('layouts/sections/menu/AdminVerticalMenu')
