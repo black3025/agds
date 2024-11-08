@@ -14,7 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassScheduleController;
-
+use App\Http\Controllers\EnrollmentAdminController;
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
@@ -41,12 +41,15 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
     Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
     Route::get('/getTeacher', [TeacherController::class, 'getTeacher'])->name('getTeacher');
+
+    Route::resource('/admin/enrollments',EnrollmentAdminController::class,['names'=>'admin-enrollment'] );
+    Route::get('/getEnrollments', [EnrollmentAdminController::class, 'getEnrollments'])->name('getEnrollments');
     
   });
   
   //Teacher
   Route::middleware('isTeacher')->group(function () {
-    Route::resource('/teacher/course', CourseController::class, ['names' => 'course']);
+    Route::resource('/teacher/course', CourseController::class, ['names' => 'teacher-course']);
     Route::resource('/teacher/students', StudentController::class, ['names' => 'teacher-student']);
   });
 });

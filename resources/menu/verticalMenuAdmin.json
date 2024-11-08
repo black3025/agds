@@ -13,6 +13,12 @@
       "slug": "admin-course"
     },
     {
+      "url": "/admin/enrollments",
+      "name": "Enrollments",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "admin-enrollment"
+    },
+    {
       "url": "/admin/students",
       "name": "Students",
       "icon": "menu-icon tf-icons bx bx-child",
