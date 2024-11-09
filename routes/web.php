@@ -29,6 +29,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
     Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
     Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
+    Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
     Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('myenrollment');
   });
   //Admin

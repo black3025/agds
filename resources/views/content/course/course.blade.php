@@ -57,25 +57,32 @@
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                                     <td>
                                         <a 
-                                            onclick="setCourseId({{$sched->id}})"
+                                            onclick="checkConflict({{$sched->id}},1)"
                                             type="button"
                                             class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#basicModal"
-                                            fdprocessedid="dyx4wr"
                                             title="Book">
                                                <i class='bx bx-cart-add' ></i>
                                         </a>
-                                        <a 
-                                            onclick="setCourseId({{$sched->id}})"
-                                            type="button"
+                                        <button hidden type="button"
                                             class="btn btn-primary"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#redeemModal"
-                                            fdprocessedid="dyx4wr"
+                                            data-bs-target="#basicModal"
+                                            fdprocessedid="dyx4wr" id="ghostEnroll">
+                                        </button>
+                                        <a 
+                                            onclick="checkConflict({{$sched->id}},2)"
+                                            type="button"
+                                            class="btn btn-primary"
                                             title="Redeem ">
                                                <i class='bx bxs-purchase-tag-alt' ></i>
                                         </a>
+                                        <button hidden type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#redeemModal"
+                                            fdprocessedid="dyx4wr" id="ghostRedeem">
+                                        </button>
+                                       
                                     </td>
                                 </tr>
                             @endforeach
@@ -117,7 +124,7 @@
                             <div class="row mb-3">
                                 <div class="col mb-6">
                                 Redeem this course for 500 points?
-                                    <form onsubmit="return redeem({{Auth::user()->id}});">
+                                    <form hidden onsubmit="return redeem({{Auth::user()->id}});">
                                         @csrf
                                         <label for="refno2" class="form-label">Reference Number</label>
                                         <input tabindex ="-1"    type="text" name="ClassSchedule_id2" id="ClassSchedule_id2" />
@@ -135,6 +142,34 @@
 </div> 
 
  <script>
+        function checkConflict(id,type)
+        {
+            setCourseId(id);
+            var form = {
+                _token: $('input[name=_token]').val(),
+                class_schedule_id : id,
+                ajax: 1
+            }
+
+            $.ajax({
+                url : "{{route('checkConflict')}}",
+                data :  form,
+                type : "POST",
+                success : function(msg){
+                    if(msg['success']){
+                        if(type == 1)
+                            $('#ghostEnroll').click();
+                        else
+                            $('#ghostRedeem').click();
+                    }else{
+                        error(msg['message']);
+                    }
+                }
+            })
+            return false;
+        }
+
+
         function setCourseId(id)
         {
             $('#ClassSchedule_id').val(id);

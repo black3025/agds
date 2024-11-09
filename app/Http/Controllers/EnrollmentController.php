@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
+use App\Models\ClassSchedule;
 use Illuminate\Support\Facades\Auth;
 
 class EnrollmentController extends Controller
@@ -14,6 +15,18 @@ class EnrollmentController extends Controller
   {
     $enrollments = Enrollment::all();
     return view('content.enrollment.index', compact('enrollments'));
+  }
+
+  public function checkConflict(request $request)
+  {
+    $exists = Enrollment::where('user_id', Auth::user()->id)
+      ->where('class_schedule_id', $request->class_schedule_id)
+      ->count();
+    if ($exists > 0) {
+      return ['success' => false, 'message' => 'You are already enrolled in this course.'];
+    } else {
+      return ['success' => true, 'message' => 'Clear'];
+    }
   }
 
   public function redeem(request $request)
