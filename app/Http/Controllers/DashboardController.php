@@ -10,7 +10,7 @@ class DashboardController extends Controller
   public function index()
   {
     // if($request->ajax()) {
-       
+
     //   $data = Event::whereDate('start', '>=', $request->start)
     //             ->whereDate('end',   '<=', $request->end)
     //             ->get(['id', 'title', 'start', 'end']);
@@ -19,7 +19,7 @@ class DashboardController extends Controller
     // }
     if (Auth::user()->role->restriction > 2) {
       return view('content.dashboard.dashboards-student');
-    }else{
+    } else {
       return redirect('admin/dashboard');
     }
   }

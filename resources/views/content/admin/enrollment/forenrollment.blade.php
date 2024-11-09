@@ -13,6 +13,7 @@
             contentType: "application/json",
             crossDomain: true,
             success : function(data) {
+                success("Approved!");
                  $.get('{{route("getEnrollments")}}',{},function(data){
                     $('#all_enrollment').html(data.result);
                 },'json');

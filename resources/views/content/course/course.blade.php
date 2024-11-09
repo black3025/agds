@@ -53,9 +53,30 @@
                                 <tr>
                                     <td>{{$sched->category->name}}</td>
                                     <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
-                                    <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
+                                    <td>{{date('M d, Y',strtotime($sched->day_start))}} to {{date('M d, Y',strtotime($sched->day_end))}}</td>
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
-                                    <td><a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                                    <td>
+                                        <a 
+                                            onclick="setCourseId({{$sched->id}})"
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#basicModal"
+                                            fdprocessedid="dyx4wr"
+                                            title="Book">
+                                               <i class='bx bx-cart-add' ></i>
+                                        </a>
+                                        <a 
+                                            onclick="setCourseId({{$sched->id}})"
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#redeemModal"
+                                            fdprocessedid="dyx4wr"
+                                            title="Redeem ">
+                                               <i class='bx bxs-purchase-tag-alt' ></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -85,6 +106,30 @@
                         </div>
                         </div>
                 </div>
+                <div class="modal fade" id="redeemModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Redeem</h5>
+                            <button type="button" id="mdClose2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col mb-6">
+                                Redeem this course for 500 points?
+                                    <form onsubmit="return redeem({{Auth::user()->id}});">
+                                        @csrf
+                                        <label for="refno2" class="form-label">Reference Number</label>
+                                        <input tabindex ="-1"    type="text" name="ClassSchedule_id2" id="ClassSchedule_id2" />
+                                        <input type="text" id="refno2" name="refno2" class="form-control" placeholder="Reference Number" value="Loyalty Points Redeem" />
+                                </div>
+                            </div>
+                                        <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
+                                    </form>
+                            </div>
+                        </div>
+                        </div>
+                </div>
             </div>
         </div>
 </div> 
@@ -93,6 +138,7 @@
         function setCourseId(id)
         {
             $('#ClassSchedule_id').val(id);
+            $('#ClassSchedule_id2').val(id);
         }
 
         function enroll(id){
@@ -109,6 +155,34 @@
 
             $.ajax({
                 url : "{{route('enrollment.store')}}",
+                data :  form,
+                type : "POST",
+                success : function(msg){
+                    if(msg['success']){
+                        success(msg['message']);
+                        setTimeout(function(){window.location.reload();},1500);
+                    }else{
+                        error(msg['message']);
+                    }
+                }
+            })
+            return false;
+        }
+
+        function redeem(id){
+            $('#mdClose2').click();
+            var form = { 
+                _token: $('input[name=_token]').val(),
+                user_id: id,
+                class_schedule_id : $('#ClassSchedule_id2').val(),
+                referenceNo: $('#refno2').val(),
+                verified: "Approved",
+                status: "New",
+                ajax: 1
+            }
+
+            $.ajax({
+                url : "{{route('redeem')}}",
                 data :  form,
                 type : "POST",
                 success : function(msg){

@@ -26,7 +26,7 @@
         <h5 class="pb-1 mb-6">Enrolled Courses</h5>
         <div class="row mb-12 g-6">
             @foreach($enrollments as $enrollment)
-            <div class="mb-12 col-md-3 g-6">
+            <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
             <a href="{{ route('course.show',$enrollment->id) }}" >
                 <div class="card h-100">
                     <img class="card-img-top" src={{ asset('storage/course_image/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course    ->name.' image' }}>

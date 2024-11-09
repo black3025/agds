@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enrollment;
+use App\Models\LoyaltyPoints;
 use Illuminate\Support\Facades\Auth;
 
 class EnrollmentAdminController extends Controller
@@ -15,6 +16,12 @@ class EnrollmentAdminController extends Controller
 
     $user->update([
       'verified' => 'Approved',
+    ]);
+
+    $loyalty = LoyaltyPoints::create([
+      'user_id' => $user->user_id,
+      'amount' => 50,
+      'details' => $user->ClassSchedule->course->name,
     ]);
     return response()->json(['result' => $id]);
   }
