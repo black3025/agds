@@ -28,7 +28,6 @@
                     <table class="table table-hover" id="tblStudent" >
                         <thead>
                             <tr>
-                                <th>Student ID</th>
                                 <th>Full name</th>
                                 <th>Course Enrolled</th>
                                 <th>Action</th>
@@ -37,8 +36,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach(Auth::user()->ClassSchedules as $enrollments)
                                 @foreach($enrollments->enrollment as $student )
-                                    <tr>
-                                    <td>{{$student->user->}}</td>
+                                <tr>
                                     <td><a href="{{route('student.show',$student->user->id)}}">{{$student->user->fname}} {{$student->user->mname}} {{$student->user->lname}}</a></td>
                                     <td>{{$student->ClassSchedule->course->name}}</td>
                                     <td><a onclick="setCourseId({{$student->user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
