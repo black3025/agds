@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\ClassSchedule;
+use Auth;
+
 class StudentController extends Controller
 {
   /**
@@ -12,8 +15,12 @@ class StudentController extends Controller
    */
   public function index()
   {
-    $students = Student::where('is_active', 1)->get();
-    return view('content.admin.student.index', compact('students'));
+    if (Auth::user()->role->restriction > 1) {
+      return view('content.teacher.student.index');
+    } else {
+      $students = Student::where('is_active', 1)->get();
+      return view('content.admin.student.index', compact('students'));
+    }
   }
 
   /**

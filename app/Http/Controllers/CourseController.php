@@ -17,8 +17,7 @@ class CourseController extends Controller
       $courses = Course::where('is_active', 1)->get();
       return view('content.course.index', compact('courses'));
     } elseif (Auth::user()->role->restriction > 1) {
-      $classes = ClassSchedule::where('user_id', Auth::user()->id)->get();
-      return view('content.teacher.course.index', compact('classes'));
+      return view('content.teacher.course.index');
     } else {
       $courses = Course::paginate(5);
       return view('content.admin.course.index', compact('courses'));
@@ -30,6 +29,10 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       $courses = Course::where('is_active', 1)->get();
       $data = view('content.course.all_course', compact('courses'))->render();
+      return response()->json(['code' => 1, 'result' => $data]);
+    } elseif (Auth::user()->role->restriction > 1) {
+      $classess = ClassSchedule::where('user_id', Auth::user()->id)->get();
+      $data = view('content.teacher.course.all_course', compact('classess'))->render();
       return response()->json(['code' => 1, 'result' => $data]);
     } else {
       $courses = Course::all();

@@ -17,7 +17,7 @@
             <div class="col-sm-7">
               <div class="card-body">
                 <h5 class="card-title text-primary mb-3">{{ucfirst(Auth::user()->fname)}} you have {{Auth::user()->loyalty->sum('amount')}} loyalty points.</h5>
-                <p class="mb-6">You have done 72% more sales today.<br>Check your new badge in your profile.</p>
+                <p class="mb-6">You have done 10 classes.<br>View more courses</p>
 
                 
               </div>
@@ -57,15 +57,10 @@
                     <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="bx bx-dots-vertical-rounded text-muted"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                    </div>
                   </div>
                 </div>
-                <p class="mb-1">Sales</p>
-                <h4 class="card-title mb-3">$4,679</h4>
-                <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                <p class="mb-1">Course Completed</p>
+                <h4 class="card-title mb-3">{{Auth::user()->enrollment->where('verified','Completed')->count()}}</h4>
               </div>
             </div>
           </div>
