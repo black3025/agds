@@ -52,7 +52,8 @@ Route::middleware('auth', 'verified')->group(function () {
   });
 
   //Teacher
-    Route::middleware('isTeacher')->group(function () {
+  Route::middleware('isTeacher')->group(function () {
+    Route::get('/teacher/Dashboard', [DashboardController::class, 'teacherIndex'])->name('teacher-dashboard');
     Route::resource('/teacher/course', CourseController::class, ['names' => 'teacher-course']);
     Route::resource('/teacher/students', StudentController::class, ['names' => 'teacher-student']);
   });

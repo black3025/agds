@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\Category;
+use App\Models\ClassSchedule;
 use Auth;
 class CourseController extends Controller
 {
@@ -15,6 +16,9 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       $courses = Course::where('is_active', 1)->get();
       return view('content.course.index', compact('courses'));
+    } elseif (Auth::user()->role->restriction > 1) {
+      $classes = ClassSchedule::where('user_id', Auth::user()->id)->get();
+      return view('content.teacher.course.index', compact('classes'));
     } else {
       $courses = Course::paginate(5);
       return view('content.admin.course.index', compact('courses'));
@@ -41,11 +45,11 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       return view('content.course.course', compact('course'));
     } else {
-      $teachers = Teacher::whereHas('user', function ($query){
-        $query->where('is_active',1);
+      $teachers = Teacher::whereHas('user', function ($query) {
+        $query->where('is_active', 1);
       })->get();
       $categories = Category::all();
-      return view('content.admin.course.course', compact('course','teachers','categories'));
+      return view('content.admin.course.course', compact('course', 'teachers', 'categories'));
     }
   }
 

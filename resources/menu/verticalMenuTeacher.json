@@ -1,10 +1,10 @@
 {
   "menu": [
     {
-      "url": "/admin/Dashboard",
+      "url": "/teacher/Dashboard",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "admin-dashboard"
+      "slug": "teacher-dashboard"
     },
     {
       "url": "/teacher/course",

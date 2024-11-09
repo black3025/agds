@@ -24,12 +24,15 @@ class LoginBasic extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-      if(Auth::user()->is_active != 1 )
+      if (Auth::user()->is_active != 1) {
         return redirect('auth/login')->with('error', 'Active issue.');
+      }
 
-      if (Auth::user()->role_id == 3) {
+      if (Auth::user()->role->restriction == 3) {
         return redirect()->intended('/Dashboard');
-      }else{
+      } elseif (Auth::user()->role->restriction == 2) {
+        return redirect()->intended('/teacher/Dashboard');
+      } else {
         return redirect()->intended('/admin/Dashboard');
       }
     }
