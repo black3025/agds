@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\Course;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
@@ -16,7 +17,8 @@ class TeacherController extends Controller
   public function index()
   {
     $teachers = Teacher::where('is_active', 1)->get();
-    return view('content.admin.teacher.index', compact('teachers'));
+    $courses = Course::where('is_active', 1)->get();
+    return view('content.admin.teacher.index', compact('teachers', 'courses'));
   }
 
   /**
@@ -38,27 +40,29 @@ class TeacherController extends Controller
         'fname' => 'required|string',
         'lname' => 'required|string',
         'bday' => 'required',
-        'email'=>'required|email|unique:users',
-
+        'email' => 'required|email|unique:users',
+        'mastery' => 'required',
       ],
       [
         'fname.required' => 'Given name is required.',
         'lname.required' => 'Last name is already taken.',
         'bday.required' => 'Birthday is required.',
         'email.required' => 'Email is required.',
-        'email.unique' => 'This Email is already taken.'
+        'email.unique' => 'This Email is already taken.',
+        'mastery.required' => 'Please select at least one course mastery.',
       ]
     );
     if (!$validator->passes()) {
       return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
     } else {
-      if(empty($request->mname))
+      if (empty($request->mname)) {
         $username = strtolower($request->fname[0] . $request->lname);
-      else
+      } else {
         $username = strtolower($request->fname[0] . $request->mname[0] . $request->lname);
+      }
 
-      $password = $username . "@1234";
-      
+      $password = $username . '@1234';
+
       $user = User::create([
         'username' => $username,
         'fname' => $request->fname,
@@ -67,10 +71,10 @@ class TeacherController extends Controller
         'birthday' => $request->bday,
         'role_id' => 2,
         'email' => $request->email,
-        'password' => Hash::make($password),        
-        'email_verified_at'=> now(),
+        'password' => Hash::make($password),
+        'email_verified_at' => now(),
       ]);
-  
+
       $teacher_id = Teacher::max('teacherID');
       $year = date('Y');
       if ($teacher_id == '') {
@@ -85,22 +89,26 @@ class TeacherController extends Controller
           $teacher_id = $year . '-0001';
         }
       }
+      $master = '';
+      $masteries = $request->mastery;
+      foreach ($masteries as $mastery) {
+        $master = $mastery . '|';
+      }
 
       $teacher = Teacher::create([
         'teacherID' => $teacher_id,
         'user_id' => $user->id,
+        'mastery' => $master,
       ]);
       return response()->json(['code' => 1, 'msg' => 'Teacher added successfully.']);
     }
-    
   }
 
   public function getTeacher()
   {
-      $teachers = Teacher::all();
-      $data = view('content.admin.teacher.all_teacher', compact('teachers'))->render();
-      return response()->json(['code' => 1, 'result' => $data]);
-
+    $teachers = Teacher::all();
+    $data = view('content.admin.teacher.all_teacher', compact('teachers'))->render();
+    return response()->json(['code' => 1, 'result' => $data]);
   }
   /**
    * Display the specified resource.

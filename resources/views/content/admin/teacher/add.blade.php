@@ -33,6 +33,18 @@
                 <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
                 <span class="text-danger error-text email_error" > </span>
             </div>
+            <div class="mb-3">
+                <span class = "form-label" style="margin-bottom: 5px;">Mastery</span>
+                <div class="row mb-3" >
+                    @foreach( $courses as $course)
+                        <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="mastery[]" id={{$course->id}} value={{$course->id}}>
+                            <label for={{$course->id}} class="form-label">{{$course->name}}</label>  
+                        </div>
+                    @endforeach
+                    <span class="text-danger error-text mastery_error" > </span>
+                </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="mdaclosebutton">Close</button>
                 <button type="submit" class="btn btn-primary" id="submit">Add</button>
