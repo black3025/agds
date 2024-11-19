@@ -5,6 +5,8 @@ use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ClassSchedule;
+use App\Models\Enrollment;
+
 class DashboardController extends Controller
 {
   public function index()
@@ -32,6 +34,7 @@ class DashboardController extends Controller
 
   public function adminIndex()
   {
-    return view('content.admin.dashboards-admin');
+    $enrollements = Enrollment::all();
+    return view('content.admin.dashboards-admin', compact('enrollements'));
   }
 }

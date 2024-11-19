@@ -89,10 +89,10 @@ class TeacherController extends Controller
           $teacher_id = $year . '-0001';
         }
       }
-      $master = '';
+      $master = '|';
       $masteries = $request->mastery;
       foreach ($masteries as $mastery) {
-        $master = $mastery . '|';
+        $master = $master . $mastery . '|';
       }
 
       $teacher = Teacher::create([

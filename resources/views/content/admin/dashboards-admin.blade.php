@@ -28,7 +28,7 @@
                   </div>
                 </div>
                 <p class="mb-1">New Enrolees</p>
-                <h4 class="card-title mb-3">Count new Enrolees</h4>
+                <h4 class="card-title mb-3">{{$enrollements->count()}}</h4>
               </div>
             </div>
           </div>

@@ -50,7 +50,9 @@ class CourseController extends Controller
     } else {
       $teachers = Teacher::whereHas('user', function ($query) {
         $query->where('is_active', 1);
-      })->get();
+      })
+        ->where('mastery', 'like', '%' . $course->id . '%')
+        ->get();
       $categories = Category::all();
       return view('content.admin.course.course', compact('course', 'teachers', 'categories'));
     }
