@@ -49,7 +49,7 @@
                   </div>
                 </div>
                 <p class="mb-1">Active Course</p>
-                <h4 class="card-title mb-3">Course count here</h4>
+                <h4 class="card-title mb-3">{{$courses->count()}}</h4>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <p class="mb-1">Students</p>
-                <h4 class="card-title mb-3">Students count here</h4>
+                <h4 class="card-title mb-3">{{$students->count()}}</h4>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
                   </div>
                 </div>
                 <p class="mb-1">Trainors</p>
-                <h4 class="card-title mb-3">Trainor Count</h4>
+                <h4 class="card-title mb-3">{{$teachers->count()}}</h4>
                 <!-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> -->
               </div>
             </div>

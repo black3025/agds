@@ -3,11 +3,20 @@
 @section('title', 'Admin')
 
 @section('page-script')
+    <script>
+        function setsUroom(room)
+        {
+            $('#editRoom').trigger("reset");
+            $('#e_id').val(room['id']);
+            $('#e_name').val(room['name']);
+            $('#e_capacity').val(room['capacity']);
+        }
+    </script>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
     $(function(){
-      $('#addTeacherForm').on('submit', function(e){
+      $('#addRoomForm').on('submit', function(e){
                 e.preventDefault();
                 var form = this;
                 $.ajax({
@@ -29,24 +38,23 @@
                             $('#mdaclosebutton').click();
                             $(form)[0].reset();
                             success(data.msg);
-                            fetchAllTeachers();
+                            fetchAllRooms();
                         }
 
                     }
 
                 })
         });
-        fetchAllTeachers();
-        function fetchAllTeachers(){
-            $.get('{{route("getTeacher")}}',{},function(data){
-                $('#all_teacher').html(data.result);
+        fetchAllRooms();
+        function fetchAllRooms(){
+            $.get('{{route("getRoom")}}',{},function(data){
+                $('#all_room').html(data.result);
             },'json');
         }
 
           
 
     })
-   
     </script>
 @endsection
 
@@ -55,12 +63,13 @@
     <div class="card">
       <div class="row row-bordered g-0">
           <div class="col-md-12">
-                <div class="card mb-10" id="all_teacher">
+                <div class="card mb-10" id="all_room">
         
                 </div>
            </div>
       </div>
     </div>
 </div>
-@include('content/admin/teacher/add')
+@include('content/admin/room/update')
+@include('content/admin/room/add')
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Dashboard - Student')
+@section('title', 'Admin')
 
 
 @section('page-script')

@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\EnrollmentAdminController;
+use App\Http\Controllers\RoomController;
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
@@ -38,14 +39,23 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/admin/approveEnrollment/{id}', [EnrollmentAdminController::class, 'approveEnrollment'])->name(
       'admin-approveEnrollment'
     );
+    Route::resource('/admin/rooms', RoomController::class, ['names' => 'room']);
+    Route::get('/getRoom', [RoomController::class, 'getRoom'])->name('getRoom');
+    Route::post('/admin/updateRoom', [RoomController::class, 'updateRoom'])->name('updateRoom');
+    Route::get('/admin/room-status/{id}', [RoomController::class, 'updateStatus'])->name('room-status');
+
     Route::resource('/admin/users', UserController::class, ['names' => 'user']);
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
+
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
+
     Route::resource('/admin/teachers', TeacherController::class, ['names' => 'teacher']);
-    Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
-    Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
-    Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
     Route::get('/getTeacher', [TeacherController::class, 'getTeacher'])->name('getTeacher');
+
+    Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
+
+    Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
+    Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
 
     Route::resource('/admin/enrollments', EnrollmentAdminController::class, ['names' => 'admin-enrollment']);
     Route::get('/getEnrollments', [EnrollmentAdminController::class, 'getEnrollments'])->name('getEnrollments');

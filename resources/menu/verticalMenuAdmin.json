@@ -31,9 +31,15 @@
       "slug": "teacher"
     },
     {
+      "url": "/admin/rooms",
+      "name": "Rooms",
+      "icon": "menu-icon tf-icons bx bxs-door-open",
+      "slug": "rooms"
+    },
+    {
       "url": "/admin/users",
       "name": "User",
-      "icon": "menu-icon tf-icons bx bx-user",
+      "icon": "menu-icon tf-icons bx bxs-user",
       "slug": "users"
     }
   ]

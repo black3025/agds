@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ClassSchedule;
 use App\Models\Enrollment;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\Teacher;
 
 class DashboardController extends Controller
 {
@@ -35,6 +38,9 @@ class DashboardController extends Controller
   public function adminIndex()
   {
     $enrollements = Enrollment::all();
-    return view('content.admin.dashboards-admin', compact('enrollements'));
+    $courses = Course::all();
+    $students = Student::all();
+    $teachers = Teacher::all();
+    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses'));
   }
 }
