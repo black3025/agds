@@ -1,6 +1,6 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" role="document">
-    <form action="{{route('updateRoom')}}" method="post" enctype="multipart/form-data" id = "editRoom">
+    <form action="{{route('updateRoom')}}" method="post" enctype="multipart/form-data" id = "editRoom" name = "editRoom">
         @csrf
         <div class="modal-content">
             <div class="modal-header">
@@ -24,9 +24,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="mdaclosebutton">Close</button>
-                    <button type="submit" class="btn btn-primary" id="submit">Update</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="mdaclosebutton2">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
+            </div>
         </div>
     </form>
     </div>

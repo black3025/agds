@@ -66,26 +66,26 @@ class RoomController extends Controller
     $validator = \Validator::make(
       $request->all(),
       [
-        'add_name' => 'required|string|unique:rooms,name,{$request->id}',
-        'add_capacity' => 'required|integer|min:1',
+        'e_name' => "required|string|unique:rooms,name,{$request->e_id}",
+        'e_capacity' => 'required|integer|min:1',
       ],
       [
-        'add_name.required' => 'Room name is required.',
-        'add_name.string' => 'Room name must be a string.',
-        'add_name.unique' => 'Room name already exists.',
-        'add_capacity.required' => 'Capacity must not be empty.',
-        'add_capacity.min' => 'Capacity must be more than 0.',
-        'add_capacity.interger' => 'Capacity must be more than 0.',
+        'e_name.required' => 'Room name is required.',
+        'e_name.string' => 'Room name must be a string.',
+        'e_name.unique' => 'Room name already exists.',
+        'e_capacity.required' => 'Capacity must not be empty.',
+        'e_capacity.min' => 'Capacity must be more than 0.',
+        'e_capacity.interger' => 'Capacity must be more than 0.',
       ]
     );
 
     if (!$validator->passes()) {
       return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
     } else {
-      $room = Room::find($request->id);
+      $room = Room::find($request->e_id);
       $room->update([
-        'name' => $request->add_name,
-        'capacity' => $request->add_capacity,
+        'name' => $request->e_name,
+        'capacity' => $request->e_capacity,
       ]);
       return response()->json(['code' => 1, 'msg' => 'Room added successfully.']);
     }

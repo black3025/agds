@@ -3,18 +3,17 @@
 @section('title', 'Admin')
 
 @section('page-script')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
+    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
-        function setsUroom(room)
+     function setsUroom(room)
         {
             $('#editRoom').trigger("reset");
+            $('#editRoom').find('span.error-text').text('');
             $('#e_id').val(room['id']);
             $('#e_name').val(room['name']);
             $('#e_capacity').val(room['capacity']);
         }
-    </script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
-    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
-    <script>
     $(function(){
       $('#addRoomForm').on('submit', function(e){
                 e.preventDefault();
@@ -36,6 +35,36 @@
                             });
                         }else{
                             $('#mdaclosebutton').click();
+                            $(form)[0].reset();
+                            success(data.msg);
+                            fetchAllRooms();
+                        }
+
+                    }
+
+                })
+        });
+
+        $('#editRoom').on('submit', function(e){
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code==0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#mdaclosebutton2').click();
                             $(form)[0].reset();
                             success(data.msg);
                             fetchAllRooms();

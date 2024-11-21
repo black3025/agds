@@ -47,21 +47,21 @@
                     <td>
                         <div class="row col-lg-12">
                             <div class="col-lg-6 mb-6 text-end">
-                                <a onclick="#"
+                                <a 
                                 type="button"
                                 class="btn btn-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#basicModal"
                                 title ="Edit"
-                                onclick="setsUroom({{$room}});"
+                                onclick="setsUroom({{$room}})"
                                 >
                                         <i class='bx bx-edit-alt'></i>
                                 </a>
                             </div>
                             <div class="col-lg-6 mb-6">
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active"  {{$room->status == "1" ? "checked" : ""}} onchange="toggleActive({{$room->id}})">
-                                    <label class="form-check-label" for="is_active">
+                                    <input class="form-check-input" type="checkbox" id="is_active.{{$room->id}}" name="is_active"  {{$room->status == "1" ? "checked" : ""}} onchange="toggleActive({{$room->id}})">
+                                    <label class="form-check-label" for="is_active.{{$room->id}}">
                                         <span style = 'color:{{$room->status == "1" ? "green": "red"}};'>
                                             {{$room->status == "1" ? "Active": "Inactive"}}
                                         </span>
