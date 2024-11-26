@@ -35,15 +35,45 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-6">
                 <div class="col mb-6">
-                    <label for="add_dateFrom" class="form-label">Inclusive Date</label>
+                    <label for="add_dateFrom" class="form-label">Start Date</label>
                     <div class="row">
                         <div class="col lg-6"><input type="date" class="form-control" name = "add_dateFrom" ></div>
-                        <div class="col lg-6"><input type="date" class="form-control" name = "add_dateTo" ></div>
+                        {{-- <div class="col lg-6"><input type="date" class="form-control" name = "add_dateTo" ></div> --}}
                     </div>
                     <span class="text-danger error-text add_dateFrom_error add_dateTo_error" > </span>
                 </div>
+            </div>
+            <div class="row mb-6">
+                <div class="col mb-6">
+                    <label for="add_duration" class="form-label">Duration</label>
+                    <div class="row">
+                        <div class="col lg-6"><input type="number" min ="1" max="30" class="form-control" name = "add_duration" ></div>
+                        {{-- <div class="col lg-6"><input type="date" class="form-control" name = "add_dateTo" ></div> --}}
+                    </div>
+                    <span class="text-danger error-text add_duration_error" > </span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="form-label" style ="margin-top:6px">Days of the Week</label>
+                <div class="col mb-6" style="display:flex; justify-content:space-between;">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Monday" value="1">
+                    <label for="Monday" class="form-label">Mon</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Tuesday" value="2">
+                    <label for="Tuesday" class="form-label">Tues</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Wednesday" value="3">
+                    <label for="Wednesday" class="form-label">Wed</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Thursday" value="4">
+                    <label for="Thursday" class="form-label">Thur</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Friday" value="5">
+                    <label for="Friday" class="form-label">Fri</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Saturday" value="6">
+                    <label for="Staturday" class="form-label">Sat</label>  
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Sunday" value="7">
+                    <label for="Sunday" class="form-label">Sun</label>  
+                </div>
+                    <span class="text-danger error-text add_weekdays_error" > </span>
             </div>
             <div class="row">
                 <div class="col mb-6">
