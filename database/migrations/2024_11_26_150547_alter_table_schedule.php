@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('class_schedules', function ($table) {
-            $table->interger('Duration')->required();
-            $table->string('week')->required();
-            $tbale
+            $table->integer('duration');
+            $table->string('week');
+            $table->dropColumn('day_end');
           });
     }
 
@@ -24,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('students', function ($table) {
-            $table->dropColumn('mastery');
+            $table->dropColumn('Duration');
+            $table->dropColumn('week');
+            $table->string('day_end');
           });
     }
 };
