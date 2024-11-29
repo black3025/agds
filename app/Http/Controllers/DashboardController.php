@@ -9,6 +9,7 @@ use App\Models\Enrollment;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Event;
 
 class DashboardController extends Controller
 {
@@ -41,6 +42,7 @@ class DashboardController extends Controller
     $courses = Course::all();
     $students = Student::all();
     $teachers = Teacher::all();
-    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses'));
+    $events = Event::all();
+    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses','events'));
   }
 }

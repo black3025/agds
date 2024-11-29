@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('class_schedule_id');
+            $table
+                ->foreign('class_schedule_id')
+                ->references('id')
+                ->on('class_schedules');
+            $table->datetime('start_time');
+            $table->datetime('finish_time');
+            $table->longText('comments')->nullable();
             $table->timestamps();
         });
     }

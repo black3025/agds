@@ -3,9 +3,6 @@
 @section('title', 'Dashboard - Student')
 
 
-@section('page-script')
-
-@endsection
 
 @section('content')
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
@@ -99,4 +96,5 @@
         </div>
       </div>
   </div>
-@endsection
+  @include('content.calendar.calendar')
+  @endsection
