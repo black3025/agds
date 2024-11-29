@@ -49,11 +49,11 @@
                     <td>
                         <div class="row">
                             <div class="col mb-6">
-                                <a onclick="#"
+                                <a onclick="setsUTeacher({{$teacher}})"
                                 type="button"
                                 class="btn btn-primary"
                                 data-bs-toggle="modal"
-                                data-bs-target="#basicModal"
+                                data-bs-target="#editModal"
                                 title ="Edit"
                                 >
                                         <i class='bx bx-edit-alt'></i>

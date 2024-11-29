@@ -49,6 +49,7 @@
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="mdaclosebutton">Close</button>
                 <button type="submit" class="btn btn-primary" id="submit">Add</button>
             </div>
+        </div>
       </div>
     </form>
   </div>

@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\Category;
 use App\Models\ClassSchedule;
+use App\Models\Room;
 use Auth;
 class CourseController extends Controller
 {
@@ -48,13 +49,14 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       return view('content.course.course', compact('course'));
     } else {
+      $rooms = Room::where('status',1)->get();
       $teachers = Teacher::whereHas('user', function ($query) {
         $query->where('is_active', 1);
       })
         ->where('mastery', 'like', '%' . $course->id . '%')
         ->get();
       $categories = Category::all();
-      return view('content.admin.course.course', compact('course', 'teachers', 'categories'));
+      return view('content.admin.course.course', compact('course', 'teachers', 'categories','rooms'));
     }
   }
 

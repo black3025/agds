@@ -12,20 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('class_schedules', function ($table) {
-            $table->integer('duration');
-            $table->string('week');
-            $table->dropColumn('day_end');
-          });
+            $table->integer('slot');
+            $table->unsignedBigInteger('room_id');
+            $table
+                ->foreign('room_id')
+                ->references('id')
+                ->on('rooms');
+        });
     }
-        /**
+
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
         Schema::table('class_schedules', function ($table) {
-            $table->dropColumn('Duration');
-            $table->dropColumn('week');
-            $table->string('day_end');
+            $table->dropColumn('slot');
+            $table->dropColumn('room_id');
+
           });
     }
 };

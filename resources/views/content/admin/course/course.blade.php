@@ -14,6 +14,44 @@
         $(document).ready( function () {
             $('#tblSched').DataTable();
         });
+
+        function setMax()
+        {           
+            maxi = $("#add_studio option:selected").text().split(":")[1];
+            maxi = maxi.trim();
+            $("#add_slot").attr({
+                "min":2, 
+                "max" : maxi
+            });
+        }
+
+        function setDay(picker)
+        {           
+           today = new Date(picker);
+           dday = today.getDay()
+           $('#Sunday').prop('checked', false);
+           $('#Monday').prop('checked', false);
+           $('#Tuesday').prop('checked', false);
+           $('#Wednesday').prop('checked', false);
+           $('#Thursday').prop('checked', false);
+           $('#Friday').prop('checked', false);
+           $('#Saturday').prop('checked', false);
+           if(dday == 0 )
+             $('#Sunday').prop('checked', true);
+           if(dday == 1 )
+             $('#Monday').prop('checked', true);
+           if(dday == 2 )
+             $('#Tuesday').prop('checked', true);
+           if(dday == 3 )
+             $('#Wednesday').prop('checked', true);
+           if(dday == 4 )
+             $('#Thursday').prop('checked', true);
+           if(dday == 5 )
+             $('#Friday').prop('checked', true);
+           if(dday == 6 )
+             $('#Saturday').prop('checked', true);
+        }
+
    </script>
 
 
@@ -43,11 +81,13 @@
     <table class="table table-hover" id="tblSched" >
         <thead>
             <tr>
-                <th>Category</th>
-                <th>Teacher</th>
-                <th>Duration</th>
-                <th>Timeslot</th>
-                <th>Action</th>
+                <th style="text-align:center">Category</th>
+                <th style="text-align:center">Teacher</th>
+                <th style="text-align:center">Start Date</th>
+                <th style="text-align:center">Duration</th>
+                <th style="text-align:center">Days</th>
+                <th style="text-align:center">Timeslot</th>
+                <th style="text-align:center">Action</th>
             </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -55,7 +95,34 @@
                 <tr>
                     <td>{{$sched->category->name}}</td>
                     <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
-                    <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
+                    <td>{{date('F d, Y',strtotime($sched->day_start))}}</td>
+                    <td>{{$sched->duration}}</td>
+                    <td>
+                            @foreach(explode('|',$sched->week) as $row)
+                                @if($row == 0)
+                                    Sunday,
+                                @endif
+                                @if($row == 1)
+                                    Monday,
+                                @endif
+                                @if($row == 2)
+                                    Tuesday,
+                                @endif
+                                @if($row == 3)
+                                    Wednesday,
+                                @endif
+                                @if($row == 4)
+                                    Thursday,
+                                @endif
+                                @if($row == 5)
+                                    Friday,
+                                @endif
+                                @if($row == 6)
+                                    Saturday,
+                                @endif
+                            @endforeach
+
+                    </td>
                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                     <td>
                         <a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr">

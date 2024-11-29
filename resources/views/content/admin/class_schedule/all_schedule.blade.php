@@ -2,6 +2,7 @@
      $(document).ready( function () {
         $('#tblSched').DataTable();
     });
+    
 </script>
 <div class="card-header row">
     <div class="col col-8"><h7 class="card-title mb-0">Available Class:</h5></div>

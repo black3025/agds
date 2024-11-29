@@ -30,28 +30,32 @@ class ClassScheduleController extends Controller
     public function store(Request $request)
     {
         $now = date('Y-m-d');
+        // 'add_dateTo' => 'date|required|after_or_equal:' . date('Y-m-d',strtotime($request->add_dateFrom)),'add_dateTo.required' => 'Please select a valid date.',
+        // 'add_dateTo.date' => 'Please select a valid date.',
+        // 'add_dateTo.after_or_equal' => 'The end date must be a date after or equal to starting day.',
         $validator = \Validator::make(
             $request->all(),
             [
               'add_category' => 'required',
               'add_trainer' => 'required',
               'add_dateFrom' => 'date|required|after_or_equal:'. $now,
-              'add_dateTo' => 'date|required|after_or_equal:' . date('Y-m-d',strtotime($request->add_dateFrom)),
+              'add_studio' => 'required',
+              'add_slot' => 'required',
               'add_timeFrom' => 'date_format:H:i|required',
+              'add_duration' => 'required',
               'add_timeTo' => 'date_format:H:i|required|after:'.date('H:i', strtotime($request->add_timeFrom)),
+              'add_weekdays' => 'required'
             ],
             [
                 'add_category.required' => 'Please select a category.',
                 'add_trainer.required' => 'Please select a Trainer.',
-
+                'add_studio.required' => 'Please select a studio.',
                 'add_dateFrom.required' => 'Please select a valid date.',
                 'add_dateFrom.date' => 'Please select a valid date.',
                 'add_dateFrom.after_or_equal' => 'The start date must be a date after or equal today.',
-
-                'add_dateTo.required' => 'Please select a valid date.',
-                'add_dateTo.date' => 'Please select a valid date.',
-                'add_dateTo.after_or_equal' => 'The end date must be a date after or equal to starting day.',
-
+                'add_duration' => 'Please set the number of days for this course',
+                'add_slot.required' => 'Please input the maximum allowed student in this course.',
+                'add_weekdays' => 'Please set the set day(s) of the week.',
                 'add_timeFrom.required' => 'Please select a valid time.',
                 'add_timeFrom.date_format' => 'Please select a valid time.',
                 
@@ -65,53 +69,36 @@ class ClassScheduleController extends Controller
         if (!$validator->passes()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         }else{
-            $exists = ClassSchedule::where('user_id', $request->add_trainer)->where('category_id', $request->add_category)->where('course_id',$request->course)->
-                where('day_start', $request->add_dateFrom)->where('day_end',$request->add_dateTo)->
-                where('time_start', $request->add_timeFrom)->where('time_end', $request->add_timeTo)->where('is_active',1)->count();
-
-            $overlap = ClassSchedule::where('user_id',$request->add_trainer)->
-                                        where(function ($query) use ($request){
-                                            $query->where(function ($query) use ($request) {
-                                                $query->where('day_start','<=',$request->add_dateFrom)
-                                                    ->where('day_end','>=', $request->add_dateFrom);
-                                            })
-                                            ->orWhere(function ($query) use ($request) {
-                                                $query->where('day_start','>',$request->add_dateFrom)
-                                                    ->where('day_start','<=', $request->add_dateTo);
-                                            });
-                                        })->
-                                        where(function ($query) use ($request) {
-                                            $query->where(function ($query) use ($request) {
-                                                $query->where('time_start','<=',$request->add_timeFrom)
-                                                    ->where('time_end','>', $request->add_timeFrom);
-                                            })
-                                            ->orWhere(function ($query) use ($request){
-                                                $query->where('time_start','>',$request->add_timeFrom)
-                                                    ->where('time_start','<', $request->add_timeTo);
-                                            });
-                                        })->count();
-
-            if($exists > 0 || $overlap > 0){
-                if($exists > 0)
-                    return response()->json(['code' => 2, 'msg' =>'This set schedule already exist for the said trainer.']);
-                elseif($overlap > 0)
-                    return response()->json(['code' => 2, 'msg' =>'This schedule will overlap to the trainers existing scheduled class.']);
-            }else{
+            if($this->checkAvailable($request->add_studio,$request->add_trainer, $request->add_dateFrom, $request->add_duration)){
+                $dday = '';
+                $days = $request->add_weekdays;
+                foreach ($days as $d) {
+                  $dday = $dday . $d . '|';
+                }
                 $sched = ClassSchedule::create([
                     'user_id' => $request->add_trainer,
                     'course_id' => $request->course,
                     'category_id'=> $request->add_category,
                     'day_start'=> $request->add_dateFrom,
-                    'day_end'=> $request->add_dateTo,
                     'time_start'=> $request->add_timeFrom,
                     'time_end'=> $request->add_timeTo,
+                    'room_id' => $request->add_studio,
+                    'duration' => $request->add_duration,
+                    'slot' => $request->add_slot,
+                    'week' => $dday,
                 ]);
                 return response()->json(['code'=>1, 'msg'=>"Schedule successfully added.", 'id'=>$request->course]);
+            }else{
+                return response()->json(['code' => 2, 'msg'=>"There was a conflict in availability of schedule" ]);
             }
+               
         }
     }
 
-    
+    public function checkAvailable($room, $teacher, $date, $duration)
+    {
+        return true;
+    }
     public function getTeachSchedule(string $id)
     {
         $course = Course::findOrFail($id);

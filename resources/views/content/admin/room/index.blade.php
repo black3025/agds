@@ -6,14 +6,14 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
-     function setsUroom(room)
-        {
-            $('#editRoom').trigger("reset");
-            $('#editRoom').find('span.error-text').text('');
-            $('#e_id').val(room['id']);
-            $('#e_name').val(room['name']);
-            $('#e_capacity').val(room['capacity']);
-        }
+    function setsUroom(room)
+    {
+        $('#editRoom').trigger("reset");
+        $('#editRoom').find('span.error-text').text('');
+        $('#e_id').val(room['id']);
+        $('#e_name').val(room['name']);
+        $('#e_capacity').val(room['capacity']);
+    }
     $(function(){
       $('#addRoomForm').on('submit', function(e){
                 e.preventDefault();

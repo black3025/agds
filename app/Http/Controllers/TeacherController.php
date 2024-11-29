@@ -110,6 +110,56 @@ class TeacherController extends Controller
     $data = view('content.admin.teacher.all_teacher', compact('teachers'))->render();
     return response()->json(['code' => 1, 'result' => $data]);
   }
+
+  public function updateTeacher(request $request)
+  {
+    $validator = \Validator::make(
+      $request->all(),
+      [
+        'edit_fname' => 'required|string',
+        'edit_lname' => 'required|string',
+        'edit_bday' => 'required',
+        'edit_email' => 'required|email|unique:users,email,'. $request->edit_uid,
+        'edit_mastery' => 'required',
+      ],
+      [
+        'edit_fname.required' => 'Given name is required.',
+        'edit_lname.required' => 'Last name is already taken.',
+        'edit_bday.required' => 'Birthday is required.',
+        'edit_email.required' => 'Email is required.',
+        'edit_email.unique' => 'This Email is already taken. '. $request->edit_uid,
+        'edit_mastery.required' => 'Please select at least one course mastery.',
+      ]
+    );
+    
+    if (!$validator->passes()) {
+       return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+    } else {
+      $user = User::find($request->edit_uid);
+      $user->update([
+        'fname' => $request->edit_fname,
+        'mname' => $request->edit_mname,
+        'lname' =>$request->edit_lname,
+        'bday' =>$request->edit_bday,
+        'email' =>$request->edit_email,
+      ]);
+      
+      $teacher = Teacher::find($request->edit_tid);
+
+      $master = '|';
+      $masteries = $request->edit_mastery;
+      foreach ($masteries as $mastery) {
+        $master = $master . $mastery . '|';
+      }
+
+      $teacher->update(['mastery'=>$master]);
+
+      return response()->json(['code' => 1, 'msg' => 'Teacher updated.']);
+    }
+    
+  }
+
+
   /**
    * Display the specified resource.
    */

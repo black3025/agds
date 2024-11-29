@@ -14,9 +14,12 @@ class ClassSchedule extends Model
     'course_id',
     'category_id',
     'day_start',
-    'day_end',
     'time_start',
     'time_end',
+    'room_id',
+    'week',
+    'slot',
+    'duration'
   ];
 
   public function course()
