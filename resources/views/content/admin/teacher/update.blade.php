@@ -9,8 +9,8 @@
           </div>
           <div class="modal-body">
               <div class="mb-3">
-                <input type="text" class="form-control" id="edit_uid" name="edit_uid" placeholder="ID">
-                <input type="text" class="form-control" id="edit_tid" name="edit_tid" placeholder="ID">
+                <input type="text" class="form-control" id="edit_uid" name="edit_uid" hidden>
+                <input type="text" class="form-control" id="edit_tid" name="edit_tid" hidden>
                 <label for="edit_fname" class="form-label">Given name</label>
                 <input type="text" class="form-control" id="edit_fname" name="edit_fname" placeholder="Enter Given Name">
                 <span class="text-danger error-text edit_fname_error" > </span>

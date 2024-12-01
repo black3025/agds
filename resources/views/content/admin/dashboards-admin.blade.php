@@ -96,5 +96,22 @@
         </div>
       </div>
   </div>
-  @include('content.calendar.calendar')
+  <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">   
+    <div class="row"> 
+      <div class="col-lg-8 col-md-8 col-8 mb-8" style="margin-bottom:15px">
+          <div class="card h-100">
+                <div class="card-body">
+                    @include('content.calendar.calendar')
+                </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-4 mb-4" style="margin-bottom:15px">
+        <div class="card h-100">
+                <div class="card-body">
+                    Announcement Here  
+                </div>
+          </div>
+      </div>
+    </div>
+  </div>
   @endsection

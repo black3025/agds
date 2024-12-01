@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = [
-        'class_schedule_id',
-        'start_time',
-        'finish_time',
-        'comments',
-        'client_id',
-    ];
+  protected $fillable = ['class_schedule_id', 'start_time', 'finish_time', 'comments', 'client_id'];
+
+  public function ClassSchedule()
+  {
+    return $this->belongsTo(ClassSchedule::class);
+  }
 }

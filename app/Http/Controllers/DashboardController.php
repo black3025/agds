@@ -42,7 +42,19 @@ class DashboardController extends Controller
     $courses = Course::all();
     $students = Student::all();
     $teachers = Teacher::all();
-    $events = Event::all();
-    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses','events'));
+
+    $events = [];
+
+    $appointments = Event::all();
+    foreach ($appointments as $appointment) {
+      $events[] = [
+        'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
+        'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+        'id' => $appointment->ClassSchedule->id,
+        'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
+        'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+      ];
+    }
+    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses', 'events'));
   }
 }

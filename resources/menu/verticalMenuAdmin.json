@@ -34,13 +34,13 @@
       "url": "/admin/rooms",
       "name": "Rooms",
       "icon": "menu-icon tf-icons bx bxs-door-open",
-      "slug": "rooms"
+      "slug": "room"
     },
     {
       "url": "/admin/users",
       "name": "User",
       "icon": "menu-icon tf-icons bx bxs-user",
-      "slug": "users"
+      "slug": "user"
     }
   ]
 }
