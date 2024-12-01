@@ -34,23 +34,32 @@ Route::middleware('auth', 'verified')->group(function () {
   //Admin
   Route::middleware('isAdmin')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
+
     Route::resource('/admin/users', UserController::class, ['names' => 'user']);
-    Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus']) ->name('user-status');
+    Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
+
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
-    Route::resource('/admin/teachers', TeacherController::class, ['names' => 'teacher']);
+
     Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
+
     Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
+    Route::get('/admin/sched-status/{id}', [ClassScheduleController::class, 'updateStatus'])->name('sched-status');
+
     Route::post('/admin/updateCourse', [CourseController::class, 'updateCourse'])->name('updateCourse');
+
+    Route::resource('/admin/teachers', TeacherController::class, ['names' => 'teacher']);
     Route::get('/getTeacher', [TeacherController::class, 'getTeacher'])->name('getTeacher');
+    Route::post('/updateTeacher', [TeacherController::class, 'updateTeacher'])->name('updateTeacher');
+
     Route::resource('/admin/rooms', RoomController::class, ['names' => 'room']);
     Route::get('/getRoom', [RoomController::class, 'getRoom'])->name('getRoom');
     Route::post('/updateRoom', [RoomController::class, 'updateRoom'])->name('updateRoom');
-    Route::post('/updateTeacher', [TeacherController::class, 'updateTeacher'])->name('updateTeacher');
-    Route::resource('/admin/enrollments',EnrollmentAdminController::class,['names'=>'admin-enrollment'] );
+    Route::get('/admin/room-status/{id}', [RoomController::class, 'updateStatus'])->name('room-status');
+
+    Route::resource('/admin/enrollments', EnrollmentAdminController::class, ['names' => 'admin-enrollment']);
     Route::get('/getEnrollments', [EnrollmentAdminController::class, 'getEnrollments'])->name('getEnrollments');
-    
   });
-  
+
   //Teacher
   Route::middleware('isTeacher')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');

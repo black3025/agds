@@ -15,6 +15,24 @@
             $('#tblSched').DataTable();
         });
 
+        function toggleActive(id)
+        {
+            $.ajax({
+                type : "GET",
+                url : "/admin/sched-status/" + id,
+                dataType : "json",
+                contentType: "application/json",
+                crossDomain: true,
+                success : function(data) {
+                    alert(data.result);
+                    setTimeout(function(){window.location.reload();},1000);
+                },
+                error : function(data) {
+                    console.log("Fialed to get the data");
+                }
+            });
+        };  
+
         function setMax()
         {           
             maxi = $("#add_studio option:selected").text().split(":")[1];
@@ -60,25 +78,25 @@
 
 @section('content')
     <div class="row mb-12">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card">
             <img class="card-img-top" src={{ asset('storage/course_image/' .$course->image_display) }} alt={{ $course->name.' image' }}>
             <div class="card-body">
                 <h5 class="card-title">{{$course->name}}</h5>
-                <p class="card-text">
+                {{-- <p class="card-text">
                     {{$course->description}}
-                </p>
+                </p> --}}
             </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="card mb-10" id ="all_schedule">
             <div class="card-header row">
     <div class="col col-8"><h7 class="card-title mb-0">Available Class:</h5></div>
     <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEnrollModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button></div>
 </div>
 <div class="card-body pt-0">
-    <table class="table table-hover" id="tblSched" >
+    <table class="table table-hover" id="tblSched" style="font-size: 0.7em" >
         <thead>
             <tr>
                 <th style="text-align:center">Category</th>
@@ -125,9 +143,14 @@
                     </td>
                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                     <td>
-                        <a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr">
-                            <i class='bx bx-edit-alt'></i>
-                        </a>
+                        <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="is_active.{{$sched->id}}" name="is_active"  {{$sched->is_active == "1" ? "checked" : ""}} onchange="toggleActive({{$sched->id}})">
+                                    <label class="form-check-label" for="is_active.{{$sched->id}}">
+                                        <span style = 'color:{{$sched->is_active == "1" ? "green": "red"}};'>
+                                            {{$sched->is_active == "1" ? "Active": "Inactive"}}
+                                        </span>
+                                    </label>
+                        </div>
                     </td>
                 </tr>
             @endforeach

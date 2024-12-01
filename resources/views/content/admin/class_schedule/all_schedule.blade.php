@@ -26,7 +26,7 @@
                     <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
                     <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
-                    <td><a onclick="setCourseId({{$sched->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                    <td>aaa</td>
                 </tr>
             @endforeach
         </tbody>

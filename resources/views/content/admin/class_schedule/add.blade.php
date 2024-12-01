@@ -106,6 +106,16 @@
                     <span class="text-danger error-text add_timeFrom_error add_timeTo_error" > </span>
                 </div>
             </div>
+            <div class="row mb-6">
+                <div class="col mb-6">
+                    <label for="add_price" class="form-label">Price</label>
+                    <div class="row">
+                        <div class="col lg-6"><input type="number" min ="1" class="form-control" name = "add_price" ></div>
+                        {{-- <div class="col lg-6"><input type="date" class="form-control" name = "add_dateTo" ></div> --}}
+                    </div>
+                    <span class="text-danger error-text add_price_error" > </span>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="mdaclosebutton">Close</button>

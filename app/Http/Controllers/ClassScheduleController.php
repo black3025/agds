@@ -47,6 +47,7 @@ class ClassScheduleController extends Controller
         'add_timeFrom' => 'date_format:H:i|required',
         'add_duration' => 'required',
         'add_timeTo' => 'date_format:H:i|required|after:' . date('H:i', strtotime($request->add_timeFrom)),
+        'add_price' => 'required',
         'add_weekdays' => 'required',
       ],
       [
@@ -61,7 +62,7 @@ class ClassScheduleController extends Controller
         'add_weekdays' => 'Please set the set day(s) of the week.',
         'add_timeFrom.required' => 'Please select a valid time.',
         'add_timeFrom.date_format' => 'Please select a valid time.',
-
+        'add_price' => 'Amount for the course is required.',
         'add_timeTo.required' => 'Please select a valid time.',
         'add_timeTo.date_format' => 'Please select a valid time.',
         'add_timeTo.after' => 'The end time must not be before the starting time.',
@@ -108,17 +109,15 @@ class ClassScheduleController extends Controller
         }
         $tempDate = date('Y-m-d', strtotime($tempDate . '1 days'));
       }
-
-      if (
-        $this->checkAvailable(
-          $request->add_studio,
-          $request->add_trainer,
-          $request->add_timeFrom,
-          $request->add_timeTo,
-          $request->add_duration,
-          $data
-        )
-      ) {
+      $schedChecker = $this->checkAvailable(
+        $request->add_studio,
+        $request->add_trainer,
+        $request->add_timeFrom,
+        $request->add_timeTo,
+        $request->add_duration,
+        $data
+      );
+      if ($schedChecker == 0) {
         $sched = ClassSchedule::create([
           'user_id' => $request->add_trainer,
           'course_id' => $request->course,
@@ -129,8 +128,10 @@ class ClassScheduleController extends Controller
           'room_id' => $request->add_studio,
           'duration' => $request->add_duration,
           'slot' => $request->add_slot,
+          'amount' => $request->add_price,
           'week' => $dday,
         ]);
+
         foreach ($data as $date) {
           $from = date('y-m-d H:i:s', strtotime($date . ' ' . $request->add_timeFrom));
           $to = date('y-m-d H:i:s', strtotime($date . ' ' . $request->add_timeTo));
@@ -142,34 +143,76 @@ class ClassScheduleController extends Controller
         }
         return response()->json(['code' => 1, 'msg' => 'Schedule successfully added.']);
       } else {
-        return response()->json(['code' => 2, 'msg' => 'There was a conflict in availability of schedule']);
+        if ($schedChecker > 2) {
+          return response()->json([
+            'code' => 2,
+            'msg' => 'The current selected teacher and room are currently not available in this said date and time.',
+          ]);
+        } elseif ($schedChecker > 1) {
+          return response()->json([
+            'code' => 2,
+            'msg' => 'The current selected teacher is currently not available in this said date and time.',
+          ]);
+        } else {
+          return response()->json([
+            'code' => 2,
+            'msg' => 'The current selected room is currently not available in this said date and time.',
+          ]);
+        }
       }
     }
+  }
+
+  public function updateStatus($id)
+  {
+    $sched = ClassSchedule::find($id);
+    if ($sched->is_active == 1) {
+      $newstat = 0;
+    } else {
+      $newstat = 1;
+    }
+    $sched->update([
+      'is_active' => $newstat,
+    ]);
+
+    return response()->json(['result' => $id]);
   }
 
   public function checkAvailable($room, $teacher, $timestart, $timeend, $duration, $dates)
   {
     $roomError = 0;
+    $teacherError = 0;
     foreach ($dates as $date) {
       $from = date('y-m-d H:i:s', strtotime($date . ' ' . $timestart));
       $to = date('y-m-d H:i:s', strtotime($date . ' ' . $timeend));
       // // check if room is availble for that day
-      // $Sched = Event::wherehas('ClassSchedule', function ($q) use ($room) {
-      //   $que->where('id', $room);
-      // });
-      // wherehas('ClassSchedule', function ($q) use ($room) {
-      //   $que->where('id', $room);
-      // })
-      $roomCount = Event::where('start_time', '<', $to)
+
+      $roomCount = Event::wherehas('ClassSchedule', function ($q) use ($room) {
+        $q->where('room_id', $room);
+      })
+        ->where('start_time', '<', $to)
         ->where('finish_time', '>', $from)
         ->count();
+
+      $teacherCount = Event::wherehas('ClassSchedule', function ($q) use ($teacher) {
+        $q->where('user_id', $teacher);
+      })
+        ->where('start_time', '<', $to)
+        ->where('finish_time', '>', $from)
+        ->count();
+      $teacherError += $teacherCount;
       $roomError += $roomCount;
     }
-    if ($roomError > 0) {
-      return false;
-    } else {
-      return true;
+    $errors = 0;
+    if ($teacherError > 0 && $roomError > 0) {
+      $errors = 3;
+    } elseif ($teacherError > 0) {
+      $errors = 2;
+    } elseif ($roomError > 0) {
+      $errors = 1;
     }
+
+    return $errors;
   }
 
   public function getTeachSchedule(string $id)
