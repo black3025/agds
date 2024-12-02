@@ -9,7 +9,7 @@ class Enrollment extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['referenceNo', 'user_id', 'class_schedule_id', 'verified', 'status'];
+  protected $fillable = ['referenceNo', 'user_id', 'class_schedule_id', 'verified', 'status', 'amount'];
 
   public function ClassSchedule()
   {

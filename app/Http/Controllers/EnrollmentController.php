@@ -53,9 +53,11 @@ class EnrollmentController extends Controller
   {
     $enroll = Enrollment::create($request->all());
     if ($enroll) {
-      return ['success' => true, 'message' => 'Enrollment Posted.'];
+      return response()->json(['code' => 1, 'msg' => 'Enrollment posted.']);
+      // return ['success' => true, 'message' => 'Enrollment Posted.'];
     } else {
-      return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
+      return response()->json(['code' => 0, 'msg' => 'Something went wrong please contact the administrator.']);
+      // return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
     }
   }
 

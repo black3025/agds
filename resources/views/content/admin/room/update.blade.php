@@ -8,11 +8,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input class="form-control" name = "e_id" id="e_id" />
+                <input hidden class="form-control" name = "e_id" id="e_id" />
                 <div class="row">
                     <div class="col mb-6">
                         <label for="e_name" class="form-label">Room Name</label>
-                        <input class="form-control" name = "e_name" id="e_name" />
+                        <input  class="form-control" name = "e_name" id="e_name" />
                         <span class="text-danger error-text e_name_error" > </span>
                     </div>
                 </div>

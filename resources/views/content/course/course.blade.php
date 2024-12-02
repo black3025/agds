@@ -40,11 +40,11 @@
                     <br><br>
                     <table class="table table-hover" id="tblCourse" >
                         <thead>
-                            <tr>
+                            <tr >
                                 <th>Category</th>
                                 <th>Teacher</th>
                                 <th>Duration</th>
-                                <th>Timeslot</th>
+                                <th sytle="text-algign:center">Timeslot</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,15 +53,15 @@
                                 <tr>
                                     <td>{{$sched->category->name}}</td>
                                     <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
-                                    <td>{{date('M d, Y',strtotime($sched->day_start))}} to {{date('M d, Y',strtotime($sched->day_end))}}</td>
+                                    <td>{{date('M d, Y',strtotime($sched->day_start))}} {{$sched->duration}} days</td>
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                                     <td>
                                         <a 
-                                            onclick="checkConflict({{$sched->id}},1)"
+                                            onclick="checkConflict({{$sched->id}},1,{{$sched->amount}})"
                                             type="button"
                                             class="btn btn-primary"
                                             title="Book">
-                                               <i class='bx bx-cart-add' ></i>
+                                                <i class='bx bx-plus'></i>
                                         </a>
                                         <button hidden type="button"
                                             class="btn btn-primary"
@@ -70,11 +70,11 @@
                                             fdprocessedid="dyx4wr" id="ghostEnroll">
                                         </button>
                                         <a 
-                                            onclick="checkConflict({{$sched->id}},2)"
+                                            onclick="checkConflict({{$sched->id}},2,{{$sched->amount}})"
                                             type="button"
                                             class="btn btn-primary"
                                             title="Redeem ">
-                                               <i class='bx bxs-purchase-tag-alt' ></i>
+                                            <i class='bx bxs-gift'></i>
                                         </a>
                                         <button hidden type="button"
                                             class="btn btn-primary"
@@ -103,8 +103,11 @@
                                     <form onsubmit="return enroll( {{Auth::user()->id}} );">
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
-                                        <input hidden tabindex ="-1"    type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
+                                        <input tabindex ="-1" hidden type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
                                         <input type="text" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
+                                        <span class="text-danger error-text refno_error" > </span>
+                                        <label for="amount" class="form-label">Course Price</label>
+                                        <input type="text" readonly id="amount" name="amount" class="form-control" />
                                 </div>
                             </div>
                                         <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
@@ -129,6 +132,7 @@
                                         <label for="refno2" class="form-label">Reference Number</label>
                                         <input tabindex ="-1"    type="text" name="ClassSchedule_id2" id="ClassSchedule_id2" />
                                         <input type="text" id="refno2" name="refno2" class="form-control" placeholder="Reference Number" value="Loyalty Points Redeem" />
+                                        <input type="text" id="amount2" name="amount2" class="form-control" />
                                 </div>
                             </div>
                                         <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
@@ -142,9 +146,9 @@
 </div> 
 
  <script>
-        function checkConflict(id,type)
+        function checkConflict(id,type,amount)
         {
-            setCourseId(id);
+            setCourseId(id,amount);
             var form = {
                 _token: $('input[name=_token]').val(),
                 class_schedule_id : id,
@@ -170,14 +174,16 @@
         }
 
 
-        function setCourseId(id)
+        function setCourseId(id,amount)
         {
             $('#ClassSchedule_id').val(id);
+            $('#amount1').val(amount);
             $('#ClassSchedule_id2').val(id);
+            $('#amount').val(amount);
+            
         }
 
         function enroll(id){
-            $('#mdClose').click();
             var form = {
                 _token: $('input[name=_token]').val(),
                 user_id: id,
@@ -185,6 +191,7 @@
                 referenceNo: $('#refno').val(),
                 verified: "Pending",
                 status: "New",
+                amount: $('#amount').val(),
                 ajax: 1
             }
 
@@ -192,12 +199,15 @@
                 url : "{{route('enrollment.store')}}",
                 data :  form,
                 type : "POST",
-                success : function(msg){
-                    if(msg['success']){
-                        success(msg['message']);
+                success : function(data){
+                    if(data.code == 1){
+                        success(data.msg);
                         setTimeout(function(){window.location.reload();},1500);
+                        $('#mdClose').click();
                     }else{
-                        error(msg['message']);
+                        $.each(data.error, function(prefix, val){
+                            $(form).find('span.'+prefix+'_error').text(val[0]);
+                        });
                     }
                 }
             })

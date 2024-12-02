@@ -30,10 +30,15 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
     Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
     Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('myenrollment');
+    Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
+    Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
+    
   });
   //Admin
   Route::middleware('isAdmin')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
+
+    Route::get('/admin/approveEnrollment/{id}',[EnrollmentAdminController::class,'approveEnrollment'])->name('approveEnrollment');
 
     Route::resource('/admin/users', UserController::class, ['names' => 'user']);
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
