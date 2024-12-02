@@ -1,5 +1,6 @@
 @forelse($classess as $class)
    <div class="col-md-6 col-lg-3" style="margin-bottom:15px">
+        <a href="{{route('Teacher Schedule',$class->id)}}"
         <div class="mb-12 card h-100">
             <div class="card-header">
                 <img class="card-img-top" src={{ asset('storage/course_image/' . $class->course->image_display) }} alt={{ $class->course->name.' image' }}>
@@ -43,7 +44,6 @@
             </div>
             </a>
         </div>
-    
     </div>
 @empty
     <code>No Course Available</code>

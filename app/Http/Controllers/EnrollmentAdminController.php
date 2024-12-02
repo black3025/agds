@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
+use App\Models\ClassSchedule;
 use Illuminate\Support\Facades\Auth;
 
 class EnrollmentAdminController extends Controller
@@ -34,6 +35,12 @@ class EnrollmentAdminController extends Controller
   /**
    * Display a listing of the resource.
    */
+  public function coursesched(string $id)
+  {
+    $ClassSchedule = ClassSchedule::findorfail($id);
+    return view('content.teacher.course.course', compact('ClassSchedule'));
+  }
+
   public function index()
   {
     return view('content.admin.enrollment.index');

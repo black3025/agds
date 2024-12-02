@@ -35,10 +35,8 @@
                   </div>
                 </div>
                 <p class="mb-1">My Students</p>
-                <h4 class="card-title mb-3">
-                  @foreach(Auth::user()->ClassSchedules as $sched)
-                        {{$sched->enrollment}}
-                  @endforeach
+                <h4 class="card-title mb-3">  
+                  {{$students ->count()}}
                 </h4>
               </div>
             </div>
