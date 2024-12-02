@@ -41,26 +41,6 @@
   </script>
 
 @endsection
-{{-- timeGridWeek --}}
-{{--  eventClick: function(info) {
-                      $('#EventCourse').text(info.event.title);
-                      var Month= ["January","Februray","March","April","May","June","July","August","September","October","November","December"]
-                      var dstart =  new Date(info.event.start);
-                      var dend =  new Date(info.event.end);
-                      
-                      $('#EventDate').text(Month[dstart.getMonth()] + " " + dstart.getDate() +", " + (dstart.getYear() + 1900) );
-
-                      //try to get details
-                      $.get('{{route("getCourse")}}',{},function(data){
-                          $('#all_course').html(data.result);
-                      },'json');
-        }
-
-                      // change the border color just for fun
-                      info.el.style.borderColor = 'red';
-                    }alert('Event: ' + info.event.title);
-                      alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                      alert('View: ' + info.view.type); --}}
 <div id='calendar-container'>
       <button hidden name="show" id= "show"
         type="button"

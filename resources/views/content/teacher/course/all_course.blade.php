@@ -14,8 +14,31 @@
                     @endif
                 </div>
                 <p class="card-text">
-                  {{date('M. d, Y',strtotime($class->day_start))}} to {{date('M. d, Y',strtotime($class->day_end))}}<br>
-                  {{date('h:s a',strtotime($class->time_start))}} to{{date('h:s a',strtotime($class->time_end))}}
+                  <strong>{{date('M. d, Y',strtotime($class->day_start))}}</strong> ({{$class->duration}} Session)<br>
+                  {{date('h:i a',strtotime($class->time_start))}} to{{date('h:i a',strtotime($class->time_end))}}<br>
+                  @foreach (explode("|", $class->week) as $day)
+                        @if($day == 0)
+                                    Sunday,
+                                @endif
+                                @if($day == 1)
+                                    Monday,
+                                @endif
+                                @if($day == 2)
+                                    Tuesday,
+                                @endif
+                                @if($day == 3)
+                                    Wednesday,
+                                @endif
+                                @if($day == 4)
+                                    Thursday,
+                                @endif
+                                @if($day == 5)
+                                    Friday,
+                                @endif
+                                @if($day == 6)
+                                    Saturday,
+                                @endif
+                  @endforeach
                 </p>
             </div>
             </a>

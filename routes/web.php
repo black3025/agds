@@ -29,16 +29,18 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('/course', CourseController::class, ['names' => 'course']);
     Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
     Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
-    Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('myenrollment');
+    Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('my enrollment');
+    Route::get('/enrolled-sched/{id}', [EnrollmentController::class, 'enrolledsched'])->name('Course Schedule');
     Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
     Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
-    
   });
   //Admin
   Route::middleware('isAdmin')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
 
-    Route::get('/admin/approveEnrollment/{id}',[EnrollmentAdminController::class,'approveEnrollment'])->name('approveEnrollment');
+    Route::get('/admin/approveEnrollment/{id}', [EnrollmentAdminController::class, 'approveEnrollment'])->name(
+      'approveEnrollment'
+    );
 
     Route::resource('/admin/users', UserController::class, ['names' => 'user']);
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
@@ -67,7 +69,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
   //Teacher
   Route::middleware('isTeacher')->group(function () {
-    Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
+    Route::get('/teacher/Dashboard', [DashboardController::class, 'teacherIndex'])->name('teacher-dashboard');
     Route::resource('/teacher/course', CourseController::class, ['names' => 'teacher-course']);
     Route::resource('/teacher/students', StudentController::class, ['names' => 'teacher-student']);
   });

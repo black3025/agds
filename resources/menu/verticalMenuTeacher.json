@@ -10,13 +10,13 @@
       "url": "/teacher/course",
       "name": "My Courses",
       "icon": "menu-icon tf-icons bx bxs-graduation",
-      "slug": "admin-course"
+      "slug": "teacher-course"
     },
     {
       "url": "/teacher/students",
       "name": "My Students",
       "icon": "menu-icon tf-icons bx bx-child",
-      "slug": "student"
+      "slug": "teacher-student"
     }
   ]
 }

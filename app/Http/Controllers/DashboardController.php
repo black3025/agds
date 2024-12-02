@@ -33,7 +33,28 @@ class DashboardController extends Controller
   }
   public function teacherIndex()
   {
-    return view('content.teacher.dashboards-teacher');
+    $enrollements = Enrollment::all();
+    $courses = Course::all();
+    $students = Student::all();
+    $teachers = Teacher::all();
+
+    $events = [];
+    $id = Auth::user()->id;
+
+    $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id) {
+      $q->where('user_id', $id);
+    })->get();
+
+    foreach ($appointments as $appointment) {
+      $events[] = [
+        'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
+        'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+        'id' => $appointment->ClassSchedule->id,
+        'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
+        'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+      ];
+    }
+    return view('content.teacher.dashboards-teacher', compact('events'));
   }
 
   public function adminIndex()

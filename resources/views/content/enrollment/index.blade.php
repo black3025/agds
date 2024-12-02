@@ -27,10 +27,11 @@
         <div class="row mb-12 g-6">
             @foreach($enrollments as $enrollment)
             <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
-            <a href="{{ route('course.show',$enrollment->classSchedule->course->id) }}" >
+            <a href="{{ route('Course Schedule',$enrollment->id) }}" >
                 <div class="card h-100">
                     <img class="card-img-top" src={{ asset('storage/course_image/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course    ->name.' image' }}>
                     <div class="card-body">
+                    <span class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-danger text-white">1</span>
                        <h5 class="card-title">{{$enrollment->ClassSchedule->course->name}} | {{$enrollment->ClassSchedule->category->name}}</h5>
                         <p class="card-text">
                             Status: @if($enrollment->verified == "Pending") <span style="color:red;">@else <span style="color:green;">@endif{{$enrollment->verified}}</span>

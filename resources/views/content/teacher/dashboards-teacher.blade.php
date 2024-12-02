@@ -1,14 +1,21 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Dashboard - Student')
-
-
-@section('page-script')
-
-@endsection
+@section('title', 'Dashboard - Teacher')
 
 @section('content')
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+
+  <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">   
+    <div class="row"> 
+      <div class="col-lg-8 col-md-8 col-8 mb-8" style="margin-bottom:15px">
+          <div class="card h-100">
+                <div class="card-body">
+                    @include('content.calendar.calendar')
+                </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
     <div class="col-lg-12 col-md-12 order-1">
         <div class="row">
           <div class="col-lg-3 col-md-3 col-6 mb-6" style="margin-bottom:15px">
@@ -28,7 +35,11 @@
                   </div>
                 </div>
                 <p class="mb-1">My Students</p>
-                <h4 class="card-title mb-3">1</h4>
+                <h4 class="card-title mb-3">
+                  @foreach(Auth::user()->ClassSchedules as $sched)
+                        {{$sched->enrollment}}
+                  @endforeach
+                </h4>
               </div>
             </div>
           </div>
@@ -49,7 +60,7 @@
                   </div>
                 </div>
                 <p class="mb-1">My Course</p>
-                <h4 class="card-title mb-3">3</h4>
+                <h4 class="card-title mb-3">{{Auth::user()->ClassSchedules->count()}}</h4>
               </div>
             </div>
           </div>

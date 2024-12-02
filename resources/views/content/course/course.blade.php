@@ -38,14 +38,16 @@
                 <div class="card-body pt-0">
                     
                     <br><br>
-                    <table class="table table-hover" id="tblCourse" >
+                    <table class="table table-hover" id="tblCourse" style="font-size: 0.7em" >
                         <thead>
                             <tr >
-                                <th>Category</th>
-                                <th>Teacher</th>
-                                <th>Duration</th>
-                                <th sytle="text-algign:center">Timeslot</th>
-                                <th>Action</th>
+                                <th style="text-align:center">Category</th>
+                                <th style="text-align:center">Teacher</th>
+                                <th style="text-align:center">Start Date</th>
+                                <th style="text-align:center">Duration</th>
+                                <th style="text-align:center">Days</th>
+                                <th style="text-align:center">Timeslot</th>
+                                <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -53,7 +55,33 @@
                                 <tr>
                                     <td>{{$sched->category->name}}</td>
                                     <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
-                                    <td>{{date('M d, Y',strtotime($sched->day_start))}} {{$sched->duration}} days</td>
+                                    <td>{{date('F d, Y',strtotime($sched->day_start))}}</td>
+                                    <td>{{$sched->duration}} Sessions</td>
+                                    <td>
+                                            @foreach(explode('|',$sched->week) as $row)
+                                                @if($row == 0)
+                                                    Sunday,
+                                                @endif
+                                                @if($row == 1)
+                                                    Monday,
+                                                @endif
+                                                @if($row == 2)
+                                                    Tuesday,
+                                                @endif
+                                                @if($row == 3)
+                                                    Wednesday,
+                                                @endif
+                                                @if($row == 4)
+                                                    Thursday,
+                                                @endif
+                                                @if($row == 5)
+                                                    Friday,
+                                                @endif
+                                                @if($row == 6)
+                                                    Saturday,
+                                                @endif
+                                            @endforeach
+                                    </td>
                                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                                     <td>
                                         <a 
@@ -104,7 +132,7 @@
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
                                         <input tabindex ="-1" hidden type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
-                                        <input type="text" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
+                                        <input type="text" minlength="12" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
                                         <span class="text-danger error-text refno_error" > </span>
                                         <label for="amount" class="form-label">Course Price</label>
                                         <input type="text" readonly id="amount" name="amount" class="form-control" />

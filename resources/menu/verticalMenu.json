@@ -16,7 +16,10 @@
       "url": "/enrolled",
       "name": "Enrolled Course",
       "icon": "menu-icon tf-icons bx bxs-book-open",
-      "slug": "enrollment"
+      "slug": [
+        "my enrollment",
+        "course schedule"
+      ]
     }
   ]
 }

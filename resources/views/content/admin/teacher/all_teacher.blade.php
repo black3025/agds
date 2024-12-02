@@ -37,6 +37,7 @@
                 <th style="text-align:center;">Teacher ID</th>
                 <th style="text-align:center;">Full name</th>
                 <th style="text-align:center;">Number of active Course</th>
+                <th style="text-align:center;">Mastery</th>
                 <th style="text-align:center;">Action</th>
             </tr>
         </thead>
@@ -46,6 +47,13 @@
                     <td>{{$teacher->teacherID}}</td>
                     <td><a href="{{route('student.show',$teacher->id)}}">{{$teacher->user->fname}} {{$teacher->user->mname}} {{$teacher->user->lname}}</a></td>
                     <td>{{$teacher->user->ClassSchedules->where('is_active',1)->count()}}</td>
+                    <td>
+                        @foreach (explode("|", $teacher->mastery) as $mastery)
+                            @foreach($courses->where('id',$mastery) as $course)
+                                {{$course->name}},
+                            @endforeach
+                        @endforeach
+                    </td>
                     <td>
                         <div class="row">
                             <div class="col mb-6">

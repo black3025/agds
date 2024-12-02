@@ -81,29 +81,29 @@ class ClassScheduleController extends Controller
       $data = [];
       $tempDate = date($request->add_dateFrom);
       while ($i <= $request->add_duration) {
-        $dayoftest = date('l', strtotime($tempDate));
-        if ($dayoftest == 'Sunday') {
-          $numday = '0';
-        }
-        if ($dayoftest == 'Monday') {
-          $numday = '1';
-        }
-        if ($dayoftest == 'Tuesday') {
-          $numday = '2';
-        }
-        if ($dayoftest == 'Wednesday') {
-          $numday = '3';
-        }
-        if ($dayoftest == 'Thursday') {
-          $numday = '4';
-        }
-        if ($dayoftest == 'Friday') {
-          $numday = '5';
-        }
-        if ($dayoftest == 'Saturday') {
-          $numday = '6';
-        }
-        if (Str::contains($dday, $numday)) {
+        $dayoftest = date('N', strtotime($tempDate));
+        // if ($dayoftest == 'Sunday') {
+        //   $numday = '0';
+        // }
+        // if ($dayoftest == 'Monday') {
+        //   $numday = '1';
+        // }
+        // if ($dayoftest == 'Tuesday') {
+        //   $numday = '2';
+        // }
+        // if ($dayoftest == 'Wednesday') {
+        //   $numday = '3';
+        // }
+        // if ($dayoftest == 'Thursday') {
+        //   $numday = '4';
+        // }
+        // if ($dayoftest == 'Friday') {
+        //   $numday = '5';
+        // }
+        // if ($dayoftest == 'Saturday') {
+        //   $numday = '6';
+        // }
+        if (Str::contains($dday, $dayoftest)) {
           array_push($data, $tempDate);
           $i++;
         }

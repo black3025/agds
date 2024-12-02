@@ -22,6 +22,7 @@ class EnrollmentController extends Controller
     $exists = Enrollment::where('user_id', Auth::user()->id)
       ->where('class_schedule_id', $request->class_schedule_id)
       ->count();
+    $shed = '';
     if ($exists > 0) {
       return ['success' => false, 'message' => 'You are already enrolled in this course.'];
     } else {
@@ -59,6 +60,12 @@ class EnrollmentController extends Controller
       return response()->json(['code' => 0, 'msg' => 'Something went wrong please contact the administrator.']);
       // return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
     }
+  }
+
+  public function enrolledsched(string $id)
+  {
+    $enrollment = Enrollment::findorfail($id);
+    return view('content.enrollment.enroll', compact('enrollment'));
   }
 
   public function enrolled()

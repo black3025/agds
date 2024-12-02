@@ -36,7 +36,7 @@
             <div class="mb-3">
                 <span class = "form-label" style="margin-bottom: 5px;">Mastery</span>
                 <div class="row mb-3" >
-                    @foreach( $courses as $course)
+                    @foreach( $courses->where('is_active',1) as $course)
                         <div class="col-md-3">
                             <input class="form-check-input" type="checkbox" name="mastery[]" id={{$course->id}} value={{$course->id}}>
                             <label for={{$course->id}} class="form-label">{{$course->name}}</label>  

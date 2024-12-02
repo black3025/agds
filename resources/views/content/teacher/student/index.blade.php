@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Dashboard - Student')
+@section('title', 'Students')
 
 
 @section('page-script')
@@ -30,18 +30,18 @@
                             <tr>
                                 <th>Full name</th>
                                 <th>Course Enrolled</th>
-                                <th>Action</th>
+                                <th>Course Category</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @foreach(Auth::user()->ClassSchedules as $enrollments)
-                                @foreach($enrollments->enrollment as $student )
+                            @foreach($students as $student)
                                 <tr>
                                     <td><a href="{{route('student.show',$student->user->id)}}">{{$student->user->fname}} {{$student->user->mname}} {{$student->user->lname}}</a></td>
                                     <td>{{$student->ClassSchedule->course->name}}</td>
-                                    <td><a onclick="setCourseId({{$student->user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                                    <td>{{$student->ClassSchedule->category->name}}</td>
+                                    {{-- <td><a onclick="setCourseId({{$student->user->id}})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td> --}}
                                 </tr>
-                                @endforeach
                             @endforeach
                         </tbody>
                     </table>

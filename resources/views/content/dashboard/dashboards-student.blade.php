@@ -11,13 +11,13 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xxl-8 mb-6 order-0">
+    <div class="col-xxl-8 col-md-8 mb-6 order-0">
         <div class="card">
           <div class="d-flex align-items-start row">
             <div class="col-sm-7">
               <div class="card-body">
                 <h5 class="card-title text-primary mb-3">{{ucfirst(Auth::user()->fname)}} you have {{Auth::user()->loyalty->sum('amount')}} loyalty points.</h5>
-                <p class="mb-6">You have done 10 classes.<br>View more courses</p>
+                <p class="mb-6">You have done {{Auth::user()->enrollment->count()}} classes.<br>View more courses</p>
 
                 
               </div>

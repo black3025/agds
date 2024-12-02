@@ -130,7 +130,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row mb-10">
             <div class="col col-8"><h5 class="pb-1 mb-6">My Courses</h5></div>
-            <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button></div>
+            {{-- <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add</button></div> --}}
         </div>
         <br>
     <div class="row mt-12 mb-12 g-6" id="my_course">

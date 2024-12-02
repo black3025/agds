@@ -50,11 +50,35 @@
     <div class="row mb-12">
         <div class="col-md-3">
             <div class="card">
-            <img class="card-img-top" src={{asset('storage/course_image/' .$course->image_display) }} alt={{ $course->name.' image' }}>
+            <img class="card-img-top" src={{asset('storage/course_image/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course->name.' image' }}>
             <div class="card-body">
-                <h5 class="card-title">{{$course->name}}</h5>
+                <h5 class="card-title">{{$enrollment->ClassSchedule->course->name}} | {{$enrollment->ClassSchedule->category->name}}</h5>
                 <p class="card-text">
-                    {{$course->description}}
+                    Teacher: {{$enrollment->ClassSchedule->user->fname}} {{$enrollment->ClassSchedule->user->lname}}
+                    Every: 
+                    @foreach(explode('|',$enrollment->ClassSchedule->week) as $row)
+                        @if($row == 0)
+                            Sunday,
+                        @endif
+                        @if($row == 1)
+                            Monday,
+                        @endif
+                        @if($row == 2)
+                            Tuesday,
+                        @endif
+                        @if($row == 3)
+                            Wednesday,
+                        @endif
+                        @if($row == 4)
+                            Thursday,
+                        @endif
+                        @if($row == 5)
+                            Friday,
+                        @endif
+                        @if($row == 6)
+                            Saturday,
+                        @endif
+                    @endforeach
                 </p>
             </div>
             </div>
@@ -62,7 +86,7 @@
         <div class="col-md-9">
             <div class="card mb-10">
                 <div class="card-header">
-                    <h7 class="card-title mb-0">Available Class:</h5>
+                    <h7 class="card-title mb-0">Course Schedule:</h5>
                 </div>
                 <div class="card-body pt-0">
                     
@@ -70,21 +94,21 @@
                     <table class="table table-hover" id="tblCourse" >
                         <thead>
                             <tr>
-                                <th>Category</th>
-                                <th>Teacher</th>
-                                <th>Duration</th>
-                                <th>Timeslot</th>
-                                <th>Action</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Days of the Week</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @foreach($course->ClassSchedule as $sched)
+                            @foreach($enrollment->ClassSchedule->event as $sched)
                                 <tr>
-                                    <td>{{$sched->category->name}}</td>
-                                    <td>{{$sched->user->fname}} {{$sched->user->mname[0]}}. {{$sched->user->lname}}</td>
-                                    <td>{{date('F d, Y',strtotime($sched->day_start))}} to {{date('F d, Y',strtotime($sched->day_end))}}</td>
-                                    <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
-                                    <td><a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" fdprocessedid="dyx4wr"><i class='bx bxs-comment-add'></i>Book</a></td>
+                                    <td>{{date('F d, Y',strtotime($sched->start_time))}}</td>
+                                    <td>{{date('h:s a',strtotime($sched->start_time))}} to {{date('h:s a',strtotime($sched->finish_time))}}</td>
+                                    <td>
+                                    {{date('l',strtotime($sched->start_time))}}
+                                    </td>
+                                    {{-- <td>Drop</td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -101,7 +125,7 @@
                             <div class="row mb-3">
                                 <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
                                 <div class="col mb-6">
-                                    <form onsubmit="return enroll({{$course}},{{Auth::user()->id}});">
+                                    <form onsubmit="return enroll({{$enrollment}},{{Auth::user()->id}});">
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
                                         <input type="text" id="refno" class="form-control" placeholder="Reference Number" required>
