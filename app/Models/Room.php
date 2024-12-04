@@ -12,6 +12,6 @@ class Room extends Model
 
   public function ClassSchedule()
   {
-    return $this->belongsTo(ClassSchedule::class);
+    return $this->hasMany(ClassSchedule::class);
   }
 }

@@ -104,6 +104,7 @@
                 <th style="text-align:center">Start Date</th>
                 <th style="text-align:center">Duration</th>
                 <th style="text-align:center">Days</th>
+                <th style="text-align:center">Room</th>
                 <th style="text-align:center">Timeslot</th>
                 <th style="text-align:center">Action</th>
             </tr>
@@ -140,7 +141,8 @@
                                 @endif
                             @endforeach
 
-                    </td>
+                        </td>
+                    <td>{{$sched->room->name}}</td>
                     <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
                     <td>
                         <div class="form-check form-switch mb-2">

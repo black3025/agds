@@ -53,4 +53,9 @@ class ClassSchedule extends Model
   {
     return $this->hasMany(Event::class);
   }
+
+  public function room()
+  {
+    return $this->belongsTo(Room::class);
+  }
 }

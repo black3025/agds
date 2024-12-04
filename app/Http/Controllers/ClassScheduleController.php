@@ -218,6 +218,7 @@ class ClassScheduleController extends Controller
   public function getTeachSchedule(string $id)
   {
     $course = Course::findOrFail($id);
+   
     $data = view('content.admin.class_schedule.all_schedule', compact('course'))->render();
     return response()->json(['code' => 1, 'result' => $data]);
   }
