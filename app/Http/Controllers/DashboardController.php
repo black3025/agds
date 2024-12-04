@@ -24,14 +24,14 @@ class DashboardController extends Controller
         $q->where('user_id', $id2);
       })->get();
       foreach ($appointments as $appointment) {
-        $newEvent[] = [
+       
+        array_push($events,  [
           'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
           'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
           'id' => $appointment->ClassSchedule->id,
           'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
           'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
-        ];
-        array_push($events, $newEvent);
+        ]);
       }
     }
     
