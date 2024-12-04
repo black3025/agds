@@ -25,7 +25,7 @@ class DashboardController extends Controller
       })->get();
   
       foreach ($appointments as $appointment) {
-        $events[] = [
+        $events[] += [
           'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
           'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
           'id' => $appointment->ClassSchedule->id,
