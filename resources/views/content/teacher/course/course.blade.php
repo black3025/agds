@@ -9,41 +9,32 @@
 
 @section('vendor-script')
     <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
-     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready( function () {
         $('#tblCourse').DataTable();
         });
+        function resched(id)
+        {
+            Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, reschedule it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                title: "Rescheduled!",
+                text: "This date is rescheduled.",
+                icon: "success"
+                });
+            }
+            });
+        }
     </script>
-     <script>
-      function enroll(course,id){
-        console.log(course);
-         var form = {
-            _token: $('input[name=_token]').val(),
-            referenceNo: $('#refno').val(),
-            user_id: id,
-            ClassSchedule_id = course[]
-            body: $('#body').val(),
-            ajax: 1
-         }
-
-         $.ajax({
-	         url : "{{route('contactus.store')}}",
-	         data :  form,
-	         type : "POST",
-	         success : function(msg){
-                //console.log(msg['message']);
-                if(msg['success']){
-                    success(msg['message']);
-                    setTimeout(function(){window.location.reload();},1500);
-                }else{
-                    error(msg['message']);
-                }
-             }
-        })
-        return false;
-    }
-  </script>
 @endsection
 
 @section('content')
@@ -108,7 +99,7 @@
                                     <td>
                                     {{date('l',strtotime($sched->start_time))}}
                                     </td>
-                                    <td><button class="btn btn-primary">Resched</button></td>
+                                    <td><button class="btn btn-primary" onclick="resched({{$sched->id}});">Resched</button></td>
                                 </tr>
                             @endforeach
                         </tbody>

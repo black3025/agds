@@ -3,12 +3,6 @@
 @section('title', 'Dashboard - Student')
 
 
-@section('page-script')
-  <script>
-
-  </script>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xxl-8 col-md-8 mb-6 order-0">
@@ -17,7 +11,16 @@
             <div class="col-sm-7">
               <div class="card-body">
                 <h5 class="card-title text-primary mb-3">{{ucfirst(Auth::user()->fname)}} you have {{Auth::user()->loyalty->sum('amount')}} loyalty points.</h5>
-                <p class="mb-6">You have done {{Auth::user()->enrollment->count()}} classes.<br>View more courses</p>
+                <p class="mb-6">You have done 
+                  @if(empty(Auth::user()->enrollments))
+                    0
+                  @else
+                    {{Auth::user()->enrollments->count() }}
+                  @endif
+                 classes.
+                 
+                 
+                 <br>View more courses</p>
 
                 
               </div>
@@ -41,7 +44,13 @@
                   </div>
                 </div>
                 <p class="mb-1">Active Course</p>
-                <h4 class="card-title mb-3">{{Auth::user()->enrollment->where('verified','Approved')->count()}}</h4>
+                <h4 class="card-title mb-3">
+                  @if(empty(Auth::user()->enrollments))
+                    0
+                  @else
+                    {{Auth::user()->enrollments->where('verified','Approved')->count()}}
+                  @endif
+                </h4>
                 <small class="text-success fw-medium"><a href="{{route('enrollment.index')}}"><i class='bx bxs-palette'></i>View Course</a></small>
               </div>
             </div>
@@ -60,11 +69,34 @@
                   </div>
                 </div>
                 <p class="mb-1">Course Completed</p>
-                <h4 class="card-title mb-3">{{Auth::user()->enrollment->where('verified','Completed')->count()}}</h4>
+                <h4 class="card-title mb-3">
+                  @if(empty(Auth::user()->enrollment))
+                    0
+                  @else
+                    Auth::user()->enrollment->where('verified','Completed')->count()
+                  @endif
+                </h4>
               </div>
             </div>
           </div>
         </div>
       </div>
+</div>
+<div class="row" style="margin-top:15px">
+  <div class="col-xxl-8 col-md-8 mb-6 order-0">
+    <div class="card h-100">
+      <div class="card-body">
+          @include('content.calendar.calendar')
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4 order-1">
+    <div class="card h-100">
+        <div class="card-header">Announcements</div>
+        <div class="card-body">
+            
+        </div>
+    </div>
+  </div>
 </div>
 @endsection

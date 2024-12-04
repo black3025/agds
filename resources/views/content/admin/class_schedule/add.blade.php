@@ -79,19 +79,19 @@
             <div class="row">
                 <label class="form-label" style ="margin-top:6px">Days of the Week</label>
                 <div class="col mb-6" style="display:flex; justify-content:space-between;">
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Monday" value="0">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Monday" value="1">
                     <label for="Monday" class="form-label">Mon</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Tuesday" value="1">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Tuesday" value="2">
                     <label for="Tuesday" class="form-label">Tues</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Wednesday" value="2">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Wednesday" value="3">
                     <label for="Wednesday" class="form-label">Wed</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Thursday" value="3">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Thursday" value="4">
                     <label for="Thursday" class="form-label">Thur</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Friday" value="4">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Friday" value="5">
                     <label for="Friday" class="form-label">Fri</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Saturday" value="5">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Saturday" value="6">
                     <label for="Staturday" class="form-label">Sat</label>  
-                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Sunday" value="6">
+                    <input class="form-check-input" type="checkbox" name="add_weekdays[]" id="Sunday" value="0">
                     <label for="Sunday" class="form-label">Sun</label>  
                 </div>
                     <span class="text-danger error-text add_weekdays_error" > </span>

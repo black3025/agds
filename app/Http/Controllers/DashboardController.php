@@ -15,20 +15,28 @@ class DashboardController extends Controller
 {
   public function index()
   {
-    // if($request->ajax()) {
+    $id = Auth::user()->id;
+    $events = [];
+    $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id) {
+      $q->where('user_id', $id);
+    })->get();
 
-    //   $data = Event::whereDate('start', '>=', $request->start)
-    //             ->whereDate('end',   '<=', $request->end)
-    //             ->get(['id', 'title', 'start', 'end']);
-
-    //   return response()->json($data);
-    // }
+    foreach ($appointments as $appointment) {
+      $events[] = [
+        'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
+        'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+        'id' => $appointment->ClassSchedule->id,
+        'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
+        'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+      ];
+    }
     if (Auth::user()->role->restriction > 2) {
-      return view('content.dashboard.dashboards-student');
+
+      return view('content.dashboard.dashboards-student',compact('events'));
     } elseif (Auth::user()->role->restriction > 1) {
       return redirect('teacher/Dashboard');
     } else {
-      return redirect('admin/dashboard');
+      return redirect('admin/Dashboard');
     }
   }
   public function teacherIndex()

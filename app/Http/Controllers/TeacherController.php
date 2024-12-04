@@ -61,7 +61,7 @@ class TeacherController extends Controller
         $username = strtolower($request->fname[0] . $request->mname[0] . $request->lname);
       }
 
-      $password = $username . '@1234';
+      $password = 'P@$$w0rD';
 
       $user = User::create([
         'username' => $username,
