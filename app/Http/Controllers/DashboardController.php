@@ -17,19 +17,24 @@ class DashboardController extends Controller
   {
     $id = Auth::user()->id;
     $events = [];
-    $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id) {
-      $q->where('user_id', $id);
-    })->get();
-
-    foreach ($appointments as $appointment) {
-      $events[] = [
-        'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
-        'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
-        'id' => $appointment->ClassSchedule->id,
-        'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
-        'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
-      ];
+    $scheds = Enrollment::where('user_id', $id)->get();
+    foreach($scheds as $sched){
+      $id2 = $sched->id;
+      $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
+        $q->where('user_id', $id2);
+      })->get();
+  
+      foreach ($appointments as $appointment) {
+        $events[] = [
+          'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
+          'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+          'id' => $appointment->ClassSchedule->id,
+          'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
+          'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+        ];
+      }
     }
+    
     if (Auth::user()->role->restriction > 2) {
 
       return view('content.dashboard.dashboards-student',compact('events'));

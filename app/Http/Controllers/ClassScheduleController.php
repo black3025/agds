@@ -82,27 +82,6 @@ class ClassScheduleController extends Controller
       $tempDate = date($request->add_dateFrom);
       while ($i <= $request->add_duration) {
         $dayoftest = date('N', strtotime($tempDate));
-        // if ($dayoftest == 'Sunday') {
-        //   $numday = '0';
-        // }
-        // if ($dayoftest == 'Monday') {
-        //   $numday = '1';
-        // }
-        // if ($dayoftest == 'Tuesday') {
-        //   $numday = '2';
-        // }
-        // if ($dayoftest == 'Wednesday') {
-        //   $numday = '3';
-        // }
-        // if ($dayoftest == 'Thursday') {
-        //   $numday = '4';
-        // }
-        // if ($dayoftest == 'Friday') {
-        //   $numday = '5';
-        // }
-        // if ($dayoftest == 'Saturday') {
-        //   $numday = '6';
-        // }
         if (Str::contains($dday, $dayoftest)) {
           array_push($data, $tempDate);
           $i++;
@@ -218,7 +197,6 @@ class ClassScheduleController extends Controller
   public function getTeachSchedule(string $id)
   {
     $course = Course::findOrFail($id);
-   
     $data = view('content.admin.class_schedule.all_schedule', compact('course'))->render();
     return response()->json(['code' => 1, 'result' => $data]);
   }

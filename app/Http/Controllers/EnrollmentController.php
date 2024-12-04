@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
 use App\Models\ClassSchedule;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 
 class EnrollmentController extends Controller
@@ -19,12 +20,35 @@ class EnrollmentController extends Controller
 
   public function checkConflict(request $request)
   {
-    $exists = Enrollment::where('user_id', Auth::user()->id)
-      ->where('class_schedule_id', $request->class_schedule_id)
+    $id = Auth::user()->id;
+    $conflict = 0;
+    $exists = Enrollment::where('user_id', $id)
+      ->where('class_schedule_id', $request->class_schedule_id)->where('status','new')
       ->count();
-    $shed = '';
+
+    $enrollments = Enrollment::where('user_id', $id)->where('status','new')->get();
+    $newEvents = Event::where('class_schedule_id',$request->class_schedule_id)->get();
+
+    // foreach($newEvents as $event)
+    // {
+    //   $from = $event->start_time;
+    //   $to = $event->finish_time;
+      
+    //   $count = Enrollment::wherehas('ClassSchedule', function($q) use ($id) {
+    //     $q->wherehas('event', function($q) use($from, $to){
+    //       $q->where('start_time', '<', $to)->where('finish_time', '>', $from);
+    //     });
+    // })
+    //   ->where('user_id', $id)
+    //   ->where('status','new')->count();
+    //   $conflict = $count;
+    // }
+  
+   
     if ($exists > 0) {
       return ['success' => false, 'message' => 'You are already enrolled in this course.'];
+    }elseif($conflict >0){
+      return ['success' => false, 'message' => 'You are currently enrolled in a course that has a conflict with this new course.'];
     } else {
       return ['success' => true, 'message' => 'Clear'];
     }
