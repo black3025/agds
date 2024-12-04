@@ -25,7 +25,7 @@ class DashboardController extends Controller
       })->get();
   
       foreach ($appointments as $appointment) {
-        arr_push($events,
+        array_push($events,
         [
           'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
           'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
