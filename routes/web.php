@@ -75,6 +75,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/teacher/course-sched/{id}', [EnrollmentAdminController::class, 'coursesched'])->name(
       'Teacher Schedule'
     );
+    Route::get('/teacher/resched/{id}', [EventController::class, 'resched'])->name('resched');
+    
   });
 });
 

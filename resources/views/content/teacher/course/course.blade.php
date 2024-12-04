@@ -26,13 +26,26 @@
             confirmButtonText: "Yes, reschedule it!"
             }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                title: "Rescheduled!",
-                text: "This date is rescheduled.",
-                icon: "success"
-                });
+                reresched(id);
             }
             });
+        }
+
+        function reresched(id){
+            $.ajax({
+                type : "GET",
+                url : "/teacher/resched/" + id,
+                dataType : "json",
+                contentType: "application/json",
+                crossDomain: true,
+                success : function(data) {
+                    setTimeout(function(){window.location.reload();},1000);
+                },
+                error : function(data) {
+                    console.log("Fialed to get the data");
+                }
+            });
+           
         }
     </script>
 @endsection

@@ -24,7 +24,7 @@
                 contentType: "application/json",
                 crossDomain: true,
                 success : function(data) {
-                    alert(data.result);
+                    // alert(data.result);
                     setTimeout(function(){window.location.reload();},1000);
                 },
                 error : function(data) {
