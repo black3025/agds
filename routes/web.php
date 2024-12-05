@@ -79,6 +79,7 @@ Route::middleware('auth', 'verified')->group(function () {
   Route::middleware('isTeacher')->group(function () {
     Route::get('/teacher/Dashboard', [DashboardController::class, 'teacherIndex'])->name('teacher-dashboard');
     Route::resource('/teacher/course', CourseController::class, ['names' => 'teacher-course']);
+    Route::get('/class/close/{id}', [ClassScheduleController::class, 'classClose'])->name('close-course');
     Route::resource('/teacher/students', StudentController::class, ['names' => 'teacher-student']);
     Route::get('/teacher/course-sched/{id}', [EnrollmentAdminController::class, 'coursesched'])->name(
       'Teacher Schedule'
@@ -111,10 +112,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
   ->middleware(['auth', 'signed'])
   ->name('verification.verify');
 
-//google login
-Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name(
-  'google.redirect'
-);
-Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name(
-  'google.callback'
-);
+Route::post('/email/verification-notification', [LoginBasic::class, 'resendVerify'])
+  ->middleware(['auth', 'throttle:6,1'])
+  ->name('verification.send');

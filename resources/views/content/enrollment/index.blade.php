@@ -25,25 +25,29 @@
 <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="pb-1 mb-6">Enrolled Courses</h5>
         <div class="row mb-12 g-6">
-            @foreach($enrollments as $enrollment)
-            <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
-            <a href="{{ route('Course Schedule',$enrollment->id) }}" >
-                <div class="card h-100">
-                    <img class="card-img-top" src={{ asset('storage/course_image/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course    ->name.' image' }}>
-                    <div class="card-body">
-                    <span class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-danger text-white">1</span>
-                       <h5 class="card-title">{{$enrollment->ClassSchedule->course->name}} | {{$enrollment->ClassSchedule->category->name}}</h5>
-                        <p class="card-text">
-                            Status: @if($enrollment->verified == "Pending") <span style="color:red;">@else <span style="color:green;">@endif{{$enrollment->verified}}</span>
-                        </p>
-                        <p class="card-text">
-                            Teacher: {{$enrollment->ClassSchedule->user->fname}} @if(!empty( $enrollment->ClassSchedule->user->mname )) {{$enrollment->ClassSchedule->user->mname[0]}}. @else  @endif {{$enrollment->ClassSchedule->user->lname}}
-                        </p>
+            @forelse($enrollments as $enrollment)
+                    <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
+                    <a href="{{ route('Course Schedule',$enrollment->id) }}" >
+                        <div class="card h-100">
+                            <img class="card-img-top" src={{ asset('storage/course_image/' .$enrollment->ClassSchedule->course->image_display) }} alt={{ $enrollment->ClassSchedule->course    ->name.' image' }}>
+                            <div class="card-body">
+                            <span class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-danger text-white">1</span>
+                            <h5 class="card-title">{{$enrollment->ClassSchedule->course->name}} | {{$enrollment->ClassSchedule->category->name}}</h5>
+                                <p class="card-text">
+                                    Status: @if($enrollment->verified == "Pending") <span style="color:red;">@else <span style="color:green;">@endif{{$enrollment->verified}}</span>
+                                </p>
+                                <p class="card-text">
+                                    Teacher: {{$enrollment->ClassSchedule->user->fname}} @if(!empty( $enrollment->ClassSchedule->user->mname )) {{$enrollment->ClassSchedule->user->mname[0]}}. @else  @endif {{$enrollment->ClassSchedule->user->lname}}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
                     </div>
+            @empty
+                <div class="card text-center">
+                    <div class="card-body">You haven't enrolled in any course yet.</div>
                 </div>
-            </a>
-            </div>
-            @endforeach
+            @endforelse
         </div>
 </div>
 @endsection

@@ -18,7 +18,7 @@
         {
             Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "You won't be able to revert this?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -29,6 +29,43 @@
                 reresched(id);
             }
             });
+        }
+
+         function closeCourse(id,events)
+        {
+            
+            if(events['finish_time'] > new Date())
+            {
+                error('This course has session past today.')
+            }else{
+                Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Mark as Done!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type : "GET",
+                            url : "/class/close/" + id,
+                            dataType : "json",
+                            contentType: "application/json",
+                            crossDomain: true,
+                            success : function(data) {
+                                success('This course has been marked as close.');
+                                setTimeout(function(){window.history.back();;},1000);
+                            },
+                            error : function(data) {
+                                console.log("Fialed to get the data");
+                            }
+                        });
+                    }
+                
+                });
+            }
         }
 
         function reresched(id){
@@ -84,6 +121,7 @@
                         @endif
                     @endforeach
                 </p>
+            <button onclick="closeCourse({{$ClassSchedule->id}}, {{ $ClassSchedule->event->last() }})" class="btn btn-info" > Mark Schedule as Done </button>
             </div>
             </div>
         </div>
@@ -93,7 +131,6 @@
                     <h7 class="card-title mb-0">Course Schedule:</h5>
                 </div>
                 <div class="card-body pt-0">
-                    
                     <br><br>
                     <table class="table table-hover" id="tblCourse" >
                         <thead>
@@ -112,7 +149,12 @@
                                     <td>
                                     {{date('l',strtotime($sched->start_time))}}
                                     </td>
-                                    <td><button class="btn btn-primary" onclick="resched({{$sched->id}});">Resched</button></td>
+                                    <td>
+                                        <button class="btn btn-primary" onclick="resched({{$sched->id}});"
+                                            @if($sched->finish_time <= date('F d, Y')) disabled @endif
+                                        >Resched
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

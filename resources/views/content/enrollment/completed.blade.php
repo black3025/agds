@@ -38,7 +38,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="pb-1 mb-6">Completed Courses</h5>
         <div class="row mb-12 g-6">
-            @foreach($enrollments as $enrollment)
+            @forelse($enrollments as $enrollment)
             <div class="mb-12 col-md-3 g-6" style="margin-bottom:15px">
             <a href="{{ route('Course Schedule',$enrollment->id) }}" >
                 <div class="card h-100">
@@ -59,7 +59,11 @@
                 </div>
             </a>
             </div>
-            @endforeach
+            @empty
+                <div class="card text-center">
+                    <div class="card-body">You don't have completed course yet.</div>
+                </div>
+            @endforelse
         </div>
 </div>
 @include('content/review/add')

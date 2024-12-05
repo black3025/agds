@@ -50,6 +50,12 @@ class LoginBasic extends Controller
     }
   }
 
+  public function resendVerify(Request $request)
+  {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+  }
+
   public function logout()
   {
     Session::flush();

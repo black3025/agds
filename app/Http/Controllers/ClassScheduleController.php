@@ -157,6 +157,17 @@ class ClassScheduleController extends Controller
     return response()->json(['result' => $id]);
   }
 
+  public function classClose($id)
+  {
+    $sched = ClassSchedule::find($id);
+
+    $sched->update([
+      'is_active' => 0,
+    ]);
+
+    return response()->json(['result' => $id]);
+  }
+
   public function checkAvailable($room, $teacher, $timestart, $timeend, $duration, $dates)
   {
     $roomError = 0;
