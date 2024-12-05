@@ -65,9 +65,14 @@ class UserController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(Request $request)
   {
-    //
+    return 'bolaga';
+  }
+
+  public function updateUser(Request $request)
+  {
+    return response()->json(['code' => 1, 'msg' => 'Course has been update']);
   }
 
   /**

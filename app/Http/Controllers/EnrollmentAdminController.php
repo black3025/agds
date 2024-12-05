@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
 use App\Models\ClassSchedule;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 
 class EnrollmentAdminController extends Controller
 {
+  use Notifiable;
+
   public function approveEnrollment($id)
   {
-    $user = Enrollment::find($id);
-
-    $user->update([
+    $enrollment = Enrollment::find($id);
+    $user = User::where('id', $enrollment->user_id);
+    $enrollment->update([
       'verified' => 'Approved',
     ]);
 
@@ -24,6 +28,7 @@ class EnrollmentAdminController extends Controller
       'amount' => 50,
       'details' => $user->ClassSchedule->course->name,
     ]);
+    Notification::sendNow($user, new EnrollApproved($enrollment));
     return response()->json(['result' => $id]);
   }
   public function getEnrollments()

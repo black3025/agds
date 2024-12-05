@@ -83,7 +83,7 @@ class DashboardController extends Controller
 
   public function adminIndex()
   {
-    $enrollements = Enrollment::where('status', 'pending')->get();
+    $enrollements = Enrollment::where('verified', 'Pending')->get();
     $courses = Course::all();
     $students = Student::all();
     $teachers = Teacher::all();

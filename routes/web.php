@@ -26,6 +26,7 @@ Route::get('/reviews', [FrontController::class, 'review'])->name('front-review')
 Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::get('/getCourse', [CourseController::class, 'getCourse'])->name('getCourse');
+
   //Student
   Route::middleware('isStudent')->group(function () {
     Route::resource('/course', CourseController::class, ['names' => 'course']);
@@ -51,9 +52,7 @@ Route::middleware('auth', 'verified')->group(function () {
       'approveEnrollment'
     );
 
-    Route::resource('/admin/users', UserController::class, ['names' => 'user']);
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
-
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
 
     Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
@@ -89,7 +88,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/teacher/resched/{id}', [EventController::class, 'resched'])->name('resched');
   });
 });
-
+Route::resource('/users', UserController::class, ['names' => 'user']);
+Route::post('/updateUser', [UserController::class, 'updateUser'])->name('userUpdate');
 Route::resource('/contactus', $controller_path . '\ContactUsController', ['names' => 'contactus']);
 
 // authentication
