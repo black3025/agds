@@ -15,7 +15,7 @@
                   @if(empty(Auth::user()->enrollments))
                     0
                   @else
-                    {{Auth::user()->enrollments->count() }}
+                    {{Auth::user()->enrollments->where('status', 'Done')->  count() }}
                   @endif
                  classes.
                  

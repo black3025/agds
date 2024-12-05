@@ -17,7 +17,9 @@ class DashboardController extends Controller
   {
     $id = Auth::user()->id;
     $events = [];
-    $scheds = Enrollment::where('user_id', $id)->get();
+    $scheds = Enrollment::where('user_id', $id)
+      ->where('verified', 'Approved')
+      ->get();
     foreach ($scheds as $sched) {
       $id2 = $sched->class_schedule_id;
       $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
