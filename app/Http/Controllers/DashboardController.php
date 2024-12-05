@@ -18,14 +18,13 @@ class DashboardController extends Controller
     $id = Auth::user()->id;
     $events = [];
     $scheds = Enrollment::where('user_id', $id)->get();
-    foreach($scheds as $sched){
+    foreach ($scheds as $sched) {
       $id2 = $sched->class_schedule_id;
       $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
-        $q->where('user_id', $id2);
+        $q->where('id', $id2);
       })->get();
       foreach ($appointments as $appointment) {
-       
-        array_push($events,  [
+        array_push($events, [
           'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
           'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
           'id' => $appointment->ClassSchedule->id,
@@ -34,10 +33,9 @@ class DashboardController extends Controller
         ]);
       }
     }
-    
-    if (Auth::user()->role->restriction > 2) {
 
-      return view('content.dashboard.dashboards-student',compact('events'));
+    if (Auth::user()->role->restriction > 2) {
+      return view('content.dashboard.dashboards-student', compact('events'));
     } elseif (Auth::user()->role->restriction > 1) {
       return redirect('teacher/Dashboard');
     } else {

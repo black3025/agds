@@ -55,10 +55,11 @@ class RegisterBasic extends Controller
       }
     }
 
-    try {
-      event(new Registered($user));
-    } catch (\Exception $e) {
-    }
+    // try {
+    event(new Registered($user));
+    // } catch (\Exception $e) {
+    //   console . log($e);
+    // }
 
     Auth::login($user);
 
