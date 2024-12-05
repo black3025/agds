@@ -17,9 +17,17 @@ class DashboardController extends Controller
   {
     $id = Auth::user()->id;
     $events = [];
-    $scheds = Enrollment::where('user_id', $id)
-      ->where('verified', 'Approved')
+    $scheds = Enrollment::wherehas('ClassSchedule', function ($q) {
+      $q->where('is_active', 1);
+    })
+      ->where('user_id', $id)
+      ->where('verified', '<>', 'Pending')
       ->get();
+
+    $ClassSched = ClassSchedule::wherehas('enrollment', function ($q) use ($id) {
+      $q->where('user_id', $id);
+    })->get();
+
     foreach ($scheds as $sched) {
       $id2 = $sched->class_schedule_id;
       $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
@@ -37,7 +45,7 @@ class DashboardController extends Controller
     }
 
     if (Auth::user()->role->restriction > 2) {
-      return view('content.dashboard.dashboards-student', compact('events'));
+      return view('content.dashboard.dashboards-student', compact('events', 'ClassSched'));
     } elseif (Auth::user()->role->restriction > 1) {
       return redirect('teacher/Dashboard');
     } else {

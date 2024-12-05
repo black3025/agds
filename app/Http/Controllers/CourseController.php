@@ -15,8 +15,8 @@ class CourseController extends Controller
   public function index()
   {
     if (Auth::user()->role->restriction > 2) {
-      $courses = Course::where('is_active', 1)->get();
-      return view('content.course.index', compact('courses'));
+      // $courses = Course::where('is_active', 1)->simplePaginate(3);
+      return view('content.course.index');
     } elseif (Auth::user()->role->restriction > 1) {
       return view('content.teacher.course.index');
     } else {
@@ -49,14 +49,14 @@ class CourseController extends Controller
     if (Auth::user()->role->restriction > 2) {
       return view('content.course.course', compact('course'));
     } else {
-      $rooms = Room::where('status',1)->get();
+      $rooms = Room::where('status', 1)->get();
       $teachers = Teacher::whereHas('user', function ($query) {
         $query->where('is_active', 1);
       })
         ->where('mastery', 'like', '%' . $course->id . '%')
         ->get();
       $categories = Category::all();
-      return view('content.admin.course.course', compact('course', 'teachers', 'categories','rooms'));
+      return view('content.admin.course.course', compact('course', 'teachers', 'categories', 'rooms'));
     }
   }
 

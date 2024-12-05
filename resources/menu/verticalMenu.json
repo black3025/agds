@@ -16,10 +16,13 @@
       "url": "/enrolled",
       "name": "Enrolled Course",
       "icon": "menu-icon tf-icons bx bxs-book-open",
-      "slug": [
-        "my enrollment",
-        "course schedule"
-      ]
+      "slug": "my enrollment"
+    },
+    {
+      "url": "/completed-course",
+      "name": "Course commpleted",
+      "icon": "menu-icon tf-icons bx bx-book",
+      "slug": "completed course"
     }
   ]
 }

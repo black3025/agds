@@ -12,10 +12,10 @@
               <div class="card-body">
                 <h5 class="card-title text-primary mb-3">{{ucfirst(Auth::user()->fname)}} you have {{Auth::user()->loyalty->sum('amount')}} loyalty points.</h5>
                 <p class="mb-6">You have done 
-                  @if(empty(Auth::user()->enrollments))
+                  @if(empty($ClassSched))
                     0
                   @else
-                    {{Auth::user()->enrollments->where('status', 'Done')->  count() }}
+                    {{$ClassSched->where('is_active',0)->count() }}
                   @endif
                  classes.
                  
@@ -45,13 +45,13 @@
                 </div>
                 <p class="mb-1">Active Course</p>
                 <h4 class="card-title mb-3">
-                  @if(empty(Auth::user()->enrollments))
+                  @if(empty($ClassSched))
                     0
                   @else
-                    {{Auth::user()->enrollments->where('verified','Approved')->count()}}
+                    {{$ClassSched->where('is_active',1)->count()}}
                   @endif
                 </h4>
-                <small class="text-success fw-medium"><a href="{{route('enrollment.index')}}"><i class='bx bxs-palette'></i>View Course</a></small>
+                <small class="text-success fw-medium"><a href="{{route('my enrollment')}}"><i class='bx bxs-palette'></i>View Course</a></small>
               </div>
             </div>
           </div>
@@ -70,12 +70,13 @@
                 </div>
                 <p class="mb-1">Course Completed</p>
                 <h4 class="card-title mb-3">
-                  @if(empty(Auth::user()->enrollment))
+                  @if(empty($ClassSched))
                     0
                   @else
-                    Auth::user()->enrollment->where('verified','Completed')->count()
+                    {{$ClassSched->where('is_active',1)->count()}}
                   @endif
                 </h4>
+                <small class="text-success fw-medium"><a href="{{route('completed course')}}"><i class='bx bxs-graduation'></i>View Course</a></small>
               </div>
             </div>
           </div>

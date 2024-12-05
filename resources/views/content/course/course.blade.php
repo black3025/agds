@@ -19,18 +19,18 @@
 
 @section('content')
     <div class="row mb-12">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card">
             <img class="card-img-top" src={{ asset('storage/course_image/' .$course->image_display) }} alt={{ $course->name.' image' }}>
             <div class="card-body">
                 <h5 class="card-title">{{$course->name}}</h5>
-                <p class="card-text">
+                <p class="card-text" style="font-size:0.9em;">
                     {{$course->description}}
                 </p>
             </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="card mb-10">
                 <div class="card-header">
                     <h7 class="card-title mb-0">Available Class:</h5>
@@ -45,44 +45,47 @@
                                 <th style="text-align:center">Teacher</th>
                                 <th style="text-align:center">Start Date</th>
                                 <th style="text-align:center">Duration</th>
-                                <th style="text-align:center">Days</th>
-                                <th style="text-align:center">Timeslot</th>
+                                <th style="text-align:center">Schedule</th>
+                                <th style="text-align:center">Slots</th>
                                 <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @foreach($course->ClassSchedule as $sched)
+                            @foreach($course->ClassSchedule->where('is_active',1) as $sched)
+                                
                                 <tr>
-                                    <td>{{$sched->category->name}}</td>
-                                    <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
-                                    <td>{{date('F d, Y',strtotime($sched->day_start))}}</td>
-                                    <td>{{$sched->duration}} Sessions</td>
-                                    <td>
-                                            @foreach(explode('|',$sched->week) as $row)
-                                                @if($row == 0)
-                                                    Sunday,
-                                                @endif
-                                                @if($row == 1)
-                                                    Monday,
-                                                @endif
-                                                @if($row == 2)
-                                                    Tuesday,
-                                                @endif
-                                                @if($row == 3)
-                                                    Wednesday,
-                                                @endif
-                                                @if($row == 4)
-                                                    Thursday,
-                                                @endif
-                                                @if($row == 5)
-                                                    Friday,
-                                                @endif
-                                                @if($row == 6)
-                                                    Saturday,
-                                                @endif
-                                            @endforeach
+                                        <td>{{$sched->category->name}}</td>
+                                        <td>{{$sched->user->fname}} @if(!empty( $sched->user->mname )) {{$sched->user->mname[0]}}. @else  @endif {{$sched->user->lname}}</td>
+                                        <td>{{date('F d, Y',strtotime($sched->day_start))}}</td>
+                                        <td>{{$sched->duration}} Sessions </td>
+                                        <td>
+                                                    @foreach(explode('|',$sched->week) as $row)
+                                                        @if($row == 0)
+                                                            Sunday,
+                                                        @endif
+                                                        @if($row == 1)
+                                                            Monday,
+                                                        @endif
+                                                        @if($row == 2)
+                                                            Tuesday,
+                                                        @endif
+                                                        @if($row == 3)
+                                                            Wednesday,
+                                                        @endif
+                                                        @if($row == 4)
+                                                            Thursday,
+                                                        @endif
+                                                        @if($row == 5)
+                                                            Friday,
+                                                        @endif
+                                                        @if($row == 6)
+                                                            Saturday,
+                                                        @endif
+                                                    @endforeach
+                                            <br>
+                                            {{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}
                                     </td>
-                                    <td>{{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}</td>
+                                    <td>{{$sched->slot - $sched->enrollment->count()}}</td>
                                     <td>
                                         <a 
                                             onclick="checkConflict({{$sched->id}},1,{{$sched->amount}})"
@@ -113,6 +116,7 @@
                                        
                                     </td>
                                 </tr>
+                                
                             @endforeach
                         </tbody>
                     </table>

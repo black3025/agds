@@ -58,4 +58,9 @@ class ClassSchedule extends Model
   {
     return $this->belongsTo(Room::class);
   }
+
+  public function reviews()
+  {
+    return $this->hasMany(Review::class);
+  }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\EnrollmentAdminController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ReviewController;
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
@@ -27,10 +28,17 @@ Route::middleware('auth', 'verified')->group(function () {
   //Student
   Route::middleware('isStudent')->group(function () {
     Route::resource('/course', CourseController::class, ['names' => 'course']);
+
     Route::resource('/inquiry', InquiryController::class, ['names' => 'inquiry']);
+
     Route::resource('/enrollment', EnrollmentController::class, ['names' => 'enrollment']);
     Route::get('/enrolled', [EnrollmentController::class, 'enrolled'])->name('my enrollment');
+    Route::get('/completed-course', [EnrollmentController::class, 'completed'])->name('completed course');
     Route::get('/enrolled-sched/{id}', [EnrollmentController::class, 'enrolledsched'])->name('Course Schedule');
+
+    Route::resource('/review', ReviewController::class, ['names' => 'review']);
+    Route::get('/fetchreview/{id}', [ReviewController::class, 'fetchreview'])->name('fetch review');
+
     Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
     Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
   });
@@ -76,7 +84,6 @@ Route::middleware('auth', 'verified')->group(function () {
       'Teacher Schedule'
     );
     Route::get('/teacher/resched/{id}', [EventController::class, 'resched'])->name('resched');
-    
   });
 });
 

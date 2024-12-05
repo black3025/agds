@@ -10,18 +10,21 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('renta_rooms', function (Blueprint $table) {
+    Schema::create('reviews', function (Blueprint $table) {
       $table->id();
-      $table->unsignedBigInteger('room_id');
+      $table->unsignedBigInteger('class_schedule_id');
       $table
-        ->foreign('room_id')
+        ->foreign('class_schedule_id')
         ->references('id')
-        ->on('rooms');
-      $table->datetime('start_time');
-      $table->datetime('finish_time');
+        ->on('class_schedules');
+      $table->unsignedBigInteger('user_id');
+      $table
+        ->foreign('user_id')
+        ->references('id')
+        ->on('users');
       $table->longText('comments')->nullable();
-      $table->integer('is_active')->default(1);
-
+      $table->integer('star_rating');
+      $table->integer('is_private');
       $table->timestamps();
     });
   }
@@ -31,6 +34,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('renta_rooms');
+    Schema::dropIfExists('reviews');
   }
 };

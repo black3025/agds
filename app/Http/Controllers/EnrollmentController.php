@@ -22,12 +22,12 @@ class EnrollmentController extends Controller
   {
     $id = Auth::user()->id;
     $conflict = 0;
-
+    //check for same course
     $exists = Enrollment::where('user_id', $id)
       ->where('class_schedule_id', $request->class_schedule_id)
-      ->where('status', 'new')
       ->count();
 
+    //check for same date/timeslot
     $enrollments = Enrollment::where('user_id', $id)
       ->where('status', 'new')
       ->get();
@@ -47,6 +47,8 @@ class EnrollmentController extends Controller
         ->count();
       $conflict = $count;
     }
+    //check for slots
+    $sched = 0;
 
     if ($exists > 0) {
       return ['success' => false, 'message' => 'You are already enrolled in this course.'];
@@ -66,16 +68,45 @@ class EnrollmentController extends Controller
     if ($points < 500) {
       return ['success' => false, 'message' => 'Insuficient Points.'];
     } else {
-      $enroll = Enrollment::create($request->all());
-      if ($enroll) {
-        $loyalty = LoyaltyPoints::create([
-          'user_id' => Auth::user()->id,
-          'amount' => -500,
-          'details' => 'Redeem Course',
-        ]);
-        return ['success' => true, 'message' => 'Enrollment Redeemed.'];
+      $id = Auth::user()->id;
+      $conflict = 0;
+      //check for same course
+      $exists = Enrollment::where('user_id', $id)
+        ->where('class_schedule_id', $request->class_schedule_id)
+        ->count();
+
+      //check for same date/timeslot
+      $enrollments = Enrollment::where('user_id', $id)
+        ->where('status', 'new')
+        ->get();
+      $newEvents = Event::where('class_schedule_id', $request->class_schedule_id)->get();
+
+      foreach ($newEvents as $event) {
+        $from = $event->start_time;
+        $to = $event->finish_time;
+
+        $count = Enrollment::where('user_id', $id)
+          ->where('status', 'new')
+          ->wherehas('ClassSchedule', function ($q) use ($id, $from, $to) {
+            $q->wherehas('event', function ($q) use ($from, $to) {
+              $q->where('start_time', '<', $to)->where('finish_time', '>', $from);
+            });
+          })
+          ->count();
+        $conflict = $count;
+      }
+      //check for slots
+      $sched = 0;
+
+      if ($exists > 0) {
+        return ['success' => false, 'message' => 'You are already enrolled in this course.'];
+      } elseif ($conflict > 0) {
+        return [
+          'success' => false,
+          'message' => 'You are currently enrolled in a course that has a conflict with this new course.',
+        ];
       } else {
-        return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
+        return ['success' => true, 'message' => 'Clear'];
       }
     }
   }
@@ -100,7 +131,21 @@ class EnrollmentController extends Controller
 
   public function enrolled()
   {
-    $enrollments = Enrollment::where('user_id', Auth::user()->id)->get();
+    $enrollments = Enrollment::whereHas('ClassSchedule', function ($q) {
+      $q->where('is_active', 1);
+    })
+      ->where('user_id', Auth::user()->id)
+      ->get();
     return view('content.enrollment.index', compact('enrollments'));
+  }
+  public function completed()
+  {
+    $enrollments = Enrollment::whereHas('ClassSchedule', function ($q) {
+      $q->where('is_active', 0)->with('review');
+    })
+      ->where('user_id', Auth::user()->id)
+      ->where('verified', 'Approved')
+      ->get();
+    return view('content.enrollment.completed', compact('enrollments'));
   }
 }
