@@ -28,7 +28,8 @@ class EnrollmentAdminController extends Controller
       'amount' => 50,
       'details' => $user->ClassSchedule->course->name,
     ]);
-    Notification::sendNow($user, new EnrollApproved($enrollment));
+    $user->notify(new EnrollmentApproved($enrollment));
+
     return response()->json(['result' => $id]);
   }
   public function getEnrollments()
