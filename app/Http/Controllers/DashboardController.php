@@ -83,14 +83,17 @@ class DashboardController extends Controller
 
   public function adminIndex()
   {
-    $enrollements = Enrollment::all();
+    $enrollements = Enrollment::where('status', 'pending')->get();
     $courses = Course::all();
     $students = Student::all();
     $teachers = Teacher::all();
 
     $events = [];
 
-    $appointments = Event::all();
+    $appointments = Event::wherehas('ClassSchedule', function ($q) {
+      $q->where('is_active', 1);
+    })->get();
+
     foreach ($appointments as $appointment) {
       $events[] = [
         'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
