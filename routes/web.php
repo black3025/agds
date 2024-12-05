@@ -21,6 +21,7 @@ $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
 Route::get('/', [FrontController::class, 'index'])->name('front');
+Route::get('/reviews', [FrontController::class, 'review'])->name('front-review');
 
 Route::middleware('auth', 'verified')->group(function () {
   Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -37,7 +38,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/enrolled-sched/{id}', [EnrollmentController::class, 'enrolledsched'])->name('Course Schedule');
 
     Route::resource('/review', ReviewController::class, ['names' => 'review']);
-    Route::get('/fetchreview/{id}', [ReviewController::class, 'fetchreview'])->name('fetch review');
+    Route::get('/fetchreview/{id}', [ReviewController::class, 'fetchreview'])->name('fetchreview');
 
     Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
     Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
@@ -73,6 +74,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::resource('/admin/enrollments', EnrollmentAdminController::class, ['names' => 'admin-enrollment']);
     Route::get('/getEnrollments', [EnrollmentAdminController::class, 'getEnrollments'])->name('getEnrollments');
+    Route::resource('/admin/review', ReviewController::class, ['names' => 'admin-review']);
   });
 
   //Teacher

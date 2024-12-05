@@ -19,13 +19,13 @@ class UserController extends Controller
   public function updateStatus($id)
   {
     $user = User::find($id);
-    if( $user->is_active == 1){
-        $newstat = 0;
-    }else{
-        $newstat = 1;
+    if ($user->is_active == 1) {
+      $newstat = 0;
+    } else {
+      $newstat = 1;
     }
     $user->update([
-      'is_active' => $newstat
+      'is_active' => $newstat,
     ]);
     return response()->json(['result' => $id]);
   }
@@ -50,7 +50,8 @@ class UserController extends Controller
    */
   public function show(string $id)
   {
-    //
+    $user = User::findorfail($id);
+    return view('content.user.user', compact('user'));
   }
 
   /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Review;
 
 class FrontController extends Controller
 {
@@ -12,9 +13,19 @@ class FrontController extends Controller
    */
   public function index()
   {
-    return view('content.front-pages.land');
+    $reviews = Review::latest()
+      ->take(5)
+      ->get();
+    return view('content.front-pages.land', compact('reviews'));
   }
 
+  public function review()
+  {
+    $reviews = Review::latest()
+      ->take(5)
+      ->get();
+    return view('content.review.index', compact('reviews'));
+  }
   /**
    * Show the form for creating a new resource.
    */

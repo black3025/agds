@@ -141,7 +141,7 @@ class EnrollmentController extends Controller
   public function completed()
   {
     $enrollments = Enrollment::whereHas('ClassSchedule', function ($q) {
-      $q->where('is_active', 0)->with('review');
+      $q->where('is_active', 0);
     })
       ->where('user_id', Auth::user()->id)
       ->where('verified', 'Approved')

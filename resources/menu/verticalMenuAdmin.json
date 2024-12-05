@@ -37,6 +37,12 @@
       "slug": "room"
     },
     {
+      "url": "/admin/review",
+      "name": "Reviews",
+      "icon": "menu-icon tf-icons bx bx-message-square",
+      "slug": "review"
+    },
+    {
       "url": "/admin/users",
       "name": "User",
       "icon": "menu-icon tf-icons bx bxs-user",

@@ -91,7 +91,37 @@
          }
     </style>
 @endsection
- 
+
+<script>
+ $(function(){
+        $('#addReviewForm').on('submit', function(e){
+                e.preventDefault();
+                var form = this;
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code==0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#mdaclosebutton').click();
+                            success(data.msg);
+                            setTimeout(function(){window.location.reload();},1500);
+                        }
+                    }
+            })
+        });
+ })
+</script>
 <div class="modal fade" id="addReview" tabindex="-1" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" role="document">
     <form action="{{route('review.store')}}" method="post" enctype="multipart/form-data" id = "addReviewForm">
@@ -103,9 +133,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <input type="text" name="class_schedule_id" id="schedid"/>
+                    <input class="form-control" hidden type="text" name="class_schedule_id" id="class_schedule_id" />
                     <div class="col mb-6">
-                        
                             <div class="rate">
                                 <input type="radio" id="star5" class="rate" name="rating" value="5"/>
                                 <label for="star5" title="text">5 stars</label>
@@ -118,7 +147,7 @@
                                 <input type="radio" id="star1" class="rate" name="rating" value="1"/>
                                 <label for="star1" title="text">1 star</label>
                             </div>
-
+                            <span class="text-danger error-text rating_error" > </span>
                     </div>
                 </div>
                 <div class="row">

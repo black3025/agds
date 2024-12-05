@@ -48,8 +48,6 @@
           <div class="col-md-12">
             <div class="card mb-10">
                 <div class="card-body pt-0">
-                    
-                    <br><br>
                     <table class="table table-hover" id="tblStudent" >
                         <thead>
                             <tr>

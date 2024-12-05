@@ -49,6 +49,9 @@
                   <a class="nav-link" href="#instructors"> Instructors</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="#reviews"> Reviews</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="#contact-us"> Contact Us</a>
                 </li>
                 @if(Auth::User())
@@ -201,24 +204,44 @@
 
   <section class="heathy_section layout_padding">
     <div class="container">
-
-      <div class="row">
-        <div class="col-md-12 mx-auto">
-          <div class="detail-box">
-            <h2 class="force_white">
-              HEALTHY MIND, HEALTHY BODY
-            </h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-            </p>
-   
-          </div>
-        </div>
+              <div class="heading_container">
+        <h2 id = "Reviews" class="force_white" id="reviews">
+          Reviews
+        </h2>
       </div>
-
+      <div class="row">
+        @forelse($reviews as $review)
+            <div class="col-lg-3 col-md-6 mx-auto">
+                <div class="box">
+                      <div class="name">
+                        <h5 class="force_white">
+                          {{$review->user->fname}}
+                        </h5>
+                      </div>
+                      <div class="card h-100 col-lg-12 col-md-12 mx-auto">
+                        <div class="card-body">
+                            <h4 class="card-title">{{$review->ClassSchedule->course->name}}</h4>
+                          <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4">
+                              {{$review->comments}} 
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="social_box" style="color:gold; font-size:1.7em;">
+                          @for($i = 1; $i<=$review->star_rating; $i++)
+                                            ★ 
+                          @endfor
+                </div>
+            </div>
+        @empty
+        <div class="detail-box">
+            <h2 class="force_white">
+              No Reviews Yet
+            </h2>
+          </div>
+        @endforelse
     </div>
   </section>
-
   <!-- end heathy section -->
 
   <!-- trainer section -->

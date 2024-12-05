@@ -14,22 +14,20 @@
         $(document).ready( function () {
         $('#tblCourse').DataTable();
         });
-
-    </script>
+</script>
 @endsection
 
 @section('page-script')
 <script>
+    
         function populate(sched)
         {
+            $('#class_schedule_id').val(sched['id']);
             if(sched==''){
                 $('#addReviewLabel').text('Add New Review');
-                $('.schedid').value(sched);
             }else{
                 $('#addReviewLabel').text('Update Review');
-                $('.schedid').value(sched);
             }
-          
         }
 </script>
 @endsection
@@ -53,7 +51,7 @@
                             Teacher: {{$enrollment->ClassSchedule->user->fname}} @if(!empty( $enrollment->ClassSchedule->user->mname )) {{$enrollment->ClassSchedule->user->mname[0]}}. @else  @endif {{$enrollment->ClassSchedule->user->lname}}
                         </p>
                   
-                          <small class="text-success fw-medium"><a onclick="populate({{$enrollment->ClassSchedule->reviews}})"  href="#" data-bs-toggle="modal" data-bs-target="#addReview"><i class='bx bx-edit-alt'></i>Write Review</a></small>
+                          <small class="text-success fw-medium"><a onclick="populate({{$enrollment->ClassSchedule}})"  href="#" data-bs-toggle="modal" data-bs-target="#addReview"><i class='bx bx-edit-alt'></i>Write Review</a></small>
                     </div>
                     
                 </div>
