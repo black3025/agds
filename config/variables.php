@@ -28,5 +28,5 @@ return [
   'dribbbleUrl' => 'https://dribbble.com/themeselection',
   'instagramUrl' => 'https://www.instagram.com/themeselection/',
   'AppName' => 'Amber Graceal Dance Studio',
-  'AppShort' => 'AGDS Reservation',
+  'AppShort' => 'AGDS Web App',
 ];

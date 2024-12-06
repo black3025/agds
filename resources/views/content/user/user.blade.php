@@ -20,13 +20,15 @@
                           $(form).find('span.error-text').text('');
                       },
                       success:function(data){
-                          if(data.code==0){
+                        if(data.code==0){
                               $.each(data.error, function(prefix, val){
-                                  $(form).find('span.'+prefix+'_error').text(val[0]);
+                                  $(form).find('span.'+prefix+'_error').text("TESTING");
+                                  alert("madsli!!!!");
                               });
                           }else{                              
                               $(form)[0].reset();
                               success(data.msg);
+                              setTimeout(window.location.reload.bind(window.location), 1000);
                           }
 
                       }
@@ -43,14 +45,15 @@
     <div class="card mb-6">
       <!-- Account -->
       <div class="card-body">
-        <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id = "updateProfile">
+        <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updateProfile">
+          @csrf
         <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
           <img src="{{ asset('storage/profile-photos/1.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
           <div class="button-wrapper">
             <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
               <span class="d-none d-sm-block">Upload new photo</span>
               <i class="bx bx-upload d-block d-sm-none"></i>
-              <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" onchange="addloadFile(event)">
+              <input type="file" id="upload" name="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" onchange="addloadFile(event)">
             </label>
             <div>Allowed JPG, GIF or PNG.</div>
           </div>
@@ -83,14 +86,14 @@
               <input class="form-control" type="text" id="email" name="email" value="{{$user->email}}"" placeholder="john.doe@example.com">
               <span class="text-danger error-text email_error" > </span>
             </div>
-            
           </div>
           <div class="mt-6">
             <button type="submit" class="btn btn-primary me-3">Save changes</button>
             <button type="reset" class="btn btn-outline-secondary">Cancel</button>
           </div>
-        </form>
+       
       </div>
+      </form>
       <!-- /Account -->
     </div>
     <div class="card" style="margin-top:15px;">

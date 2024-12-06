@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
 use App\Models\ClassSchedule;
+use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
-
+use App\Notifications\NewEnrollmentNotification;
+use Illuminate\Notifications\Notifiable;
 class EnrollmentController extends Controller
 {
+  use Notifiable;
   
   public function index()
   {
@@ -120,9 +123,14 @@ class EnrollmentController extends Controller
   public function store(request $request)
   {
     $enroll = Enrollment::create($request->all());
+
     if ($enroll) {
+      $admins = User::whereHas('role', function($q){
+        $q->where('id',1);
+      })->get();
+      \Notification::send($admins, new NewEnrollmentNotification($enroll));
+
       return response()->json(['code' => 1, 'msg' => 'Enrollment posted.']);
-      // return ['success' => true, 'message' => 'Enrollment Posted.'];
     } else {
       return response()->json(['code' => 0, 'msg' => 'Something went wrong please contact the administrator.']);
       // return ['success' => false, 'message' => 'Something went wrong please contact the administrator.'];
@@ -144,6 +152,7 @@ class EnrollmentController extends Controller
       ->get();
     return view('content.enrollment.index', compact('enrollments'));
   }
+
   public function completed()
   {
     $enrollments = Enrollment::whereHas('ClassSchedule', function ($q) {

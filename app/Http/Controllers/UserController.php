@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
 use Illuminate\Notifications\Notifiable;
 class UserController extends Controller
 {
@@ -74,7 +75,37 @@ class UserController extends Controller
 
   public function updateUser(Request $request)
   {
-    return response()->json(['code' => 1, 'msg' => 'Course has been update']);
+        $user = User::find(Auth::user()->id);
+        $validator = \Validator::make(
+          $request->all(),
+          [
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'bday' => 'required',
+            'email' => "required|email|unique:users,email,{$user->id}",
+          ],
+          [
+            'firstName.required' => 'First name is required.',
+            'lastName.required' => 'Last name is required.',
+            'bday.required' => 'Birthday is required.',
+            'email.required' => 'Email address is required.',
+            'email.unique' => 'This email is already been used.',
+          ]
+        );
+        if (!$validator->passes()) {
+          
+          return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        }else{
+              $user->update([
+                'fname'=>$request->firstName,
+                'mname'=>$request->middleName,
+                'lname'=>$request->lastName,
+                'birthday'=>$request->bday,
+                'email'=>$request->email,
+            ]);
+            return response()->json(['code' => 1, 'msg' => 'User has been update']);
+       }
+      //return response()->json(['code' => 1, 'msg' => 'Course has been update']);
   }
 
   /**
