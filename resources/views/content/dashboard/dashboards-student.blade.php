@@ -97,7 +97,9 @@
         <div class="card-body">
           @foreach($posts as $post)
             {{Str::limit($post->content, 30)}} Date Posted: {{date('F d, Y', strtotime($post->created_at))}}
-            <img class="card-img-top" src={{asset('storage/post_pic/' .$post->pic) }}  class="d-block w-px-10 h-px-10 rounded" alt="{{$post->pic}}">
+            @if($post->pic!="")
+              <img class="card-img-top" src={{asset('storage/post_pic/' .$post->pic) }}  class="d-block w-px-10 h-px-10 rounded" alt="{{$post->pic}}">
+            @endif
           @endforeach
         </div>
     </div>

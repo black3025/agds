@@ -32,6 +32,11 @@
 
 @section('content')
 <div class="col-12 col-lg-12 order-2 order-md-12 order-lg-12 mb-4">
+    <div class="row mb-10">
+        <div class="col col-8"><h5 class="pb-1 mb-6">Manage Posts</h5></div>
+        <div class="col col-4 text-end mb-10"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class='bx bxs-message-square-add'></i>&nbsp; Add New Posts</button></div>
+    </div>
+    <br>
     <div class="card">
       <div class="row row-bordered g-0">
           <div class="col-md-12">
