@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Notifications\Notifiable;
 class UserController extends Controller
 {
+  use Notifiable;
   /**
    * Display a listing of the resource.
    */

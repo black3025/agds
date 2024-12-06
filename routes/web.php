@@ -101,6 +101,10 @@ Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name
 Route::put('/auth/register', [RegisterBasic::class, 'index'])->name('process-register');
 Route::resource('/student/register', $controller_path . '\authentications\RegisterBasic', ['names' => 'students']);
 
+
+//notification
+Route::get('/mark-as-read', [EnrollmentController::class,'markAsRead'])->name('mark-as-read');
+
 //email verification
 Route::get('/email/verify', [LoginBasic::class, 'emailVerify'])
   ->middleware('auth')

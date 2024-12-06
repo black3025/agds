@@ -8,6 +8,7 @@ use App\Models\Enrollment;
 use App\Models\LoyaltyPoints;
 use App\Models\ClassSchedule;
 use App\Models\User;
+use App\Notifications\EnrollmentApproved;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 
@@ -18,20 +19,23 @@ class EnrollmentAdminController extends Controller
   public function approveEnrollment($id)
   {
     $enrollment = Enrollment::find($id);
-    $user = User::where('id', $enrollment->user_id);
+    $user = User::find($enrollment->user_id);
+
     $enrollment->update([
       'verified' => 'Approved',
     ]);
 
     $loyalty = LoyaltyPoints::create([
-      'user_id' => $user->user_id,
+      'user_id' => $enrollment->user_id,
       'amount' => 50,
-      'details' => $user->ClassSchedule->course->name,
+      'details' => $enrollment->ClassSchedule->course->name
     ]);
+    
     $user->notify(new EnrollmentApproved($enrollment));
 
     return response()->json(['result' => $id]);
   }
+
   public function getEnrollments()
   {
     $enrollments = Enrollment::where('verified', 'Pending')->get();

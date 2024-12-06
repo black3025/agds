@@ -12,10 +12,16 @@ use Illuminate\Support\Facades\Auth;
 
 class EnrollmentController extends Controller
 {
+  
   public function index()
   {
     $enrollments = Enrollment::all();
     return view('content.enrollment.index', compact('enrollments'));
+  }
+
+  public function markAsRead(){
+    Auth::user()->unreadNotifications->markAsRead();
+    return redirect()->back();
   }
 
   public function checkConflict(request $request)

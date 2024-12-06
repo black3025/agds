@@ -34,8 +34,34 @@ $navbarDetached = ($navbarDetached ?? '');
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
       <p class="navbar-nav flex-row align-items-left fw-bold">{{strtoupper(explode(".",Route::currentRouteName())[0])}}</p>
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
 
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+              @if(Auth::user()->unreadNotifications->count()>0)
+                <li class="nav-item navbar-dropdown">
+                      <a id="navbarDropdown" class="dropdown-item" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                          <i class='bx bxs-bell'></i>
+                          <span class="badge bg-info badge-xs">{{Auth::user()->unreadNotifications->count()}}</span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                                  @if(Auth::user()->unreadNotifications->count()>0)
+                                    <li class="d-flex justify-content-end mx-1 my-2">
+                                        <a href="{{route('mark-as-read')}}" class="btn btn-info btn-sm">Mark All as Read</a>
+                                    </li>
+                                  @endif
+                                  @foreach (auth()->user()->unreadNotifications as $notification)
+                                    <li><a href="#" class="dropdown-item"><li class="p-1"> {{$notification->data['data']}}</li></a>
+                                  @endforeach
+                                  <!-- @foreach (auth()->user()->readNotifications as $notification)
+                                    <li><a href="#" class="dropdown-item"><li class="p-1 text-secondary"> {{$notification->data['data']}}</li></a>
+                                  @endforeach -->
+                      </ul>
+                  </li>
+              @else
+                      <a id="navbarDropdown" class="dropdown-item">
+                          <i class='bx bxs-bell'></i>
+                          <span class="badge bg-info badge-xs">{{Auth::user()->unreadNotifications->count()}}</span>
+                      </a>
+              @endif
           <!-- Place this tag where you want the button to render. -->
       
           <!-- User -->

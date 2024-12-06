@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
 
 class Enrollment extends Model
 {
-  use HasFactory;
+  use HasFactory, Notifiable;
 
   protected $fillable = ['referenceNo', 'user_id', 'class_schedule_id', 'verified', 'status', 'amount'];
 

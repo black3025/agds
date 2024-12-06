@@ -14,9 +14,10 @@ class EnrollmentApproved extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    protected $enrollment;
+    public function __construct($enrollment)
     {
-        //
+        $this->enrollment =$enrollment;
     }
 
     /**
@@ -26,7 +27,7 @@ class EnrollmentApproved extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -35,9 +36,9 @@ class EnrollmentApproved extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Enrollment Approved.')
+                    ->line('Your enrollment to '. $this->enrollment->ClassSchedule->course->name. '- '.$this->enrollment->ClassSchedule->category->name .  ' has been approved.')
+                    ->line('See you there!');
     }
 
     /**
@@ -48,7 +49,9 @@ class EnrollmentApproved extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            
+                'data' =>'Your enrollment to '. $this->enrollment->ClassSchedule->course->name. '- '.$this->enrollment->ClassSchedule->category->name .  ' has been approved.'
+        
         ];
     }
 }
