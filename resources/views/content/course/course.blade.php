@@ -93,13 +93,32 @@
                                             class="btn btn-primary"
                                             title="Book">
                                                 <i class='bx bx-plus'></i>
+                                                
                                         </a>
                                         <button hidden type="button"
                                             class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target="#basicModal"
-                                            fdprocessedid="dyx4wr" id="ghostEnroll">
+                                            fdprocessedid="dyx4wr" id="ghostEnroll"
+                                        >
                                         </button>
+{{-- 
+                                        <a 
+                                            onclick="checkConflict({{$sched->id}},1,{{$sched->amount}})"
+                                            type="button"
+                                            class="btn btn-primary"
+                                            title="Reserve">
+                                                <i class='bx bx-plus'></i>
+                                                
+                                        </a>
+                                        <button hidden type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalReserve"
+                                            fdprocessedid="dyx4wr" id="ghostReserve"
+                                        >
+                                        </button> --}}
+
                                         <a 
                                             onclick="checkConflict({{$sched->id}},2,{{$sched->amount}})"
                                             type="button"
@@ -111,7 +130,8 @@
                                             class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target="#redeemModal"
-                                            fdprocessedid="dyx4wr" id="ghostRedeem">
+                                            fdprocessedid="dyx4wr" id="ghostRedeem"
+                                        >
                                         </button>
                                        
                                     </td>
@@ -126,6 +146,33 @@
                         <div class="modal-content">
                             <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel1">Payment</h5>
+                            <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <div class="row mb-3">
+                                <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
+                                <div class="col mb-6">
+                                    <form onsubmit="return enroll( {{Auth::user()->id}} );">
+                                        @csrf
+                                        <label for="refno" class="form-label">Reference Number</label>
+                                        <input tabindex ="-1" hidden type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
+                                        <input type="text" minlength="12" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
+                                        <span class="text-danger error-text refno_error" > </span>
+                                        <label for="amount" class="form-label">Course Price</label>
+                                        <input type="text" readonly id="amount" name="amount" class="form-control" />
+                                </div>
+                            </div>
+                                        <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
+                                    </form>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+                <div class="modal fade" id="modalReserve" tabindex="-1" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Reservation</h5>
                             <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">

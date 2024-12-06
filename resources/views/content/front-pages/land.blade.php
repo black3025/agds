@@ -205,7 +205,7 @@
   <section class="heathy_section layout_padding">
     <div class="container">
               <div class="heading_container">
-        <h2 id = "Reviews" class="force_white" id="reviews">
+        <h2 id = "reviews" class="force_white" id="reviews">
           Reviews
         </h2>
       </div>

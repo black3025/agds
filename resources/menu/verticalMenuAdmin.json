@@ -43,6 +43,12 @@
       "slug": "review"
     },
     {
+      "url": "/admin/post",
+      "name": "Posts",
+      "icon": "menu-icon tf-icons bx bx-message-square",
+      "slug": "post"
+    },
+    {
       "url": "/admin/users",
       "name": "User",
       "icon": "menu-icon tf-icons bx bxs-user",

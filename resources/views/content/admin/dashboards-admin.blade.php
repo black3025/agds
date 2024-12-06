@@ -99,7 +99,7 @@
   <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">   
     <div class="row"> 
       <div class="col-lg-8 col-md-8 col-8 mb-8" style="margin-bottom:15px">
-          <div class="card h-100">
+          <div class="card">
                 <div class="card-body">
                     @include('content.calendar.calendar')
                 </div>
@@ -107,8 +107,12 @@
       </div>
       <div class="col-lg-4 col-md-4 col-4 mb-4" style="margin-bottom:15px">
         <div class="card h-100">
+                <div class="card-header">Announcements</div>
                 <div class="card-body">
-                    Announcement Here  
+                  @foreach($posts as $post)
+                    {{Str::limit($post->content, 30)}} Date Posted: {{date('F d, Y', strtotime($post->created_at))}}
+                    <img class="card-img-top" src={{asset('storage/post_pic/' .$post->pic) }}  class="d-block w-px-10 h-px-10 rounded" alt="{{$post->pic}}">
+                  @endforeach
                 </div>
           </div>
       </div>

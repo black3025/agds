@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Event;
+use App\Models\Post;
 
 class DashboardController extends Controller
 {
@@ -27,7 +28,9 @@ class DashboardController extends Controller
     $ClassSched = ClassSchedule::wherehas('enrollment', function ($q) use ($id) {
       $q->where('user_id', $id);
     })->get();
-
+    $posts = Post::where('is_active', 1)
+      ->get()
+      ->take(2);
     foreach ($scheds as $sched) {
       $id2 = $sched->class_schedule_id;
       $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
@@ -45,7 +48,7 @@ class DashboardController extends Controller
     }
 
     if (Auth::user()->role->restriction > 2) {
-      return view('content.dashboard.dashboards-student', compact('events', 'ClassSched'));
+      return view('content.dashboard.dashboards-student', compact('events', 'ClassSched', 'posts'));
     } elseif (Auth::user()->role->restriction > 1) {
       return redirect('teacher/Dashboard');
     } else {

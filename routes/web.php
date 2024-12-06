@@ -17,6 +17,7 @@ use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\EnrollmentAdminController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\PostController;
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
@@ -73,6 +74,10 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::resource('/admin/enrollments', EnrollmentAdminController::class, ['names' => 'admin-enrollment']);
     Route::get('/getEnrollments', [EnrollmentAdminController::class, 'getEnrollments'])->name('getEnrollments');
+
+    Route::get('/admin/post', [PostController::class, 'AdminIndex'])->name('post-index');
+    Route::get('/getPosts', [PostController::class, 'getPosts'])->name('getPosts');
+
     Route::resource('/admin/review', ReviewController::class, ['names' => 'admin-review']);
   });
 

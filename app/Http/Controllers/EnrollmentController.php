@@ -15,14 +15,15 @@ use Illuminate\Notifications\Notifiable;
 class EnrollmentController extends Controller
 {
   use Notifiable;
-  
+
   public function index()
   {
     $enrollments = Enrollment::all();
     return view('content.enrollment.index', compact('enrollments'));
   }
 
-  public function markAsRead(){
+  public function markAsRead()
+  {
     Auth::user()->unreadNotifications->markAsRead();
     return redirect()->back();
   }
@@ -57,7 +58,11 @@ class EnrollmentController extends Controller
       $conflict = $count;
     }
     //check for slots
-    $sched = 0;
+    $csid = $request->class_schedule_id;
+    $slot = ClassSchedule::where('id', $csid)->value('slot');
+    $enrollees = Enrollment::wherehas('ClassSchedule', function ($q) use ($csid) {
+      $q->where('id', $csid);
+    })->count();
 
     if ($exists > 0) {
       return ['success' => false, 'message' => 'You are already enrolled in this course.'];
@@ -66,6 +71,8 @@ class EnrollmentController extends Controller
         'success' => false,
         'message' => 'You are currently enrolled in a course that has a conflict with this new course.',
       ];
+    } elseif ($slot - $enrollees < 1) {
+      return ['success' => false, 'message' => 'There is no available slot for this course.'];
     } else {
       return ['success' => true, 'message' => 'Clear'];
     }
@@ -125,8 +132,8 @@ class EnrollmentController extends Controller
     $enroll = Enrollment::create($request->all());
 
     if ($enroll) {
-      $admins = User::whereHas('role', function($q){
-        $q->where('id',1);
+      $admins = User::whereHas('role', function ($q) {
+        $q->where('id', 1);
       })->get();
       \Notification::send($admins, new NewEnrollmentNotification($enroll));
 
