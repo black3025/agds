@@ -90,6 +90,8 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 Route::resource('/users', UserController::class, ['names' => 'user']);
 Route::post('/updateUser', [UserController::class, 'updateUser'])->name('userUpdate');
+Route::post('/updatePic', [UserController::class, 'updatePic'])->name('userPic');
+
 Route::resource('/contactus', $controller_path . '\ContactUsController', ['names' => 'contactus']);
 
 // authentication

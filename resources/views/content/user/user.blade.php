@@ -35,6 +35,45 @@
                   })
               });
       });
+      var addloadFile = function(event) {
+                var reader = new FileReader();
+                reader.onload = function(){
+                var output = document.getElementById('uploadedAvatar');
+                output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+                $('#picSave').click();
+      }
+      $(function(){
+              $('#updatePic').on('submit', function(e){
+                  e.preventDefault();
+                  var form = this;
+                  $.ajax({
+                      url:$(form).attr('action'),
+                      method:$(form).attr('method'),
+                      data: new FormData(form),
+                      processData: false,
+                      dataType: 'json',
+                      contentType: false,
+                      beforeSend:function(){
+                          $(form).find('span.error-text').text('');
+                      },
+                      success:function(data){
+                        if(data.code==0){
+                              $.each(data.error, function(prefix, val){
+                                  $(form).find('span.'+ prefix +'_error').text(val[0]);
+                              });
+                          }else{                              
+                              $(form)[0].reset();
+                              success(data.msg);
+                              setTimeout(window.location.reload.bind(window.location), 1000);
+                          }
+
+                      }
+
+                  })
+              });
+      });
   </script>
 @endsection
 
@@ -44,20 +83,21 @@
     <div class="card mb-6">
       <!-- Account -->
       <div class="card-body">
-        <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updatePic">
-          @csrf
         <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
-          <img src="{{ asset('storage/profile-photos/1.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
-          <div class="button-wrapper">
-            <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
-              <span class="d-none d-sm-block">Upload new photo</span>
-              <i class="bx bx-upload d-block d-sm-none"></i>
-              <input type="file" id="upload" name="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" onchange="addloadFile(event)">
-            </label>
-            <div>Allowed JPG, GIF or PNG.</div>
-          </div>
+          <form action="{{route('userPic')}}" method="post" enctype="multipart/form-data" id="updatePic">
+            @csrf
+            <img src="{{ asset('storage/profile-photos/'.Auth::user()->profile_pic) }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
+            <div class="button-wrapper">
+              <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
+                <span class="d-none d-sm-block">Upload new photo</span>
+                <i class="bx bx-upload d-block d-sm-none"></i>
+                <input type="file" id="upload" name="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" onchange="addloadFile(event)">
+              </label>
+              <div>Allowed JPG, GIF or PNG.</div>
+            </div>
+            <button type="submit" name="picSave" id ="picSave" hidden></button>
+          </form>
         </div>
-        </form>
       </div>
       <div class="card-body pt-4">
       <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updateProfile">
@@ -119,13 +159,3 @@
   </div>
 </div>
 @endsection
- <script>
-            var addloadFile = function(event) {
-                var reader = new FileReader();
-                reader.onload = function(){
-                var output = document.getElementById('uploadedAvatar');
-                output.src = reader.result;
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            }
-    </script>

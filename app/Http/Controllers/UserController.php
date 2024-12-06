@@ -107,6 +107,19 @@ class UserController extends Controller
     //return response()->json(['code' => 1, 'msg' => 'Course has been update']);
   }
 
+  public function updatePic(Request $request)
+  {
+    $user = User::find(Auth::user()->id);
+    $path = 'profile-photos/';
+    $file = $request->file('upload');
+    $file_name = time() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
+    $upload = $file->storeAs($path, $file_name, 'public');
+    $user->update([
+      'profile_pic' => $file_name,
+    ]);
+    return response()->json(['code' => 1, 'msg' => 'Profile Picture has been update']);
+  }
+
   /**
    * Remove the specified resource from storage.
    */
