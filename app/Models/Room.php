@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
   use HasFactory;
-  protected $fillable = ['name', 'capacity', 'status'];
+  protected $fillable = ['name', 'capacity', 'status', 'rent'];
 
   public function ClassSchedule()
   {

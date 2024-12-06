@@ -22,8 +22,7 @@
                       success:function(data){
                         if(data.code==0){
                               $.each(data.error, function(prefix, val){
-                                  $(form).find('span.'+prefix+'_error').text("TESTING");
-                                  alert("madsli!!!!");
+                                  $(form).find('span.'+ prefix +'_error').text(val[0]);
                               });
                           }else{                              
                               $(form)[0].reset();
@@ -45,7 +44,7 @@
     <div class="card mb-6">
       <!-- Account -->
       <div class="card-body">
-        <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updateProfile">
+        <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updatePic">
           @csrf
         <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
           <img src="{{ asset('storage/profile-photos/1.png') }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
@@ -58,8 +57,11 @@
             <div>Allowed JPG, GIF or PNG.</div>
           </div>
         </div>
+        </form>
       </div>
       <div class="card-body pt-4">
+      <form action="{{route('userUpdate')}}" method="post" enctype="multipart/form-data" id="updateProfile">
+          @csrf
           <div class="row g-6">
             <div class="col-md-4" style="margin-bottom:10px">
               <label for="firstName" class="form-label">First Name</label>
@@ -91,9 +93,9 @@
             <button type="submit" class="btn btn-primary me-3">Save changes</button>
             <button type="reset" class="btn btn-outline-secondary">Cancel</button>
           </div>
+      </form>
        
       </div>
-      </form>
       <!-- /Account -->
     </div>
     <div class="card" style="margin-top:15px;">

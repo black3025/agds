@@ -39,6 +39,7 @@ class RoomController extends Controller
       $room = Room::create([
         'name' => $request->add_name,
         'capacity' => $request->add_capacity,
+        'rent' => 0,
       ]);
       return response()->json(['code' => 1, 'msg' => 'Room added successfully.']);
     }

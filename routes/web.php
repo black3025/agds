@@ -54,7 +54,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);
-
+    Route::resource('admin/users', UserController::class, ['names' => 'user']);
     Route::resource('/admin/course', CourseController::class, ['names' => 'admin-course']);
 
     Route::resource('/admin/schedule', ClassScheduleController::class, ['names' => 'schedule']);
@@ -101,9 +101,8 @@ Route::get('/auth/forgot-password', [ForgotPasswordBasic::class, 'index'])->name
 Route::put('/auth/register', [RegisterBasic::class, 'index'])->name('process-register');
 Route::resource('/student/register', $controller_path . '\authentications\RegisterBasic', ['names' => 'students']);
 
-
 //notification
-Route::get('/mark-as-read', [EnrollmentController::class,'markAsRead'])->name('mark-as-read');
+Route::get('/mark-as-read', [EnrollmentController::class, 'markAsRead'])->name('mark-as-read');
 
 //email verification
 Route::get('/email/verify', [LoginBasic::class, 'emailVerify'])
