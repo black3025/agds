@@ -64,7 +64,9 @@ class DashboardController extends Controller
       $q->where('user_id', $id);
     })->get();
     $teachers = Teacher::all();
-
+    $posts = Post::where('is_active', 1)
+      ->get()
+      ->take(2);
     $events = [];
     $id = Auth::user()->id;
 
@@ -81,7 +83,7 @@ class DashboardController extends Controller
         'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
       ];
     }
-    return view('content.teacher.dashboards-teacher', compact('events', 'students'));
+    return view('content.teacher.dashboards-teacher', compact('events', 'students', 'posts'));
   }
 
   public function adminIndex()
@@ -92,7 +94,9 @@ class DashboardController extends Controller
     $teachers = Teacher::all();
 
     $events = [];
-
+    $posts = Post::where('is_active', 1)
+      ->get()
+      ->take(2);
     $appointments = Event::wherehas('ClassSchedule', function ($q) {
       $q->where('is_active', 1);
     })->get();
@@ -106,6 +110,9 @@ class DashboardController extends Controller
         'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
       ];
     }
-    return view('content.admin.dashboards-admin', compact('enrollements', 'students', 'teachers', 'courses', 'events'));
+    return view(
+      'content.admin.dashboards-admin',
+      compact('enrollements', 'students', 'teachers', 'courses', 'events', 'posts')
+    );
   }
 }
