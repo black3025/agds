@@ -9,6 +9,7 @@ use App\Models\LoyaltyPoints;
 use App\Models\ClassSchedule;
 use App\Models\User;
 use App\Notifications\EnrollmentApproved;
+use App\Notifications\EnrollmentDenied;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 
@@ -28,9 +29,9 @@ class EnrollmentAdminController extends Controller
     $loyalty = LoyaltyPoints::create([
       'user_id' => $enrollment->user_id,
       'amount' => 50,
-      'details' => $enrollment->ClassSchedule->course->name
+      'details' => $enrollment->ClassSchedule->course->name,
     ]);
-    
+
     $user->notify(new EnrollmentApproved($enrollment));
 
     return response()->json(['result' => $id]);
@@ -56,6 +57,17 @@ class EnrollmentAdminController extends Controller
     return view('content.admin.enrollment.index');
   }
 
+  public function reservation()
+  {
+    return view('content.admin.enrollment.reservation');
+  }
+
+  public function getReservation()
+  {
+    $enrollments = Enrollment::where('verified', 'Reservation')->get();
+    $data = view('content.admin.enrollment.reserve', compact('enrollments'))->render();
+    return response()->json(['code' => 1, 'result' => $data]);
+  }
   /**
    * Show the form for creating a new resource.
    */
@@ -63,7 +75,21 @@ class EnrollmentAdminController extends Controller
   {
     //
   }
-
+  public function deleteEnrollment($id)
+  {
+    $enroll = Enrollment::find($id);
+    $user = User::find($enroll->user_id);
+    $enroll->delete();
+    if ($enroll) {
+      $user->notify(new EnrollmentDenied($enroll));
+      return response()->json([
+        'success' => true,
+        'result' => $enroll,
+      ]);
+    } else {
+      return response()->json(['success' => false, 'result' => $enroll . ' ' . $id]);
+    }
+  }
   /**
    * Store a newly created resource in storage.
    */

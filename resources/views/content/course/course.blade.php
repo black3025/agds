@@ -7,16 +7,23 @@
 @endsection
 
 @section('vendor-script')
-    <script src="{{ asset('assets/js/jquery-3.4.1.min.js')}}"></script>
-    <script src="{{ asset('assets/js/bootstrap.js')}}"></script>
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready( function () {
-        $('#tblCourse').DataTable();
+            $('#tblCourse').DataTable();
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new Tooltip(tooltipTriggerEl);
+            });
         });
+        
     </script>
 @endsection
+@section('script')
 
+    
+
+@endsection
 @section('content')
     <div class="row mb-12">
         <div class="col-md-2">
@@ -86,13 +93,18 @@
                                             {{date('h:s a',strtotime($sched->time_start))}} to {{date('h:s a',strtotime($sched->time_end))}}
                                     </td>
                                     <td>{{$sched->slot - $sched->enrollment->count()}}</td>
-                                    <td>
+                                    <td style="color:white;">
                                         <a 
                                             onclick="checkConflict({{$sched->id}},1,{{$sched->amount}})"
                                             type="button"
-                                            class="btn btn-primary"
-                                            title="Book">
-                                                <i class='bx bx-plus'></i>
+                                            class="btn btn-icon me-2 btn-primary"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-offset="0,4"
+                                            data-bs-placement="right"
+                                            data-bs-html="true"
+                                            title="<i class='bx bx-book'></i> <span>Enroll in this Course</span>"
+                                        >
+                                               <i class='bx bx-book'></i>
                                                 
                                         </a>
                                         <button hidden type="button"
@@ -102,13 +114,18 @@
                                             fdprocessedid="dyx4wr" id="ghostEnroll"
                                         >
                                         </button>
-{{-- 
+
                                         <a 
-                                            onclick="checkConflict({{$sched->id}},1,{{$sched->amount}})"
+                                            onclick="checkConflict({{$sched->id}},2,{{$sched->amount}})"
                                             type="button"
-                                            class="btn btn-primary"
-                                            title="Reserve">
-                                                <i class='bx bx-plus'></i>
+                                            class="btn btn-icon me-2 btn-secondary"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-offset="0,4"
+                                            data-bs-placement="right"
+                                            data-bs-html="true"
+                                            title="<i class='bx bxs-calendar-plus'></i> <span>Reserve this Course</span>"
+                                            >
+                                                <i class='bx bxs-calendar-plus'></i>
                                                 
                                         </a>
                                         <button hidden type="button"
@@ -117,13 +134,14 @@
                                             data-bs-target="#modalReserve"
                                             fdprocessedid="dyx4wr" id="ghostReserve"
                                         >
-                                        </button> --}}
+                                        </button>
 
                                         <a 
-                                            onclick="checkConflict({{$sched->id}},2,{{$sched->amount}})"
+                                            onclick="checkConflict({{$sched->id}},3,{{$sched->amount}})"
                                             type="button"
-                                            class="btn btn-primary"
-                                            title="Redeem ">
+                                            class="btn btn-icon me-2 btn-warning"
+                                            data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bxs-gift'></i> <span>Redeem this course</span>"
+                                            >
                                             <i class='bx bxs-gift'></i>
                                         </a>
                                         <button hidden type="button"
@@ -145,14 +163,14 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1">Payment</h5>
+                            <h5 class="modal-title" id="exampleModalLabel1">Enrollment Payment</h5>
                             <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                             <div class="row mb-3">
-                                <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
+                            <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
                                 <div class="col mb-6">
-                                    <form onsubmit="return enroll( {{Auth::user()->id}} );">
+                                    <form onsubmit="return enroll( {{Auth::user()->id}} ,1);">
                                         @csrf
                                         <label for="refno" class="form-label">Reference Number</label>
                                         <input tabindex ="-1" hidden type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
@@ -161,6 +179,7 @@
                                         <label for="amount" class="form-label">Course Price</label>
                                         <input type="text" readonly id="amount" name="amount" class="form-control" />
                                 </div>
+                               
                             </div>
                                         <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
                                     </form>
@@ -173,23 +192,20 @@
                         <div class="modal-content">
                             <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel1">Reservation</h5>
-                            <button type="button" id="mdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" id="smdClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                             <div class="row mb-3">
-                                <img class="card-img-top" src={{ asset('assets/img/QR.png') }} alt='gcashQR'>
-                                <div class="col mb-6">
-                                    <form onsubmit="return enroll( {{Auth::user()->id}} );">
+                                 <div class="col mb-6">
+                                    <form onsubmit="return enroll( {{Auth::user()->id}},2 );">
                                         @csrf
-                                        <label for="refno" class="form-label">Reference Number</label>
-                                        <input tabindex ="-1" hidden type="text" name="ClassSchedule_id" id="ClassSchedule_id" />
-                                        <input type="text" minlength="12" id="refno" name="refno" class="form-control" placeholder="Reference Number" required />
-                                        <span class="text-danger error-text refno_error" > </span>
-                                        <label for="amount" class="form-label">Course Price</label>
-                                        <input type="text" readonly id="amount" name="amount" class="form-control" />
+                                        <input hidden  tabindex ="-1"  type="text" name="sClassSchedule_id" id="sClassSchedule_id" />
+                                        <input hidden  type="text" id="srefno" name="srefno" class="form-control" value="Reserved" required />
+                                        <input  hidden type="text" readonly id="samount" name="samount" class="form-control" />
+                                        Reservation will be forfeited if not paid before 2 days of start of the class.
                                 </div>
                             </div>
-                                        <center><button type="submit" class="btn btn-primary right">Enroll now</button></center>
+                                        <center><button type="submit" class="btn btn-primary right">Reserve this course now</button></center>
                                     </form>
                             </div>
                         </div>
@@ -242,6 +258,8 @@
                     if(msg['success']){
                         if(type == 1)
                             $('#ghostEnroll').click();
+                        else if(type == 2)
+                            $('#ghostReserve').click();
                         else
                             $('#ghostRedeem').click();
                     }else{
@@ -256,22 +274,37 @@
         function setCourseId(id,amount)
         {
             $('#ClassSchedule_id').val(id);
-            $('#amount1').val(amount);
+            $('#sClassSchedule_id').val(id);
+            $('#amount2').val(amount);
             $('#ClassSchedule_id2').val(id);
             $('#amount').val(amount);
+            $('#samount').val(amount);
             
         }
 
-        function enroll(id){
-            var form = {
-                _token: $('input[name=_token]').val(),
-                user_id: id,
-                class_schedule_id : $('#ClassSchedule_id').val(),
-                referenceNo: $('#refno').val(),
-                verified: "Pending",
-                status: "New",
-                amount: $('#amount').val(),
-                ajax: 1
+        function enroll(id,type){
+            if(type==2){
+                var form = {
+                    _token: $('input[name=_token]').val(),
+                    user_id: id,
+                    class_schedule_id : $('#sClassSchedule_id').val(),
+                    referenceNo: $('#srefno').val(),
+                    verified: "Reservation",
+                    status: "New",
+                    amount: $('#samount').val(),
+                    ajax: 1
+                }
+            }else{
+                var form = {
+                    _token: $('input[name=_token]').val(),
+                    user_id: id,
+                    class_schedule_id : $('#ClassSchedule_id').val(),
+                    referenceNo: $('#refno').val(),
+                    verified: "Pending",
+                    status: "New",
+                    amount: $('#amount').val(),
+                    ajax: 1
+                }
             }
 
             $.ajax({
@@ -280,9 +313,13 @@
                 type : "POST",
                 success : function(data){
                     if(data.code == 1){
-                        success(data.msg);
+                        if(type == 1)
+                            success("Enrollment Posted.");
+                        else
+                            success("Reservation Posted.");
                         setTimeout(function(){window.location.reload();},1500);
                         $('#mdClose').click();
+                        $('#smdClose').click();
                     }else{
                         $.each(data.error, function(prefix, val){
                             $(form).find('span.'+prefix+'_error').text(val[0]);
@@ -300,7 +337,8 @@
                 user_id: id,
                 class_schedule_id : $('#ClassSchedule_id2').val(),
                 referenceNo: $('#refno2').val(),
-                verified: "Approved",
+                verified: "Pending",
+                amount: $('#amount2').val(),
                 status: "New",
                 ajax: 1
             }
@@ -310,7 +348,7 @@
                 data :  form,
                 type : "POST",
                 success : function(msg){
-                    if(msg['success']){
+                    if(msg['code']==1){
                         success(msg['message']);
                         setTimeout(function(){window.location.reload();},1500);
                     }else{

@@ -19,6 +19,12 @@
       "slug": "admin-enrollment"
     },
     {
+      "url": "/admin/reservation",
+      "name": "Class Reservation",
+      "icon": "menu-icon tf-icons bx bxs-calendar-plus",
+      "slug": "admin reservation"
+    },
+    {
       "url": "/admin/students",
       "name": "Students",
       "icon": "menu-icon tf-icons bx bx-child",
@@ -41,12 +47,6 @@
       "name": "Reviews",
       "icon": "menu-icon tf-icons bx bx-message-square",
       "slug": "review"
-    },
-    {
-      "url": "/admin/post",
-      "name": "Posts",
-      "icon": "menu-icon tf-icons bx bx-message-square",
-      "slug": "post"
     },
     {
       "url": "/admin/users",

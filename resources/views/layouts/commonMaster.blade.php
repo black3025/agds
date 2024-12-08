@@ -18,13 +18,19 @@
   <script src="{{asset('assets/js/jquery-3.4.1.min.js')}}"></script>
   <script src="{{asset('assets/js/sweetalert2.all.min.js')}}"></script>
   <script src="{{asset('assets/js/swal.js')}}"></script>
+  <script>
+              var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                  var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                  return new Tooltip(tooltipTriggerEl);
+                  });
+  </script>
   
-
   <!-- Include Styles -->
   @include('layouts/sections/styles')
 
   <!-- Include Scripts for customizer, helper, analytics, config -->
   @include('layouts/sections/scriptsIncludes')
+
 </head>
 
 <body>

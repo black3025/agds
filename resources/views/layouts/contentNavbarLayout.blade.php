@@ -14,7 +14,7 @@ $navbarDetached = 'navbar-detached';
 
 /* Content classes */
 $container = ($container ?? 'container-xxl');
-
+ 
 @endphp
 
 @section('layoutContent')

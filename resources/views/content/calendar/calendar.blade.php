@@ -11,6 +11,9 @@
          color: white;
          cursor: pointer;
         }
+        .fc-eventTextColor{
+          color: white;
+        }
         .fc-header-toolbar {
           /*
           the calendar will be butting up against the edges,
@@ -27,17 +30,20 @@
   <script> 
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
-                
+                var colors=['#429de3','#ae52e3']
+                var index= 0;
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     timeZone: 'UTC',
                     initialView: 'dayGridMonth',
                     contentHeight: 'auto',
                     height: '100%',
                     events: @json($events),
-                   
+                    eventBackgroundColor: '#ae52e3'
                 });
                 calendar.render();
+                 
             });
+           
   </script>
 
 @endsection

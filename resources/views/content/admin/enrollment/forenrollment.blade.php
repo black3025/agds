@@ -1,28 +1,63 @@
 <script>
     $(document).ready( function () {
             $('#tblEntrollment').DataTable();
-        });
 
-
-    function approve(id)
-    {
-         $.ajax({
-            type : "GET",
-            url : "/admin/approveEnrollment/" + id,
-            dataType : "json",
-            contentType: "application/json",
-            crossDomain: true,
-            success : function(data) {
-                success("Approved!");
-                 $.get('{{route("getEnrollments")}}',{},function(data){
+    });
+        function cancel(id)
+        {
+            Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteEnroll(id);
+                }
+            });
+        }
+        function deleteEnroll(id){
+            $.ajax({
+                type : "GET",
+                url : "/admin/deleteEnrollment/" + id,
+                dataType : "json",
+                contentType: "application/json",
+                success : function(data) {
+                    success('This enrollment has been rejected');
+                    fetchAllEnrollments();
+                },
+                error : function(data) {
+                    error('There was an error during the cancellation of the this date.')
+                }
+            });
+        }
+            function fetchAllEnrollments(){
+                $.get('{{route("getEnrollments")}}',{},function(data){
                     $('#all_enrollment').html(data.result);
                 },'json');
-            },
-            error : function(data) {
-                console.log("Fialed to get the data");
             }
-        });
-    }
+            function approve(id)
+            {
+                $.ajax({
+                    type : "GET",
+                    url : "/admin/approveEnrollment/" + id,
+                    dataType : "json",
+                    contentType: "application/json",
+                    crossDomain: true,
+                    success : function(data) {
+                        success("Approved!");
+                        $.get('{{route("getEnrollments")}}',{},function(data){
+                            $('#all_enrollment').html(data.result);
+                        },'json');
+                    },
+                    error : function(data) {
+                        console.log("Fialed to get the data");
+                    }
+                });
+            }
 </script>
 
 <div class="card-header">
@@ -52,7 +87,27 @@
                     <td>{{date('h:s a',strtotime($enrollment->classSchedule->time_start))}}-{{date('h:s a',strtotime($enrollment->classSchedule->time_end))}}</td>
                     <td>{{$enrollment->classSchedule->user->fname }} {{$enrollment->classSchedule->user->mname }} {{$enrollment->classSchedule->user->lname }}</td>
                     <td>{{$enrollment->referenceNo}}</td>
-                    <td><a onclick="return approve({{$enrollment->id}})" href="#"><i class='bx bx-check-circle' ></i></a> | <a href='#'><i class='bx bxs-x-circle'></i></a></td>
+                    <td>
+                        <a 
+                            onclick="return approve({{$enrollment->id}})"
+                            type="button"
+                            class="btn btn-icon me-2 btn-primary"
+                            data-bs-toggle="tooltip"
+                            data-bs-offset="0,4"
+                            data-bs-placement="right"
+                            data-bs-html="true"
+                            title="Approve this course">
+                            <i class='bx bxs-check-circle'></i>
+                        </a>
+                        <a onclick="return cancel({{$enrollment->id}})"
+                            class="btn btn-icon me-2 btn-danger"
+                            data-bs-toggle="tooltip"
+                            data-bs-offset="0,4"
+                            data-bs-placement="right"
+                            title="Decline this enrollment"
+                        >
+                            <i class='bx bx-x-circle' ></i>
+                        </a>
                 </tr>
             @endforeach
         </tbody>

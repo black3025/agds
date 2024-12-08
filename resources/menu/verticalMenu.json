@@ -13,6 +13,12 @@
       "slug": "course"
     },
     {
+      "url": "/reservation",
+      "name": "My Reservation",
+      "icon": "menu-icon tf-icons bx bxs-calendar-plus",
+      "slug": "my reservation"
+    },
+    {
       "url": "/enrolled",
       "name": "Enrolled Course",
       "icon": "menu-icon tf-icons bx bxs-book-open",
@@ -21,7 +27,7 @@
     {
       "url": "/completed-course",
       "name": "Course commpleted",
-      "icon": "menu-icon tf-icons bx bx-book",
+      "icon": "menu-icon tf-icons bx bxs-graduation",
       "slug": "completed course"
     }
   ]

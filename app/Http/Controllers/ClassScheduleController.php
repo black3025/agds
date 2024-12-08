@@ -81,13 +81,14 @@ class ClassScheduleController extends Controller
       $data = [];
       $tempDate = date($request->add_dateFrom);
       while ($i <= $request->add_duration) {
-        $dayoftest = date('N', strtotime($tempDate));
+        $dayoftest = date('w', strtotime($tempDate));
         if (Str::contains($dday, $dayoftest)) {
           array_push($data, $tempDate);
           $i++;
         }
         $tempDate = date('Y-m-d', strtotime($tempDate . '1 days'));
       }
+
       $schedChecker = $this->checkAvailable(
         $request->add_studio,
         $request->add_trainer,
@@ -190,6 +191,8 @@ class ClassScheduleController extends Controller
         ->where('start_time', '<', $to)
         ->where('finish_time', '>', $from)
         ->count();
+      // $roomCount = 0;
+      // $teacherCount = 0;
       $teacherError += $teacherCount;
       $roomError += $roomCount;
     }

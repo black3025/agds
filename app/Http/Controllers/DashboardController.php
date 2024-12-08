@@ -35,7 +35,9 @@ class DashboardController extends Controller
       $id2 = $sched->class_schedule_id;
       $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id2) {
         $q->where('id', $id2);
-      })->get();
+      })
+        ->where('comments', null)
+        ->get();
       foreach ($appointments as $appointment) {
         array_push($events, [
           'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
@@ -72,7 +74,9 @@ class DashboardController extends Controller
 
     $appointments = Event::wherehas('ClassSchedule', function ($q) use ($id) {
       $q->where('user_id', $id)->where('is_active', 1);
-    })->get();
+    })
+      ->where('comments', null)
+      ->get();
 
     foreach ($appointments as $appointment) {
       $events[] = [
@@ -81,6 +85,11 @@ class DashboardController extends Controller
         'id' => $appointment->ClassSchedule->id,
         'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
         'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+        'extendedProps' => [
+          'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+          'id' => $appointment->ClassSchedule->id,
+        ],
+        'rendering' => '#ae52e3',
       ];
     }
     return view('content.teacher.dashboards-teacher', compact('events', 'students', 'posts'));
@@ -99,15 +108,20 @@ class DashboardController extends Controller
       ->take(2);
     $appointments = Event::wherehas('ClassSchedule', function ($q) {
       $q->where('is_active', 1);
-    })->get();
+    })
+      ->where('comments', null)
+      ->get();
 
     foreach ($appointments as $appointment) {
       $events[] = [
         'title' => $appointment->ClassSchedule->Course->name . ' | ' . $appointment->ClassSchedule->Category->name,
-        'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
-        'id' => $appointment->ClassSchedule->id,
         'start' => date('Y-m-d H:i:s', strtotime($appointment->start_time)),
         'end' => date('Y-m-d H:i:s', strtotime($appointment->finish_time)),
+        'extendedProps' => [
+          'teacher' => $appointment->ClassSchedule->user->fname . ' ' . $appointment->ClassSchedule->user->lname,
+          'id' => $appointment->ClassSchedule->id,
+        ],
+        'rendering' => '#ae52e3',
       ];
     }
     return view(

@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="row mb-3 card-title">
                     <h5 class="col">{{$class->course->name}} | {{$class->category->name}}</h5> 
-                    @if($class->course->is_active == 1)    
+                    @if($class  ->is_active == 1)    
                         <span class="col text-end text-success">[ACTIVE]</span> 
                     @else
                         <span class="col text-end text-danger">[CLOSE]</span> 

@@ -1,7 +1,9 @@
 @extends('layouts/contentNavbarLayout')
 
 @section('title', 'Class Schedule')
-
+@php
+date_default_timezone_set('Asia/Singapore'); 
+@endphp
 @section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}"/>
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/apex-charts/apex-charts.css')}}">
@@ -14,6 +16,7 @@
         $(document).ready( function () {
         $('#tblCourse').DataTable();
         });
+
         function resched(id)
         {
             Swal.fire({
@@ -56,7 +59,7 @@
                             crossDomain: true,
                             success : function(data) {
                                 success('This course has been marked as close.');
-                                setTimeout(function(){window.history.back();;},1000);
+                                setTimeout(function(){window.history.back();},1000);
                             },
                             error : function(data) {
                                 console.log("Fialed to get the data");
@@ -74,12 +77,13 @@
                 url : "/teacher/resched/" + id,
                 dataType : "json",
                 contentType: "application/json",
-                crossDomain: true,
                 success : function(data) {
+                    success('This schedule has been reschedule to: '. data);
                     setTimeout(function(){window.location.reload();},1000);
                 },
                 error : function(data) {
-                    console.log("Fialed to get the data");
+                    error('There was an error during the re-scheduling of the this date.')
+                    console.log("Failed to get the data");
                 }
             });
            
@@ -121,7 +125,11 @@
                         @endif
                     @endforeach
                 </p>
-            <button onclick="closeCourse({{$ClassSchedule->id}}, {{ $ClassSchedule->event->last() }})" class="btn btn-info" > Mark Schedule as Done </button>
+                @if($ClassSchedule->is_active == 0)
+                        <span class="text-danger">Class Closed</span>
+                @else
+                        <button  onclick="closeCourse({{$ClassSchedule->id}}, {{ $ClassSchedule->event->last() }})" class="btn btn-info" > Mark Schedule as Done </button>
+                @endif
             </div>
             </div>
         </div>
@@ -150,10 +158,15 @@
                                     {{date('l',strtotime($sched->start_time))}}
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary" onclick="resched({{$sched->id}});"
-                                            @if($sched->finish_time <= date('F d, Y')) disabled @endif
-                                        >Resched
-                                        </button>
+                                        @if($sched->comments == "")    
+                                            <button class="btn btn-primary" onclick="resched({{$sched->id}});"
+                                                @if($sched->finish_time <= date('Y-m-d H:i:s') || $ClassSchedule->is_active == 0) disabled @endif
+                                            >
+                                            Resched
+                                            </button>
+                                        @else
+                                            <span class="text-danger">{{$sched->comments}}</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

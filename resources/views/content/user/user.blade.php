@@ -86,7 +86,11 @@
         <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
           <form action="{{route('userPic')}}" method="post" enctype="multipart/form-data" id="updatePic">
             @csrf
-            <img src="{{ asset('storage/profile-photos/'.Auth::user()->profile_pic) }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
+            @if(Auth::user()->profile_pic)
+              <img src="{{ asset('storage/profile-photos/'.Auth::user()->profile_pic) }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
+            @else
+              <img src="{{ asset('storage/profile-photos/profile_pic.png')}}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" name="uploadedAvatar" id="uploadedAvatar">
+            @endif
             <div class="button-wrapper">
               <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
                 <span class="d-none d-sm-block">Upload new photo</span>

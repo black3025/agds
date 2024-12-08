@@ -18,6 +18,7 @@ use App\Http\Controllers\EnrollmentAdminController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\EventController;
 $controller_path = 'App\Http\Controllers';
 // Main Page Route
 
@@ -44,14 +45,23 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::post('/checkConflict', [EnrollmentController::class, 'checkConflict'])->name('checkConflict');
     Route::post('/redeem', [EnrollmentController::class, 'redeem'])->name('redeem');
+    Route::post('/enrollUp', [EnrollmentController::class, 'enrollUp'])->name('enrollUp');
+
+    Route::get('/getReservation', [EnrollmentController::class, 'getReservation'])->name('getReservation');
+    Route::get('/reservation', [EnrollmentController::class, 'reservation'])->name('my reservation');
+    Route::get('/deleteEnrollment/{id}', [EnrollmentController::class, 'deleteEnrollment'])->name('deleteEnrollment');
   });
   //Admin
   Route::middleware('isAdmin')->group(function () {
     Route::get('/admin/Dashboard', [DashboardController::class, 'adminIndex'])->name('admin-dashboard');
-
     Route::get('/admin/approveEnrollment/{id}', [EnrollmentAdminController::class, 'approveEnrollment'])->name(
       'approveEnrollment'
     );
+    Route::get('/admin/deleteEnrollment/{id}', [EnrollmentAdminController::class, 'deleteEnrollment'])->name(
+      'admindeleteEnrollment'
+    );
+    Route::get('/admin/getReservation', [EnrollmentAdminController::class, 'getReservation'])->name('AgetReservation');
+    Route::get('/admin/reservation', [EnrollmentAdminController::class, 'reservation'])->name('admin reservation');
 
     Route::get('/admin/user-status/{id}', [UserController::class, 'updateStatus'])->name('user-status');
     Route::resource('/admin/students', StudentController::class, ['names' => 'student']);

@@ -7,16 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewEnrollmentNotification extends Notification
+class EnrollmentDenied extends Notification
 {
   use Queueable;
 
   /**
    * Create a new notification instance.
    */
-  public function __construct($enroll)
+  protected $enrollment;
+  public function __construct($enrollment)
   {
-    $this->enroll = $enroll;
+    $this->enrollment = $enrollment;
   }
 
   /**
@@ -26,7 +27,7 @@ class NewEnrollmentNotification extends Notification
    */
   public function via(object $notifiable): array
   {
-    return ['database'];
+    return ['mail', 'database'];
   }
 
   /**
@@ -35,9 +36,15 @@ class NewEnrollmentNotification extends Notification
   public function toMail(object $notifiable): MailMessage
   {
     return (new MailMessage())
-      ->line('The introduction to the notification.')
-      ->action('Notification Action', url('/'))
-      ->line('Thank you for using our application!');
+      ->line('Enrollment Denied.')
+      ->line(
+        'Your enrollment to ' .
+          $this->enrollment->ClassSchedule->course->name .
+          '- ' .
+          $this->enrollment->ClassSchedule->category->name .
+          ' has been Denied.'
+      )
+      ->line('Please proceed to the administrator!');
   }
 
   /**
@@ -47,22 +54,13 @@ class NewEnrollmentNotification extends Notification
    */
   public function toArray(object $notifiable): array
   {
-    $type = 'enrollment';
-    if ($this->enroll->verified == 'Reservation') {
-      $type = 'reservation';
-    }
-
     return [
       'data' =>
-        'There was a new ' .
-        $type .
-        ' for ' .
-        $this->enroll->ClassSchedule->course->name .
-        ' ' .
-        $this->enroll->ClassSchedule->category->name .
-        ' by ' .
-        $this->enroll->user->fname .
-        '.',
+        'Your enrollment to ' .
+        $this->enrollment->ClassSchedule->course->name .
+        '- ' .
+        $this->enrollment->ClassSchedule->category->name .
+        ' is denied.',
     ];
   }
 }
